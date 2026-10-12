@@ -100,7 +100,8 @@ const PSPO_STORES = [
       "gym": true,
       "esthe": true,
       "sauna": false,
-      "golf": false,
+      "tennis": false,
+      "boulder": true,
       "cafe": true,
       "staffed": true
     }
@@ -531,7 +532,8 @@ const PSPO_STORES = [
       "gym": true,
       "esthe": false,
       "sauna": false,
-      "golf": true,
+      "tennis": true,
+      "boulder": false,
       "cafe": false,
       "staffed": null
     }

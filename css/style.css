@@ -192,6 +192,18 @@ body {
   color: #fff;
 }
 
+.quick-btn.q-tennis.active {
+  background: #65a30d;
+  border-color: #65a30d;
+  color: #fff;
+}
+
+.quick-btn.q-boulder.active {
+  background: #ea580c;
+  border-color: #ea580c;
+  color: #fff;
+}
+
 /* Main Container Split View */
 .main-container {
   display: flex;
@@ -337,6 +349,8 @@ body {
 .pill-dot.gym { background: #10b981; }
 .pill-dot.esthe { background: #ec4899; }
 .pill-dot.sauna { background: var(--sauna-accent); }
+.pill-dot.tennis { background: #84cc16; }
+.pill-dot.boulder { background: #f97316; }
 .pill-dot.staffed { background: #f59e0b; }
 
 /* Status Bar */
@@ -372,6 +386,16 @@ body {
 .spotlight-banner.study {
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   border-bottom: 1px solid #bae6fd;
+}
+
+.spotlight-banner.tennis {
+  background: linear-gradient(135deg, #f7fee7 0%, #ecfccb 100%);
+  border-bottom: 1px solid #d9f99d;
+}
+
+.spotlight-banner.boulder {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border-bottom: 1px solid #fed7aa;
 }
 
 .spotlight-banner img {
@@ -592,6 +616,20 @@ body {
   font-weight: 700;
 }
 
+.tag-badge.tennis-badge {
+  background: #f7fee7;
+  color: #4d7c0f;
+  border: 1px solid #d9f99d;
+  font-weight: 700;
+}
+
+.tag-badge.boulder-badge {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+  font-weight: 700;
+}
+
 /* ==========================================================================
    CARPLAY / APPLE MAPS NAVIGATION BUTTON (MOST CRITICAL CTA)
    ========================================================================== */
@@ -770,6 +808,14 @@ body {
 
 .pin-sauna {
   background: linear-gradient(135deg, #a855f7, #7e22ce);
+}
+
+.pin-tennis {
+  background: linear-gradient(135deg, #84cc16, #65a30d);
+}
+
+.pin-boulder {
+  background: linear-gradient(135deg, #f97316, #ea580c);
 }
 
 .pin-default {

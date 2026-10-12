@@ -89,7 +89,8 @@
     const study = state.stores.filter(s => s.has_study_room).length;
     const sauna = state.stores.filter(s => s.features && s.features.sauna).length;
     const esthe = state.stores.filter(s => s.features && s.features.esthe).length;
-    const golf = state.stores.filter(s => s.features && s.features.golf).length;
+    const tennis = state.stores.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス'))).length;
+    const boulder = state.stores.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング'))).length;
     const cafe = state.stores.filter(s => s.features && s.features.cafe).length;
 
     const elCountAll = document.getElementById('count-all');
@@ -98,7 +99,8 @@
     const elCountStudy = document.getElementById('count-study');
     const elCountSauna = document.getElementById('count-sauna');
     const elCountEsthe = document.getElementById('count-esthe');
-    const elCountGolf = document.getElementById('count-golf');
+    const elCountTennis = document.getElementById('count-tennis');
+    const elCountBoulder = document.getElementById('count-boulder');
     const elCountCafe = document.getElementById('count-cafe');
 
     if (elCountAll) elCountAll.textContent = total;
@@ -107,7 +109,8 @@
     if (elCountStudy) elCountStudy.textContent = study;
     if (elCountSauna) elCountSauna.textContent = sauna;
     if (elCountEsthe) elCountEsthe.textContent = esthe;
-    if (elCountGolf) elCountGolf.textContent = golf;
+    if (elCountTennis) elCountTennis.textContent = tennis;
+    if (elCountBoulder) elCountBoulder.textContent = boulder;
     if (elCountCafe) elCountCafe.textContent = cafe;
   }
 
@@ -201,6 +204,12 @@
     } else if (store.features && store.features.sauna) {
       pinClass = 'pin-sauna';
       iconSymbol = '♨️';
+    } else if ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス'))) {
+      pinClass = 'pin-tennis';
+      iconSymbol = '🎾';
+    } else if ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング'))) {
+      pinClass = 'pin-boulder';
+      iconSymbol = '🧗';
     } else if (store.features && store.features.gym) {
       pinClass = 'pin-gym';
       iconSymbol = '💪';
@@ -256,6 +265,10 @@
 
     let crunchBadge = store.has_crunch_bench ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ</span>' : '';
     let studyBadge = store.has_study_room ? '<span class="tag-badge study-badge">📖 スタディROOM</span>' : '';
+    let tennisBadge = ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス')))
+      ? '<span class="tag-badge tennis-badge">🎾 テニス</span>' : '';
+    let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
+      ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>' : '';
 
     return `
       <div class="popup-card">
@@ -275,6 +288,8 @@
         <div class="popup-tags">
           ${crunchBadge}
           ${studyBadge}
+          ${tennisBadge}
+          ${boulderBadge}
           <span class="tag-badge">🕒 ${store.hours}</span>
           <span class="tag-badge">🅿️ ${store.parking}</span>
         </div>
@@ -323,8 +338,10 @@
       results = results.filter(s => s.features && s.features.sauna);
     } else if (state.activeQuickFilter === 'esthe') {
       results = results.filter(s => s.features && s.features.esthe);
-    } else if (state.activeQuickFilter === 'golf') {
-      results = results.filter(s => s.features && s.features.golf);
+    } else if (state.activeQuickFilter === 'tennis') {
+      results = results.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス')));
+    } else if (state.activeQuickFilter === 'boulder') {
+      results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
     } else if (state.activeQuickFilter === 'cafe') {
       results = results.filter(s => s.features && s.features.cafe);
     }
@@ -349,6 +366,10 @@
         results = results.filter(s => s.has_crunch_bench);
       } else if (feat === 'has_study_room') {
         results = results.filter(s => s.has_study_room);
+      } else if (feat === 'tennis') {
+        results = results.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス')));
+      } else if (feat === 'boulder') {
+        results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
       } else {
         results = results.filter(s => s.features && s.features[feat]);
       }
@@ -499,6 +520,12 @@
       let studyBadge = store.has_study_room
         ? '<span class="tag-badge study-badge">📖 スタディROOM</span>'
         : '';
+      let tennisBadge = ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス')))
+        ? '<span class="tag-badge tennis-badge">🎾 テニス</span>'
+        : '';
+      let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
+        ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>'
+        : '';
 
       const tagsHtml = (store.tags || []).slice(0, 4).map(t => `<span class="tag-badge">${t}</span>`).join('');
 
@@ -531,6 +558,8 @@
           ${favBadge}
           ${crunchBadge}
           ${studyBadge}
+          ${tennisBadge}
+          ${boulderBadge}
           ${tagsHtml}
         </div>
 
@@ -597,6 +626,26 @@
         <div class="spotlight-info">
           <h4>📖 スタディROOM / 自習室・カフェ併設店舗</h4>
           <p>24時間いつでも集中できる個別ブース・Wi-Fi・電源完備！愛媛県内 ${state.filteredStores.length} 店舗で自習・作業が可能です。</p>
+        </div>
+      `;
+    } else if (state.activeQuickFilter === 'tennis' || state.activeFeatures.has('tennis')) {
+      el.spotlightBanner.className = 'spotlight-banner tennis';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">🎾</div>
+        <div class="spotlight-info">
+          <h4>🎾 本格オートテニス設備（MEGA東石井店）</h4>
+          <p>天候を気にせずストローク・ボレー練習ができる本格テニスマシン完備！P・SPO会員なら無料で利用可能です。</p>
+        </div>
+      `;
+    } else if (state.activeQuickFilter === 'boulder' || state.activeFeatures.has('boulder')) {
+      el.spotlightBanner.className = 'spotlight-banner boulder';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">🧗</div>
+        <div class="spotlight-info">
+          <h4>🧗 愛媛県最大級 本格ボルダリング（DAINO土居田店）</h4>
+          <p>初心者から上級者まで登れる本格ウォール！P・SPO会員は利用料・シューズ・チョークレンタルすべて無料です。</p>
         </div>
       `;
     } else {
@@ -701,6 +750,26 @@
       `;
     }
 
+    let tennisSection = '';
+    if ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス'))) {
+      tennisSection = `
+        <div style="background:#f7fee7; border:1px solid #d9f99d; border-radius:12px; padding:12px; margin:14px 0;">
+          <strong style="color:#4d7c0f; font-size:0.9rem;">🎾 本格オートテニス設備（テニスマシン完備）</strong>
+          <p style="font-size:0.78rem; color:#365314; margin-top:2px;">ストロークやボレーの反復練習が可能！P・SPO会員なら無料で天候を気にせず利用できます。</p>
+        </div>
+      `;
+    }
+
+    let boulderSection = '';
+    if ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング'))) {
+      boulderSection = `
+        <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:12px; margin:14px 0;">
+          <strong style="color:#c2410c; font-size:0.9rem;">🧗 愛媛県最大級 本格ボルダリング完備！</strong>
+          <p style="font-size:0.78rem; color:#7c2d12; margin-top:2px;">専門スタッフ常駐で初心者も安心！P・SPO会員は利用料・シューズ・チョークレンタルすべて無料です。</p>
+        </div>
+      `;
+    }
+
     el.modalBody.innerHTML = `
       <div style="position:relative; margin-bottom:14px;">
         <img src="${store.image}" alt="${store.title}" style="width:100%; height:190px; object-fit:cover; border-radius:12px;" onerror="this.src='assets/logo.png'">
@@ -714,6 +783,8 @@
 
       ${benchSection}
       ${studySection}
+      ${tennisSection}
+      ${boulderSection}
 
       <div style="background:#f8fafc; border-radius:10px; padding:12px; margin-bottom:16px; font-size:0.82rem; display:flex; flex-direction:column; gap:6px;">
         <div><strong>🕒 営業時間:</strong> ${store.hours}</div>
