@@ -15,6 +15,7 @@
     filteredStores: [],
     selectedStoreId: null,
     userLocation: null, // { lat, lng }
+    favorites: new Set(JSON.parse(localStorage.getItem('pspo_favs') || '[]')),
     map: null,
     markers: {},
     activeQuickFilter: 'all',
@@ -50,6 +51,7 @@
     // Mobile Nav
     navBtnList: document.getElementById('nav-btn-list'),
     navBtnMap: document.getElementById('nav-btn-map'),
+    navBtnFav: document.getElementById('nav-btn-fav'),
     navBtnCrunch: document.getElementById('nav-btn-crunch'),
     navBtnStudy: document.getElementById('nav-btn-study'),
     navBtnNearby: document.getElementById('nav-btn-nearby')
@@ -82,6 +84,7 @@
   // Update quick filter counts
   function updateCategoryCounts() {
     const total = state.stores.length;
+    const fav = state.favorites.size;
     const crunch = state.stores.filter(s => s.has_crunch_bench).length;
     const study = state.stores.filter(s => s.has_study_room).length;
     const sauna = state.stores.filter(s => s.features && s.features.sauna).length;
@@ -89,13 +92,39 @@
     const golf = state.stores.filter(s => s.features && s.features.golf).length;
     const cafe = state.stores.filter(s => s.features && s.features.cafe).length;
 
-    document.getElementById('count-all').textContent = total;
-    document.getElementById('count-crunch').textContent = crunch;
-    document.getElementById('count-study').textContent = study;
-    document.getElementById('count-sauna').textContent = sauna;
-    document.getElementById('count-esthe').textContent = esthe;
-    document.getElementById('count-golf').textContent = golf;
-    document.getElementById('count-cafe').textContent = cafe;
+    const elCountAll = document.getElementById('count-all');
+    const elCountFav = document.getElementById('count-fav');
+    const elCountCrunch = document.getElementById('count-crunch');
+    const elCountStudy = document.getElementById('count-study');
+    const elCountSauna = document.getElementById('count-sauna');
+    const elCountEsthe = document.getElementById('count-esthe');
+    const elCountGolf = document.getElementById('count-golf');
+    const elCountCafe = document.getElementById('count-cafe');
+
+    if (elCountAll) elCountAll.textContent = total;
+    if (elCountFav) elCountFav.textContent = fav;
+    if (elCountCrunch) elCountCrunch.textContent = crunch;
+    if (elCountStudy) elCountStudy.textContent = study;
+    if (elCountSauna) elCountSauna.textContent = sauna;
+    if (elCountEsthe) elCountEsthe.textContent = esthe;
+    if (elCountGolf) elCountGolf.textContent = golf;
+    if (elCountCafe) elCountCafe.textContent = cafe;
+  }
+
+  // Toggle Favorite
+  function toggleFavorite(storeId) {
+    if (state.favorites.has(storeId)) {
+      state.favorites.delete(storeId);
+    } else {
+      state.favorites.add(storeId);
+    }
+    try {
+      localStorage.setItem('pspo_favs', JSON.stringify([...state.favorites]));
+    } catch (e) {
+      console.warn('LocalStorage save failed:', e);
+    }
+    updateCategoryCounts();
+    applyFilters(false); // Re-render without resetting map zoom
   }
 
   // Initialize Leaflet Map
@@ -151,9 +180,13 @@
       iconSymbol = '💆';
     }
 
+    const isFav = state.favorites && state.favorites.has(store.id);
+    const favClass = isFav ? 'is-fav-pin' : '';
+    const favBadge = isFav ? '<span style="position:absolute; top:-7px; right:-7px; font-size:13px; filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6));">⭐</span>' : '';
+
     return L.divIcon({
       className: 'custom-pin-wrapper',
-      html: `<div class="custom-pin ${pinClass}"><div class="custom-pin-inner">${iconSymbol}</div></div>`,
+      html: `<div class="custom-pin ${pinClass} ${favClass}" style="position:relative;"><div class="custom-pin-inner">${iconSymbol}</div>${favBadge}</div>`,
       iconSize: [38, 38],
       iconAnchor: [19, 38],
       popupAnchor: [0, -36]
@@ -190,6 +223,7 @@
   function createPopupContent(store) {
     const appleNavUrl = getAppleMapsNavUrl(store);
     const googleNavUrl = getGoogleMapsNavUrl(store);
+    const isFav = state.favorites && state.favorites.has(store.id);
 
     let crunchBadge = store.has_crunch_bench ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ</span>' : '';
     let studyBadge = store.has_study_room ? '<span class="tag-badge study-badge">📖 スタディROOM</span>' : '';
@@ -198,8 +232,13 @@
       <div class="popup-card">
         <div class="popup-header">
           <img src="${store.image}" alt="${store.title}" class="popup-thumb" onerror="this.src='assets/logo.png'">
-          <div>
-            <span class="card-area-badge">${store.area_name}</span>
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:4px; margin-bottom:2px;">
+              <span class="card-area-badge">${store.area_name}</span>
+              <button class="popup-btn-fav ${isFav ? 'active' : ''}" type="button" onclick="window.pspoToggleFavorite('${store.id}')" title="${isFav ? 'お気に入り解除' : 'お気に入り登録'}">
+                ${isFav ? '⭐ お気に入り' : '☆ お気に入り'}
+              </button>
+            </div>
             <h4 class="popup-title">${store.title}</h4>
             <p class="popup-address">📍 ${store.address}</p>
           </div>
@@ -220,9 +259,9 @@
             <a href="${googleNavUrl}" class="btn-sub google-map" target="_blank" rel="noopener">
               🗺️ Googleマップ
             </a>
-            <a href="tel:${store.tel.replace(/[^0-9]/g, '')}" class="btn-sub">
-              📞 電話
-            </a>
+            <button class="btn-sub btn-popup-detail" type="button" onclick="window.pspoOpenModal('${store.id}')">
+              📋 詳細メニュー
+            </button>
           </div>
         </div>
       </div>
@@ -241,11 +280,13 @@
   }
 
   // Filter & Search Logic
-  function applyFilters() {
+  function applyFilters(autoFit = true) {
     let results = [...state.stores];
 
     // Quick Filter
-    if (state.activeQuickFilter === 'crunch') {
+    if (state.activeQuickFilter === 'fav') {
+      results = results.filter(s => state.favorites.has(s.id));
+    } else if (state.activeQuickFilter === 'crunch') {
       results = results.filter(s => s.has_crunch_bench);
     } else if (state.activeQuickFilter === 'study') {
       results = results.filter(s => s.has_study_room);
@@ -291,11 +332,18 @@
       });
     }
 
-    // Sort Logic
+    // Sort Logic (Favorites prioritized on default sort)
     if (state.activeSort === 'distance' && state.userLocation) {
       results.sort((a, b) => (a.distanceKm || 9999) - (b.distanceKm || 9999));
     } else if (state.activeSort === 'name') {
       results.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+    } else {
+      // Default: Prioritize Favorites at the top!
+      results.sort((a, b) => {
+        const aFav = state.favorites.has(a.id) ? 1 : 0;
+        const bFav = state.favorites.has(b.id) ? 1 : 0;
+        return bFav - aFav;
+      });
     }
 
     state.filteredStores = results;
@@ -303,6 +351,45 @@
     renderMarkers();
     updateSpotlightBanner();
     updateStatusIndicator();
+
+    // Auto-fit Map bounds to show whole active area in Ehime (excluding distant Hokkaido/Aichi)
+    if (autoFit && state.map) {
+      setTimeout(() => {
+        if (!state.map) return;
+        state.map.invalidateSize();
+
+        // Only include Ehime stores in bounds calculation (never pan out to Hokkaido or Aichi)
+        const ehimeStores = results.filter(s => {
+          return s.area !== 'other' && !s.address.includes('北海道') && !s.address.includes('愛知');
+        });
+
+        if (ehimeStores.length === 1) {
+          state.map.setView([ehimeStores[0].lat, ehimeStores[0].lng], 14, { animate: true });
+        } else if (ehimeStores.length > 1) {
+          const bounds = L.latLngBounds(ehimeStores.map(s => [s.lat, s.lng]));
+          if (bounds.isValid()) {
+            state.map.fitBounds(bounds, {
+              padding: [30, 30],
+              maxZoom: 14,
+              animate: true
+            });
+          }
+        } else if (results.length > 0) {
+          // Out of prefecture explicitly selected
+          const bounds = L.latLngBounds(results.map(s => [s.lat, s.lng]));
+          if (bounds.isValid()) {
+            state.map.fitBounds(bounds, {
+              padding: [30, 30],
+              maxZoom: 14,
+              animate: true
+            });
+          }
+        } else {
+          // 0 stores: return to Matsuyama center
+          state.map.setView(MATSUYAMA_CENTER, 12, { animate: true });
+        }
+      }, 50);
+    }
   }
 
   // Haversine Formula for distance calculation
@@ -324,21 +411,47 @@
     el.storesList.innerHTML = '';
 
     if (state.filteredStores.length === 0) {
-      el.storesList.innerHTML = `
-        <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
-          <p style="font-size: 2rem; margin-bottom: 8px;">🔍</p>
-          <p style="font-weight: 700; color: #475569;">該当する店舗が見つかりませんでした</p>
-          <p style="font-size: 0.82rem; margin-top: 4px;">検索条件やフィルターを変更してお試しください。</p>
-        </div>
-      `;
+      if (state.activeQuickFilter === 'fav') {
+        el.storesList.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+            <p style="font-size: 2.2rem; margin-bottom: 8px;">⭐</p>
+            <p style="font-weight: 700; color: #475569; font-size: 1rem;">お気に入りの店舗がまだありません</p>
+            <p style="font-size: 0.82rem; margin-top: 6px; line-height: 1.6; color: #64748b;">
+              店舗カードの「☆」や詳細画面のボタンをタップすると、<br>お気に入りに登録されて優先表示されます。
+            </p>
+            <button id="btn-show-all-stores" type="button" style="margin-top: 14px; background: #0071e3; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,113,227,0.3);">
+              全店舗を表示する
+            </button>
+          </div>
+        `;
+        const btnAll = document.getElementById('btn-show-all-stores');
+        if (btnAll) {
+          btnAll.addEventListener('click', () => {
+            document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
+            if (allBtn) allBtn.classList.add('active');
+            state.activeQuickFilter = 'all';
+            applyFilters(true);
+          });
+        }
+      } else {
+        el.storesList.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+            <p style="font-size: 2rem; margin-bottom: 8px;">🔍</p>
+            <p style="font-weight: 700; color: #475569;">該当する店舗が見つかりませんでした</p>
+            <p style="font-size: 0.82rem; margin-top: 4px;">検索条件やフィルターを変更してお試しください。</p>
+          </div>
+        `;
+      }
       return;
     }
 
     const fragment = document.createDocumentFragment();
 
     state.filteredStores.forEach(store => {
+      const isFav = state.favorites.has(store.id);
       const card = document.createElement('article');
-      card.className = `store-card ${state.selectedStoreId === store.id ? 'selected' : ''}`;
+      card.className = `store-card ${state.selectedStoreId === store.id ? 'selected' : ''} ${isFav ? 'is-favorite' : ''}`;
       card.id = `card-${store.id}`;
 
       // Distance tag
@@ -348,6 +461,9 @@
       }
 
       // Feature Badges
+      let favBadge = isFav
+        ? '<span class="tag-badge fav-badge">⭐ お気に入り</span>'
+        : '';
       let crunchBadge = store.has_crunch_bench
         ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ設置</span>'
         : '';
@@ -361,6 +477,10 @@
       const googleNavUrl = getGoogleMapsNavUrl(store);
 
       card.innerHTML = `
+        <button class="btn-fav ${isFav ? 'active' : ''}" type="button" title="${isFav ? 'お気に入り解除' : 'お気に入り登録'}">
+          ${isFav ? '⭐' : '☆'}
+        </button>
+
         <div class="card-top">
           <img src="${store.image}" alt="${store.title}" class="card-thumb" loading="lazy" onerror="this.src='assets/logo.png'">
           <div class="card-header-info">
@@ -379,6 +499,7 @@
         </div>
 
         <div class="card-tags">
+          ${favBadge}
           ${crunchBadge}
           ${studyBadge}
           ${tagsHtml}
@@ -400,6 +521,15 @@
           </div>
         </div>
       `;
+
+      // Favorite button listener
+      const btnFav = card.querySelector('.btn-fav');
+      if (btnFav) {
+        btnFav.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleFavorite(store.id);
+        });
+      }
 
       // Click card to highlight & center on map
       card.addEventListener('click', (e) => {
@@ -517,6 +647,7 @@
   function openStoreModal(store) {
     const appleNavUrl = getAppleMapsNavUrl(store);
     const googleNavUrl = getGoogleMapsNavUrl(store);
+    const isFav = state.favorites && state.favorites.has(store.id);
 
     let benchSection = '';
     if (store.has_crunch_bench) {
@@ -542,7 +673,12 @@
     }
 
     el.modalBody.innerHTML = `
-      <img src="${store.image}" alt="${store.title}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:14px;" onerror="this.src='assets/logo.png'">
+      <div style="position:relative; margin-bottom:14px;">
+        <img src="${store.image}" alt="${store.title}" style="width:100%; height:190px; object-fit:cover; border-radius:12px;" onerror="this.src='assets/logo.png'">
+        <button class="modal-fav-btn ${isFav ? 'active' : ''}" id="modal-fav-toggle" type="button" title="${isFav ? 'お気に入り解除' : 'お気に入り登録'}">
+          ${isFav ? '⭐ お気に入り中' : '☆ お気に入りに追加'}
+        </button>
+      </div>
       <span class="card-area-badge">${store.area_name}</span>
       <h2 style="font-size:1.25rem; font-weight:800; margin:4px 0 8px 0; color:#1c1c1e;">${store.title}</h2>
       <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">📍 ${store.address}</p>
@@ -574,7 +710,25 @@
       </div>
     `;
 
+    const btnFavToggle = document.getElementById('modal-fav-toggle');
+    if (btnFavToggle) {
+      btnFavToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(store.id);
+        const nextFav = state.favorites.has(store.id);
+        btnFavToggle.className = `modal-fav-btn ${nextFav ? 'active' : ''}`;
+        btnFavToggle.textContent = nextFav ? '⭐ お気に入り中' : '☆ お気に入りに追加';
+      });
+    }
+
     el.modal.style.display = 'flex';
+  }
+
+  // Close Store Modal Detail
+  function closeStoreModal() {
+    if (el.modal) {
+      el.modal.style.display = 'none';
+    }
   }
 
   // Get Current Location (Geolocation API)
@@ -672,10 +826,19 @@
     // Quick Filter Buttons
     document.querySelectorAll('.quick-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        state.activeQuickFilter = btn.dataset.quick;
-        applyFilters();
+        const isCurrentActive = btn.classList.contains('active');
+        if (isCurrentActive && btn.dataset.quick !== 'all') {
+          // Toggle off back to all
+          document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          state.activeQuickFilter = 'all';
+        } else {
+          document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.activeQuickFilter = btn.dataset.quick;
+        }
+        applyFilters(true);
       });
     });
 
@@ -683,39 +846,20 @@
     el.keywordSearch.addEventListener('input', (e) => {
       state.activeKeyword = e.target.value;
       el.btnClearSearch.style.display = state.activeKeyword ? 'flex' : 'none';
-      applyFilters();
+      applyFilters(true);
     });
 
     el.btnClearSearch.addEventListener('click', () => {
       el.keywordSearch.value = '';
       state.activeKeyword = '';
       el.btnClearSearch.style.display = 'none';
-      applyFilters();
+      applyFilters(true);
     });
 
     // Area Select
     el.areaSelect.addEventListener('change', (e) => {
       state.activeArea = e.target.value;
-      applyFilters();
-
-      // Recenter Map based on Area
-      if (state.map) {
-        if (state.activeArea === 'matsuyama') {
-          state.map.setView(MATSUYAMA_CENTER, 13);
-        } else if (state.activeArea === 'saijo_niihama') {
-          state.map.setView([33.9300, 133.2200], 12);
-        } else if (state.activeArea === 'imabari') {
-          state.map.setView([34.0500, 133.0000], 12);
-        } else if (state.activeArea === 'nanyo') {
-          state.map.setView([33.5200, 132.5800], 11);
-        } else if (state.activeArea === 'toon') {
-          state.map.setView([33.7995, 132.8755], 13);
-        } else if (state.activeArea === 'tobe') {
-          state.map.setView([33.7715, 132.7920], 13);
-        } else if (state.activeArea === 'all') {
-          state.map.setView(EHIME_CENTER, 10);
-        }
-      }
+      applyFilters(true);
     });
 
     // Sort Select
@@ -724,7 +868,7 @@
       if (state.activeSort === 'distance' && !state.userLocation) {
         locateUser();
       } else {
-        applyFilters();
+        applyFilters(false);
       }
     });
 
@@ -739,7 +883,7 @@
           state.activeFeatures.add(feat);
           btn.classList.add('active');
         }
-        applyFilters();
+        applyFilters(true);
       });
     });
 
@@ -761,11 +905,37 @@
     });
 
     // Modal Close
-    el.btnModalClose.addEventListener('click', () => {
-      el.modal.style.display = 'none';
-    });
+    el.btnModalClose.addEventListener('click', closeStoreModal);
+
+    // Close when tapping/clicking outside modal card
     el.modal.addEventListener('click', (e) => {
-      if (e.target === el.modal) el.modal.style.display = 'none';
+      if (!e.target.closest('.modal-card')) {
+        closeStoreModal();
+      }
+    });
+
+    // Touch device support for closing modal when tapping backdrop
+    el.modal.addEventListener('touchstart', (e) => {
+      if (e.target === el.modal) {
+        closeStoreModal();
+      }
+    }, { passive: true });
+
+    // Keyboard ESC key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeStoreModal();
+        if (el.mobilePreview) el.mobilePreview.style.display = 'none';
+      }
+    });
+
+    // Close preview card when clicking outside
+    document.addEventListener('click', (e) => {
+      if (el.mobilePreview && el.mobilePreview.style.display === 'block') {
+        if (!e.target.closest('#mobile-preview-card') && !e.target.closest('.custom-pin-wrapper') && !e.target.closest('.store-card')) {
+          el.mobilePreview.style.display = 'none';
+        }
+      }
     });
 
     // Scroll to List from Map
@@ -791,17 +961,39 @@
       });
     }
 
-    if (el.navBtnNearby) {
-      el.navBtnNearby.addEventListener('click', locateUser);
+    if (el.navBtnFav) {
+      el.navBtnFav.addEventListener('click', () => {
+        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+        const favBtn = document.querySelector('.quick-btn.q-fav');
+        if (state.activeQuickFilter === 'fav') {
+          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          state.activeQuickFilter = 'all';
+          el.navBtnFav.classList.remove('active');
+        } else {
+          if (favBtn) favBtn.classList.add('active');
+          state.activeQuickFilter = 'fav';
+          el.navBtnFav.classList.add('active');
+        }
+        applyFilters(true);
+        const listElem = document.getElementById('stores-list');
+        if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     }
 
     if (el.navBtnCrunch) {
       el.navBtnCrunch.addEventListener('click', () => {
         document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
         const crunchBtn = document.querySelector('.quick-btn.q-crunch');
-        if (crunchBtn) crunchBtn.classList.add('active');
-        state.activeQuickFilter = 'crunch';
-        applyFilters();
+        if (state.activeQuickFilter === 'crunch') {
+          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          state.activeQuickFilter = 'all';
+        } else {
+          if (crunchBtn) crunchBtn.classList.add('active');
+          state.activeQuickFilter = 'crunch';
+        }
+        applyFilters(true);
         const listElem = document.getElementById('stores-list');
         if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -811,14 +1003,40 @@
       el.navBtnStudy.addEventListener('click', () => {
         document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
         const studyBtn = document.querySelector('.quick-btn.q-study');
-        if (studyBtn) studyBtn.classList.add('active');
-        state.activeQuickFilter = 'study';
-        applyFilters();
+        if (state.activeQuickFilter === 'study') {
+          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
+          if (allBtn) allBtn.classList.add('active');
+          state.activeQuickFilter = 'all';
+        } else {
+          if (studyBtn) studyBtn.classList.add('active');
+          state.activeQuickFilter = 'study';
+        }
+        applyFilters(true);
         const listElem = document.getElementById('stores-list');
         if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
+
+    if (el.navBtnNearby) {
+      el.navBtnNearby.addEventListener('click', locateUser);
+    }
   }
+
+  // Global Helpers for HTML inline calls
+  window.pspoToggleFavorite = function (storeId) {
+    toggleFavorite(storeId);
+    const popupFavBtn = document.querySelector('.popup-btn-fav');
+    if (popupFavBtn) {
+      const isFav = state.favorites.has(storeId);
+      popupFavBtn.className = `popup-btn-fav ${isFav ? 'active' : ''}`;
+      popupFavBtn.textContent = isFav ? '⭐ お気に入り' : '☆ お気に入り';
+    }
+  };
+
+  window.pspoOpenModal = function (storeId) {
+    const store = state.stores.find(s => s.id === storeId);
+    if (store) openStoreModal(store);
+  };
 
   // Launch on DOM Ready
   if (document.readyState === 'loading') {

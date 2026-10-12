@@ -431,6 +431,52 @@ body {
   box-shadow: 0 0 0 2px var(--apple-blue), var(--shadow-md);
 }
 
+.store-card.is-favorite {
+  border-left: 5px solid #f59e0b;
+  background: linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.12);
+}
+
+.btn-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-fav:hover {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #f59e0b;
+  transform: scale(1.1);
+}
+
+.btn-fav.active {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #f59e0b;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+}
+
+.quick-btn.q-fav.active {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #ffffff;
+}
+
 .card-top {
   display: flex;
   gap: 12px;
@@ -895,6 +941,69 @@ body {
   border-radius: 50%;
   font-size: 1rem;
   cursor: pointer;
+  z-index: 10;
+}
+
+/* Favorite Pin and Popup Styles */
+.custom-pin.is-fav-pin {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5), var(--shadow-md) !important;
+}
+
+.popup-btn-fav {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.popup-btn-fav:hover,
+.popup-btn-fav.active {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #d97706;
+}
+
+.modal-fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+
+.modal-fav-btn:hover,
+.modal-fav-btn.active {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #b45309;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+}
+
+.btn-popup-detail {
+  font-size: 0.76rem !important;
+  padding: 6px 10px !important;
 }
 
 /* Animations */
@@ -979,7 +1088,7 @@ body {
   .stores-scroll-list {
     overflow: visible !important;
     height: auto !important;
-    padding: 12px;
+    padding: 12px 12px 80px 12px !important;
     gap: 12px;
   }
 
@@ -1000,6 +1109,7 @@ body {
 
   /* Sticky Jump to Map bar for mobile */
   .mobile-nav {
+    display: flex !important;
     position: sticky;
     bottom: 0;
     width: 100%;
@@ -1007,5 +1117,19 @@ body {
     backdrop-filter: blur(8px);
     border-top: 1px solid var(--border-color);
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Modal bottom-sheet on mobile */
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .modal-card {
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 85vh !important;
+    padding: 20px 16px calc(24px + env(safe-area-inset-bottom)) !important;
+    animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 }
