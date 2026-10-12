@@ -1,0 +1,10 @@
+name = "pspo-sync-worker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Cloudflare KV Binding
+# 以下のコマンドで作成したKVのIDを設定します:
+# npx wrangler kv:namespace create FAVS_KV
+kv_namespaces = [
+  { binding = "FAVS_KV", id = "YOUR_KV_NAMESPACE_ID" }
+]

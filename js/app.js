@@ -45,14 +45,16 @@
     btnModalClose: document.getElementById('btn-modal-close'),
     btnLocateMe: document.getElementById('btn-locate-me'),
     btnMapLocate: document.getElementById('btn-map-locate'),
-    btnRecenterEhime: document.getElementById('btn-recenter-ehime'),
-    btnRecenterMatsuyama: document.getElementById('btn-recenter-matsuyama'),
     btnScrollToList: document.getElementById('btn-scroll-to-list'),
     // Quiz Elements
     btnOpenQuiz: document.getElementById('btn-open-quiz'),
     quizModal: document.getElementById('quiz-modal'),
     btnQuizClose: document.getElementById('btn-quiz-close'),
     quizBody: document.getElementById('quiz-body-container'),
+    // Sync Elements
+    favSyncModal: document.getElementById('fav-sync-modal'),
+    btnSyncClose: document.getElementById('btn-sync-close'),
+    syncModalContent: document.getElementById('sync-modal-content'),
     // Mobile Nav
     navBtnList: document.getElementById('nav-btn-list'),
     navBtnMap: document.getElementById('nav-btn-map'),
@@ -68,6 +70,7 @@
 
   // Initialize
   function init() {
+    checkUrlFavoritesImport();
     updateCategoryCounts();
     initMap();
     setupEventListeners();
@@ -487,11 +490,20 @@
             <p style="font-size: 0.82rem; margin-top: 6px; line-height: 1.6; color: #64748b;">
               店舗カードの「☆」や詳細画面のボタンをタップすると、<br>お気に入りに登録されて優先表示されます。
             </p>
-            <button id="btn-show-all-stores" type="button" style="margin-top: 14px; background: #0071e3; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,113,227,0.3);">
-              全店舗を表示する
-            </button>
+            <div style="display:flex; justify-content:center; gap:8px; margin-top:14px; flex-wrap:wrap;">
+              <button id="btn-show-all-stores" type="button" style="background: #0071e3; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,113,227,0.3);">
+                全店舗を表示する
+              </button>
+              <button id="btn-empty-sync-favs" type="button" style="background: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+                📱 別の端末から引き継ぐ
+              </button>
+            </div>
           </div>
         `;
+        const btnSyncEmpty = document.getElementById('btn-empty-sync-favs');
+        if (btnSyncEmpty) {
+          btnSyncEmpty.addEventListener('click', openSyncModal);
+        }
         const btnAll = document.getElementById('btn-show-all-stores');
         if (btnAll) {
           btnAll.addEventListener('click', () => {
@@ -630,7 +642,22 @@
 
   // Update Spotlight Banner
   function updateSpotlightBanner() {
-    if (state.activeQuickFilter === 'office' || state.activeFeatures.has('office')) {
+    if (state.activeQuickFilter === 'fav' && state.filteredStores.length > 0) {
+      el.spotlightBanner.className = 'spotlight-banner fav';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.2rem; padding: 0 6px;">⭐</div>
+        <div class="spotlight-info" style="flex:1;">
+          <h4>⭐ お気に入り登録店舗 (${state.filteredStores.length}件)</h4>
+          <p>よく使う店舗が優先表示されています。</p>
+        </div>
+        <button id="btn-banner-sync-favs" type="button" style="background:#f59e0b; color:white; border:none; padding:6px 12px; border-radius:18px; font-weight:700; font-size:0.75rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 5px rgba(245,158,11,0.3); align-self:center;">
+          📱 デバイス同期
+        </button>
+      `;
+      const btnSync = document.getElementById('btn-banner-sync-favs');
+      if (btnSync) btnSync.addEventListener('click', openSyncModal);
+    } else if (state.activeQuickFilter === 'office' || state.activeFeatures.has('office')) {
       el.spotlightBanner.className = 'spotlight-banner office';
       el.spotlightBanner.style.display = 'flex';
       el.spotlightBanner.innerHTML = `
@@ -1035,14 +1062,6 @@
       el.btnMapLocate.addEventListener('click', locateUser);
     }
 
-    // Map Recenter Buttons
-    el.btnRecenterEhime.addEventListener('click', () => {
-      if (state.map) state.map.setView(EHIME_CENTER, 10);
-    });
-    el.btnRecenterMatsuyama.addEventListener('click', () => {
-      if (state.map) state.map.setView(MATSUYAMA_CENTER, 13);
-    });
-
     // Mobile Preview Close
     el.btnClosePreview.addEventListener('click', () => {
       el.mobilePreview.style.display = 'none';
@@ -1080,11 +1099,24 @@
       });
     }
 
+    // Favorites Sync Modal Listeners
+    if (el.btnSyncClose) {
+      el.btnSyncClose.addEventListener('click', closeSyncModal);
+    }
+    if (el.favSyncModal) {
+      el.favSyncModal.addEventListener('click', (e) => {
+        if (!e.target.closest('.modal-card')) {
+          closeSyncModal();
+        }
+      });
+    }
+
     // Keyboard ESC key to close modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeStoreModal();
         closeQuizModal();
+        closeSyncModal();
         if (el.mobilePreview) el.mobilePreview.style.display = 'none';
       }
     });
@@ -1182,6 +1214,119 @@
     }
 
     initQuizTabs();
+  }
+
+  // ==========================================================================
+  // FAVORITES DEVICE SYNC CONTROLLER (URL / QR / Cloudflare KV Hook)
+  // ==========================================================================
+  function checkUrlFavoritesImport() {
+    const params = new URLSearchParams(window.location.search);
+    const favsParam = params.get('favs');
+    if (!favsParam) return;
+
+    const importedIds = favsParam.split(',').map(s => s.trim()).filter(Boolean);
+    let countAdded = 0;
+    importedIds.forEach(id => {
+      if (state.stores.some(s => s.id === id)) {
+        if (!state.favorites.has(id)) {
+          state.favorites.add(id);
+          countAdded++;
+        }
+      }
+    });
+
+    if (countAdded > 0 || importedIds.length > 0) {
+      try {
+        localStorage.setItem('pspo_favs', JSON.stringify([...state.favorites]));
+      } catch (e) {
+        console.warn(e);
+      }
+      // Clean query parameter from URL bar without reloading
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+
+      setTimeout(() => {
+        alert(`⭐ 別デバイスからお気に入り店舗（${importedIds.length}件）を引き継ぎ保存しました！`);
+      }, 350);
+    }
+  }
+
+  function getFavoritesShareUrl() {
+    const favIds = [...state.favorites].join(',');
+    const baseUrl = window.location.origin + window.location.pathname;
+    return favIds ? `${baseUrl}?favs=${encodeURIComponent(favIds)}` : baseUrl;
+  }
+
+  function openSyncModal() {
+    if (!el.favSyncModal) return;
+    renderSyncModalContent();
+    el.favSyncModal.style.display = 'flex';
+  }
+
+  function closeSyncModal() {
+    if (!el.favSyncModal) return;
+    el.favSyncModal.style.display = 'none';
+  }
+
+  function renderSyncModalContent() {
+    if (!el.syncModalContent) return;
+
+    const favCount = state.favorites.size;
+    const shareUrl = getFavoritesShareUrl();
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(shareUrl)}`;
+
+    el.syncModalContent.innerHTML = `
+      <div style="background:#f8fafc; border-radius:12px; padding:16px; border:1px solid #e2e8f0; margin-bottom:14px; text-align:center;">
+        <p style="font-size:0.88rem; font-weight:700; color:#1e293b; margin-bottom:4px;">
+          登録中のお気に入り: <span style="color:#d97706; font-size:1.15rem; font-weight:800;">${favCount}</span> 件
+        </p>
+        <p style="font-size:0.75rem; color:#64748b; margin-bottom:12px; line-height:1.4;">
+          iPhoneのカメラで下のQRコードをかざすだけで、<br>Safariにお気に入りが一瞬で自動引き継ぎ・保存されます！
+        </p>
+
+        <!-- QR Code Display -->
+        <div style="background:#ffffff; display:inline-block; padding:10px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-bottom:12px; border:1px solid #e2e8f0;">
+          <img src="${qrApiUrl}" alt="お気に入り同期QRコード" style="width:160px; height:160px; display:block;" onerror="this.alt='QRコードの生成に失敗しました'">
+        </div>
+
+        <!-- URL Copy -->
+        <div style="display:flex; gap:6px; max-width:420px; margin:0 auto;">
+          <input type="text" id="sync-share-url-input" value="${shareUrl}" readonly style="flex:1; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.75rem; background:#ffffff; color:#334155;">
+          <button id="btn-copy-sync-url" type="button" style="background:#0071e3; color:white; border:none; padding:8px 14px; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 5px rgba(0,113,227,0.3);">
+            📋 コピー
+          </button>
+        </div>
+      </div>
+
+      <!-- Cloudflare Database / Workers Integration Info -->
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px; font-size:0.78rem; color:#1e40af;">
+        <strong style="display:flex; align-items:center; gap:6px; font-size:0.82rem; margin-bottom:4px;">
+          <span>☁️</span> Cloudflare サーバーレス同期（KV / D1）連携
+        </strong>
+        <p style="line-height:1.45; font-size:0.74rem; color:#1e3a8a;">
+          Firebaseを使わなくても、Cloudflare Workers + KV（Key-Valueストア）を使えば、月間無制限＆完全無料でAPIを構築できます。<br>
+          リポジトリ内の <code>cloudflare/</code> フォルダに即デプロイ可能なWorkerコードを同梱しています。
+        </p>
+      </div>
+    `;
+
+    const btnCopy = document.getElementById('btn-copy-sync-url');
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        const input = document.getElementById('sync-share-url-input');
+        if (input) {
+          input.select();
+          navigator.clipboard.writeText(shareUrl).then(() => {
+            btnCopy.textContent = '✅ コピー完了！';
+            setTimeout(() => { btnCopy.textContent = '📋 コピー'; }, 2000);
+          }).catch(() => {
+            document.execCommand('copy');
+            btnCopy.textContent = '✅ コピー完了！';
+            setTimeout(() => { btnCopy.textContent = '📋 コピー'; }, 2000);
+          });
+        }
+      });
+    }
   }
 
   // ==========================================================================
@@ -1537,6 +1682,7 @@
   };
 
   window.pspoOpenQuiz = openQuizModal;
+  window.pspoOpenSync = openSyncModal;
 
   // Launch on DOM Ready
   if (document.readyState === 'loading') {

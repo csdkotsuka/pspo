@@ -181,12 +181,6 @@
 
         <!-- Floating Map Overlay Controls -->
         <div class="map-floating-controls">
-          <button id="btn-recenter-ehime" class="float-btn" title="愛媛県全体を表示">
-            🍊 愛媛県全体
-          </button>
-          <button id="btn-recenter-matsuyama" class="float-btn" title="松山市中心部を表示">
-            🏯 松山市内
-          </button>
           <button id="btn-map-locate" class="float-btn float-locate" title="現在地へ移動">
             📍 現在地
           </button>
@@ -262,6 +256,22 @@
 
       <!-- Quiz Body Content -->
       <div id="quiz-body-container" class="quiz-body">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Favorites Sync & Cloud Transfer Modal -->
+  <div id="fav-sync-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-card" style="max-width: 520px;">
+      <button id="btn-sync-close" class="modal-close" type="button">✕</button>
+      <div style="text-align: center; margin-bottom: 16px;">
+        <span style="font-size: 2.2rem;">📱 ⇄ 💻</span>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-top: 4px;">お気に入りのデバイス間同期</h3>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">PCで選んだお気に入りをスマホやCarPlay用端末へ一瞬で引き継ぎます</p>
+      </div>
+
+      <div id="sync-modal-content">
         <!-- Rendered dynamically by app.js -->
       </div>
     </div>
