@@ -16,6 +16,10 @@
     selectedStoreId: null,
     userLocation: null, // { lat, lng }
     favorites: new Set(JSON.parse(localStorage.getItem('pspo_favs') || '[]')),
+    syncKey: (localStorage.getItem('pspo_sync_key') || '').trim().toUpperCase(),
+    syncApiUrl: localStorage.getItem('pspo_sync_api_url') || '/api/favs',
+    isSyncing: false,
+    lastSyncTime: localStorage.getItem('pspo_last_sync_time') || null,
     map: null,
     markers: {},
     activeQuickFilter: 'all',
@@ -81,6 +85,23 @@
       switchMobileTab('split');
     }
 
+    // Cloud auto-sync on startup
+    if (state.syncKey) {
+      fetchFavoritesFromCloud(false);
+    }
+
+    // Auto-sync when tab becomes active / focused (e.g. updated on smartphone, viewed on PC)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && state.syncKey) {
+        fetchFavoritesFromCloud(false);
+      }
+    });
+    window.addEventListener('focus', () => {
+      if (state.syncKey) {
+        fetchFavoritesFromCloud(false);
+      }
+    });
+
     // Handle orientation change and resize
     window.addEventListener('resize', () => {
       if (state.map) {
@@ -139,6 +160,11 @@
     }
     updateCategoryCounts();
     applyFilters(false); // Re-render without resetting map zoom
+
+    // Automatic Cloud Sync
+    if (state.syncKey) {
+      saveFavoritesToCloud(false);
+    }
   }
 
   // Initialize Leaflet Map
@@ -495,7 +521,7 @@
                 全店舗を表示する
               </button>
               <button id="btn-empty-sync-favs" type="button" style="background: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
-                📱 別の端末から引き継ぐ
+                ☁️ クラウド自動同期を設定
               </button>
             </div>
           </div>
@@ -645,14 +671,15 @@
     if (state.activeQuickFilter === 'fav' && state.filteredStores.length > 0) {
       el.spotlightBanner.className = 'spotlight-banner fav';
       el.spotlightBanner.style.display = 'flex';
+      const syncBtnText = state.syncKey ? `🟢 同期中: ${state.syncKey}` : `☁️ クラウド自動同期`;
       el.spotlightBanner.innerHTML = `
         <div style="font-size:2.2rem; padding: 0 6px;">⭐</div>
         <div class="spotlight-info" style="flex:1;">
-          <h4>⭐ お気に入り登録店舗 (${state.filteredStores.length}件)</h4>
-          <p>よく使う店舗が優先表示されています。</p>
+          <h4>⭐ お気に入り店舗 (${state.filteredStores.length}件)</h4>
+          <p>${state.syncKey ? '合言葉によりスマホ・PC間で自動同期中（☆を押すだけで即時反映）' : 'スマホとPCで共有するには「クラウド自動同期」を設定してください。'}</p>
         </div>
-        <button id="btn-banner-sync-favs" type="button" style="background:#f59e0b; color:white; border:none; padding:6px 12px; border-radius:18px; font-weight:700; font-size:0.75rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 5px rgba(245,158,11,0.3); align-self:center;">
-          📱 デバイス同期
+        <button id="btn-banner-sync-favs" type="button" style="background:${state.syncKey ? '#059669' : '#0071e3'}; color:white; border:none; padding:7px 14px; border-radius:18px; font-weight:700; font-size:0.75rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 5px rgba(0,0,0,0.15); align-self:center;">
+          ${syncBtnText}
         </button>
       `;
       const btnSync = document.getElementById('btn-banner-sync-favs');
@@ -1251,6 +1278,105 @@
     }
   }
 
+  // Toast Notification Helper
+  function showToast(message) {
+    let toast = document.getElementById('pspo-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'pspo-toast';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 74px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(15, 23, 42, 0.92);
+        color: #ffffff;
+        padding: 9px 18px;
+        border-radius: 30px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        z-index: 10000;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity: 0;
+        pointer-events: none;
+        white-space: nowrap;
+        backdrop-filter: blur(8px);
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 2500);
+  }
+
+  // Cloud Sync: Save favorites to Cloudflare KV (POST)
+  async function saveFavoritesToCloud(silent = false) {
+    if (!state.syncKey) return;
+    try {
+      state.isSyncing = true;
+      const res = await fetch(state.syncApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          key: state.syncKey,
+          favorites: [...state.favorites]
+        })
+      });
+      if (res.ok) {
+        state.lastSyncTime = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+        localStorage.setItem('pspo_last_sync_time', state.lastSyncTime);
+        if (!silent) showToast(`☁️ クラウドへ自動同期しました（${state.favorites.size}件）`);
+      } else {
+        console.warn('Sync POST response not OK:', res.status);
+      }
+    } catch (err) {
+      console.warn('Sync POST error:', err);
+    } finally {
+      state.isSyncing = false;
+    }
+  }
+
+  // Cloud Sync: Fetch favorites from Cloudflare KV (GET)
+  async function fetchFavoritesFromCloud(showNotice = false) {
+    if (!state.syncKey) return false;
+    try {
+      state.isSyncing = true;
+      const url = `${state.syncApiUrl}?key=${encodeURIComponent(state.syncKey)}`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.favorites)) {
+          state.favorites = new Set(data.favorites);
+          localStorage.setItem('pspo_favs', JSON.stringify([...state.favorites]));
+          state.lastSyncTime = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+          localStorage.setItem('pspo_last_sync_time', state.lastSyncTime);
+          updateCategoryCounts();
+          applyFilters(false);
+          if (showNotice) {
+            showToast(`☁️ クラウドから最新のお気に入りを同期しました（${state.favorites.size}件）`);
+          }
+          if (el.favSyncModal && el.favSyncModal.style.display !== 'none') {
+            renderSyncModalContent();
+          }
+          return true;
+        }
+      } else {
+        console.warn('Sync GET response not OK:', res.status);
+      }
+    } catch (err) {
+      console.warn('Sync GET error:', err);
+    } finally {
+      state.isSyncing = false;
+    }
+    return false;
+  }
+
   function getFavoritesShareUrl() {
     const favIds = [...state.favorites].join(',');
     const baseUrl = window.location.origin + window.location.pathname;
@@ -1272,60 +1398,186 @@
     if (!el.syncModalContent) return;
 
     const favCount = state.favorites.size;
-    const shareUrl = getFavoritesShareUrl();
-    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(shareUrl)}`;
+    const isSynced = Boolean(state.syncKey);
 
-    el.syncModalContent.innerHTML = `
-      <div style="background:#f8fafc; border-radius:12px; padding:16px; border:1px solid #e2e8f0; margin-bottom:14px; text-align:center;">
-        <p style="font-size:0.88rem; font-weight:700; color:#1e293b; margin-bottom:4px;">
-          登録中のお気に入り: <span style="color:#d97706; font-size:1.15rem; font-weight:800;">${favCount}</span> 件
-        </p>
-        <p style="font-size:0.75rem; color:#64748b; margin-bottom:12px; line-height:1.4;">
-          iPhoneのカメラで下のQRコードをかざすだけで、<br>Safariにお気に入りが一瞬で自動引き継ぎ・保存されます！
-        </p>
+    if (isSynced) {
+      // 登録済み状態のUI
+      el.syncModalContent.innerHTML = `
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:16px; margin-bottom:14px; text-align:center;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:20px; margin-bottom:8px;">
+            <span>🟢</span> クラウド自動同期中
+          </div>
+          <div style="font-size:1.1rem; font-weight:800; color:#1e293b; margin-bottom:4px;">
+            合言葉: <span style="font-family:monospace; background:#ffffff; padding:2px 8px; border-radius:6px; border:1px solid #cbd5e1; letter-spacing:1px; color:#0f172a;">${state.syncKey}</span>
+          </div>
+          <p style="font-size:0.8rem; color:#475569; margin-bottom:12px;">
+            登録中のお気に入り: <strong style="color:#059669;">${favCount}件</strong>
+            ${state.lastSyncTime ? ` (最終同期: ${state.lastSyncTime})` : ''}
+          </p>
+          <p style="font-size:0.75rem; color:#64748b; line-height:1.45; margin-bottom:14px;">
+            スマホ・PC・タブレットのすべてでこの合言葉を設定しておくと、<br><strong>☆を押すだけでどの端末でも自動的にお気に入りが反映されます。</strong><br>
+            ※他のデバイスからの手動読み込み操作は一切不要です！
+          </p>
 
-        <!-- QR Code Display -->
-        <div style="background:#ffffff; display:inline-block; padding:10px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-bottom:12px; border:1px solid #e2e8f0;">
-          <img src="${qrApiUrl}" alt="お気に入り同期QRコード" style="width:160px; height:160px; display:block;" onerror="this.alt='QRコードの生成に失敗しました'">
+          <div style="display:flex; gap:8px; justify-content:center;">
+            <button id="btn-sync-pull-now" type="button" style="background:#0071e3; color:white; border:none; padding:9px 16px; border-radius:8px; font-weight:700; font-size:0.8rem; cursor:pointer; box-shadow:0 2px 6px rgba(0,113,227,0.3);">
+              🔄 今すぐ最新を取得
+            </button>
+            <button id="btn-sync-push-now" type="button" style="background:#059669; color:white; border:none; padding:9px 16px; border-radius:8px; font-weight:700; font-size:0.8rem; cursor:pointer; box-shadow:0 2px 6px rgba(5,150,105,0.3);">
+              ☁️ この端末の内容を送信
+            </button>
+          </div>
         </div>
 
-        <!-- URL Copy -->
-        <div style="display:flex; gap:6px; max-width:420px; margin:0 auto;">
-          <input type="text" id="sync-share-url-input" value="${shareUrl}" readonly style="flex:1; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.75rem; background:#ffffff; color:#334155;">
-          <button id="btn-copy-sync-url" type="button" style="background:#0071e3; color:white; border:none; padding:8px 14px; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 5px rgba(0,113,227,0.3);">
-            📋 コピー
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0 4px; font-size:0.75rem;">
+          <button id="btn-sync-unlink" type="button" style="background:none; border:none; color:#ef4444; font-size:0.75rem; font-weight:700; cursor:pointer; text-decoration:underline;">
+            ❌ 自動同期を解除する
           </button>
+          <details style="text-align:right;">
+            <summary style="cursor:pointer; color:#64748b; font-weight:600;">⚙️ 接続先設定</summary>
+            <div style="margin-top:8px; text-align:left; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+              <label style="display:block; font-size:0.7rem; color:#64748b; margin-bottom:4px;">API エンドポイントURL:</label>
+              <input type="text" id="sync-api-url-input" value="${state.syncApiUrl}" style="width:100%; padding:6px; font-size:0.75rem; border:1px solid #cbd5e1; border-radius:6px; box-sizing:border-box;">
+              <button id="btn-save-api-url" type="button" style="margin-top:6px; background:#475569; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.7rem; cursor:pointer;">URL保存</button>
+            </div>
+          </details>
         </div>
-      </div>
+      `;
 
-      <!-- Cloudflare Database / Workers Integration Info -->
-      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px; font-size:0.78rem; color:#1e40af;">
-        <strong style="display:flex; align-items:center; gap:6px; font-size:0.82rem; margin-bottom:4px;">
-          <span>☁️</span> Cloudflare サーバーレス同期（KV / D1）連携
-        </strong>
-        <p style="line-height:1.45; font-size:0.74rem; color:#1e3a8a;">
-          Firebaseを使わなくても、Cloudflare Workers + KV（Key-Valueストア）を使えば、月間無制限＆完全無料でAPIを構築できます。<br>
-          リポジトリ内の <code>cloudflare/</code> フォルダに即デプロイ可能なWorkerコードを同梱しています。
-        </p>
-      </div>
-    `;
+      // Event listeners for synced mode
+      const btnPull = document.getElementById('btn-sync-pull-now');
+      if (btnPull) {
+        btnPull.addEventListener('click', async () => {
+          btnPull.textContent = '🔄 同期中...';
+          btnPull.disabled = true;
+          const ok = await fetchFavoritesFromCloud(true);
+          btnPull.textContent = ok ? '✅ 完了！' : '⚠️ 取得失敗';
+          setTimeout(() => {
+            btnPull.textContent = '🔄 今すぐ最新を取得';
+            btnPull.disabled = false;
+          }, 1500);
+        });
+      }
 
-    const btnCopy = document.getElementById('btn-copy-sync-url');
-    if (btnCopy) {
-      btnCopy.addEventListener('click', () => {
-        const input = document.getElementById('sync-share-url-input');
-        if (input) {
-          input.select();
-          navigator.clipboard.writeText(shareUrl).then(() => {
-            btnCopy.textContent = '✅ コピー完了！';
-            setTimeout(() => { btnCopy.textContent = '📋 コピー'; }, 2000);
-          }).catch(() => {
-            document.execCommand('copy');
-            btnCopy.textContent = '✅ コピー完了！';
-            setTimeout(() => { btnCopy.textContent = '📋 コピー'; }, 2000);
-          });
-        }
-      });
+      const btnPush = document.getElementById('btn-sync-push-now');
+      if (btnPush) {
+        btnPush.addEventListener('click', async () => {
+          btnPush.textContent = '☁️ 送信中...';
+          btnPush.disabled = true;
+          await saveFavoritesToCloud(false);
+          btnPush.textContent = '✅ 送信完了！';
+          setTimeout(() => {
+            btnPush.textContent = '☁️ この端末の内容を送信';
+            btnPush.disabled = false;
+          }, 1500);
+        });
+      }
+
+      const btnUnlink = document.getElementById('btn-sync-unlink');
+      if (btnUnlink) {
+        btnUnlink.addEventListener('click', () => {
+          if (confirm(`合言葉「${state.syncKey}」の同期設定を解除しますか？\n（現在の端末内のお気に入りデータはそのまま保持されます）`)) {
+            state.syncKey = '';
+            localStorage.removeItem('pspo_sync_key');
+            localStorage.removeItem('pspo_last_sync_time');
+            showToast('自動同期を解除しました');
+            renderSyncModalContent();
+            applyFilters(false);
+          }
+        });
+      }
+
+      const btnSaveApi = document.getElementById('btn-save-api-url');
+      if (btnSaveApi) {
+        btnSaveApi.addEventListener('click', () => {
+          const val = (document.getElementById('sync-api-url-input')?.value || '').trim();
+          if (val) {
+            state.syncApiUrl = val;
+            localStorage.setItem('pspo_sync_api_url', val);
+            alert('接続先APIエンドポイントを更新しました！');
+          }
+        });
+      }
+
+    } else {
+      // 未設定状態のUI
+      el.syncModalContent.innerHTML = `
+        <div style="background:#f8fafc; border-radius:12px; padding:18px; border:1px solid #e2e8f0; margin-bottom:14px;">
+          <div style="text-align:center; margin-bottom:12px;">
+            <span style="font-size:2rem; display:block; margin-bottom:4px;">☁️</span>
+            <h4 style="font-size:0.95rem; font-weight:800; color:#1e293b; margin-bottom:4px;">合言葉を入力して自動同期を開始</h4>
+            <p style="font-size:0.75rem; color:#64748b; line-height:1.45;">
+              スマホとPCで<strong>同じ合言葉（お好みの英数字）</strong>を入れるだけ！<br>
+              アカウント登録やパスワードは一切不要。CloudflareサーバーレスDBで永続保存・完全自動同期されます。
+            </p>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="display:block; font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:6px;">
+              自分だけの合言葉（同期キー）:
+            </label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="sync-key-input" placeholder="例: kotsuka, pspo123" maxlength="20" style="flex:1; padding:10px 12px; border:2px solid #cbd5e1; border-radius:8px; font-size:0.9rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase;">
+              <button id="btn-start-sync" type="button" style="background:#0071e3; color:white; border:none; padding:10px 18px; border-radius:8px; font-weight:800; font-size:0.85rem; cursor:pointer; white-space:nowrap; box-shadow:0 2px 6px rgba(0,113,227,0.3);">
+                同期開始
+              </button>
+            </div>
+            <p style="font-size:0.7rem; color:#94a3b8; margin-top:4px;">※英数字でわかりやすい言葉を入力してください</p>
+          </div>
+
+          <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px; font-size:0.72rem; color:#1e40af; line-height:1.4;">
+            💡 <strong>同期開始後の使い方:</strong><br>
+            1. スマホで合言葉を入力して「同期開始」<br>
+            2. パソコンでも同じ合言葉を入力して「同期開始」<br>
+            → あとはスマホで☆をつけると、パソコンを開いた時に勝手に同期されます！（他のデバイスからの手動読み込みは不要）
+          </div>
+        </div>
+
+        <details style="padding:0 4px; font-size:0.75rem;">
+          <summary style="cursor:pointer; color:#64748b; font-weight:600;">⚙️ 接続先設定（Cloudflare Workers/Pages）</summary>
+          <div style="margin-top:8px; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+            <label style="display:block; font-size:0.7rem; color:#64748b; margin-bottom:4px;">API エンドポイントURL (デフォルト: /api/favs):</label>
+            <input type="text" id="sync-api-url-input-init" value="${state.syncApiUrl}" style="width:100%; padding:6px; font-size:0.75rem; border:1px solid #cbd5e1; border-radius:6px; box-sizing:border-box;">
+          </div>
+        </details>
+      `;
+
+      // Event listener for starting sync
+      const btnStart = document.getElementById('btn-start-sync');
+      if (btnStart) {
+        btnStart.addEventListener('click', async () => {
+          const input = document.getElementById('sync-key-input');
+          const customUrl = (document.getElementById('sync-api-url-init')?.value || '').trim();
+          if (customUrl) {
+            state.syncApiUrl = customUrl;
+            localStorage.setItem('pspo_sync_api_url', customUrl);
+          }
+
+          const rawKey = (input?.value || '').trim();
+          if (!rawKey) {
+            alert('合言葉（英数字）を入力してください。');
+            return;
+          }
+
+          btnStart.textContent = '接続中...';
+          btnStart.disabled = true;
+
+          const key = rawKey.toUpperCase();
+          state.syncKey = key;
+          localStorage.setItem('pspo_sync_key', key);
+
+          // 1. まずクラウドから既存データを取得してみる
+          const fetched = await fetchFavoritesFromCloud(false);
+          if (!fetched && state.favorites.size > 0) {
+            // クラウドにまだデータがなく、ローカルにお気に入りがある場合はクラウドに送信
+            await saveFavoritesToCloud(true);
+          }
+
+          showToast(`🟢 合言葉「${key}」で自動同期を開始しました！`);
+          renderSyncModalContent();
+          applyFilters(false);
+        });
+      }
     }
   }
 

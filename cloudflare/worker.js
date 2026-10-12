@@ -1,9 +1,8 @@
 /**
- * P・SPO お気に入り同期用 Cloudflare Worker (KV版)
+ * P・SPO お気に入り自動同期用 Cloudflare Worker (KV版)
  * 
- * 機能:
- * - POST /api/favs : お気に入りリストを保存し、6桁の同期コードを発行
- * - GET  /api/favs/:code : 6桁の同期コードからお気に入りリストを取得
+ * - GET  /api/favs?key=MY_KEY : 指定キーのお気に入り一覧を取得
+ * - POST /api/favs            : 指定キーにお気に入り一覧を保存
  * 
  * Cloudflareの無料枠（毎日10万回読み取り、1,000回書き込み）で完全無料で動作します。
  */
@@ -15,69 +14,74 @@ export default {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
+      'Content-Type': 'application/json'
     };
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // 1. お気に入り保存 & 同期コード発行
-    // POST /api/favs { "favorites": ["honmachi", "daino", ...] }
-    if (request.method === 'POST' && url.pathname === '/api/favs') {
+    // 1. お気に入り保存
+    // POST /api/favs { "key": "MY_KEY", "favorites": ["honmachi", "daino", ...] }
+    if (request.method === 'POST' && url.pathname.startsWith('/api/favs')) {
       try {
         const body = await request.json();
+        const key = (body.key || url.searchParams.get('key') || '').trim().toUpperCase();
         const favorites = body.favorites || [];
 
-        // ランダムな6桁の英数コード生成（例: 7K9B2F）
-        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+        if (!key) {
+          return new Response(JSON.stringify({ error: 'Sync key is required' }), {
+            status: 400,
+            headers: corsHeaders
+          });
+        }
 
-        // KVに保存（有効期限: 90日間 = 7,776,000秒）
+        // KVに保存（有効期限: 90日間）
         if (env.FAVS_KV) {
-          await env.FAVS_KV.put(code, JSON.stringify(favorites), {
+          await env.FAVS_KV.put(key, JSON.stringify(favorites), {
             expirationTtl: 60 * 60 * 24 * 90
           });
         }
 
-        return new Response(JSON.stringify({ success: true, code, favorites }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        return new Response(JSON.stringify({ success: true, key, favorites }), {
+          headers: corsHeaders
         });
       } catch (err) {
         return new Response(JSON.stringify({ error: err.message }), {
           status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          headers: corsHeaders
         });
       }
     }
 
-    // 2. 同期コードからお気に入り取得
-    // GET /api/favs/:code
-    if (request.method === 'GET' && url.pathname.startsWith('/api/favs/')) {
-      const code = url.pathname.replace('/api/favs/', '').trim().toUpperCase();
-      if (!code) {
-        return new Response(JSON.stringify({ error: 'Code is required' }), {
+    // 2. お気に入り取得
+    // GET /api/favs?key=MY_KEY または GET /api/favs/:key
+    if (request.method === 'GET' && url.pathname.startsWith('/api/favs')) {
+      let key = url.searchParams.get('key') || url.pathname.replace('/api/favs/', '').replace('/api/favs', '');
+      key = key.trim().toUpperCase();
+
+      if (!key) {
+        return new Response(JSON.stringify({ error: 'Sync key is required' }), {
           status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          headers: corsHeaders
         });
       }
 
       let favorites = [];
       if (env.FAVS_KV) {
-        const data = await env.FAVS_KV.get(code);
+        const data = await env.FAVS_KV.get(key);
         if (data) {
           favorites = JSON.parse(data);
-        } else {
-          return new Response(JSON.stringify({ error: 'コードが見つかりません。有効期限切れかコードが間違っています。' }), {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
         }
       }
 
-      return new Response(JSON.stringify({ success: true, code, favorites }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      return new Response(JSON.stringify({ success: true, key, favorites }), {
+        headers: corsHeaders
       });
     }
 
-    return new Response('P・SPO Sync Worker Running', { headers: corsHeaders });
+    return new Response(JSON.stringify({ status: 'ok', service: 'P・SPO Sync API' }), {
+      headers: corsHeaders
+    });
   }
 };

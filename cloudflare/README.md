@@ -1,42 +1,43 @@
-# ☁️ Cloudflare Workers + KV によるお気に入り同期ガイド
+# ☁️ Cloudflare KV によるお気に入り完全自動同期ガイド
 
-Firebaseを使わず、**Cloudflareの無料枠（完全無料）**だけでデバイス間のお気に入りを同期するための軽量バックエンドです。
-
----
-
-## 🌟 なぜCloudflare KV（またはD1）が最適なのか？
-- **Firebaseのような面倒な認証（Auth）が不要**: 6桁の同期コード（例: `7K9B2F`）だけで安全かつ手軽にデバイス間共有ができます。
-- **完全無料枠が巨大**:
-  - KV: 毎日100,000回の読み取り、1,000回の書き込みが無料。
-  - D1 (SQL): 毎日500万回の行読み取りが無料。
-- **超高速**: 世界300都市以上のエッジで即座に応答します。
+Firebaseを使わず、**Cloudflareの無料枠（完全無料・永続）**だけでスマホとパソコンのお気に入りを自動同期する仕組みです。
 
 ---
 
-## 🚀 デプロイ手順（3分で完了）
-
-### 方法1: Cloudflareダッシュボードから手動作成（一番簡単）
-1. [Cloudflare ダッシュボード](https://dash.cloudflare.com/) にログイン。
-2. 左メニュー「**Workers & Pages**」➔「**KV**」で `FAVS_KV` という名前のNamespaceを作成。
-3. 「**Workers**」➔「**作成**」で新しいWorkerを作成し、`worker.js` のコードをそのまま貼り付け。
-4. Workerの設定「**変数**」➔「**KV ネームスペースのバインド**」で、変数名を `FAVS_KV`、ネームスペースを先ほど作った `FAVS_KV` に指定して保存・デプロイ！
-
-### 方法2: Wrangler CLIを使う場合
-```bash
-cd cloudflare
-npm install -g wrangler
-wrangler login
-
-# 1. KVネームスペース作成
-wrangler kv:namespace create FAVS_KV
-# 表示されたIDを wrangler.toml の id に記入
-
-# 2. デプロイ
-wrangler deploy
-```
+## 🌟 なぜCloudflare KVが最適なのか？
+- **アカウント登録・ログイン不要**: 自分だけの「合言葉（例: `kotsuka`）」を決めるだけで、スマホとPCが自動で紐付きます。
+- **完全無料**: 毎日100,000回の読み取り、1,000回の書き込みが永久無料（クレジットカード不要）。
+- **完全自動**: 
+  - スマホで☆を押した瞬間にクラウドへ自動保存。
+  - パソコンを開いた時（またはタブ復帰時）に自動で最新状態を読み込み。
+  - 手動での「他のデバイスからの読み込み」やQRコード・URLコピー操作は一切不要！
 
 ---
 
-## 📱 Webアプリ側との連携方法
-発行されたWorkerのURL（例: `https://pspo-sync-worker.xxxx.workers.dev`）を、`js/app.js` の `CLOUDFLARE_SYNC_API_URL` に設定するだけで、同期コードでの保存・読み込みが自動的に連動します。
-（※Worker未デプロイの状態でも、Webアプリ標準機能の「**📷 QRコード同期**」「**📋 URL共有**」により、今すぐ100%デバイス間引き継ぎが可能です！）
+## 🚀 デプロイ・設定方法（2つのパターン）
+
+### パターンA: Cloudflare Pages でホストしている場合（一番簡単！Worker作成不要）
+本リポジトリには `functions/api/favs.js` が同梱されているため、Cloudflare Pagesが自動でAPIエンドポイント `/api/favs` を提供します。
+
+1. [Cloudflare ダッシュボード](https://dash.cloudflare.com/) ➔「**Storage & Databases**」➔「**KV**」で `FAVS_KV` を作成。
+2. Pagesの該当プロジェクトを開き、「**設定**」➔「**Functions**」➔「**KV ネームスペースのバインド**」をクリック。
+3. 以下を設定して「保存」:
+   - **変数名**: `FAVS_KV`
+   - **KV ネームスペース**: 先ほど作成した `FAVS_KV`
+4. これだけで完了！Webアプリ側の設定変更なしで `/api/favs` が有効化されます。
+
+---
+
+### パターンB: GitHub Pages 等でホストしている場合（Workerを1つ配置）
+1. Cloudflare ダッシュボード ➔「**Workers & Pages**」➔「**KV**」で `FAVS_KV` を作成。
+2. 「**Workers**」➔「**作成**」で新規Workerを作成し、`cloudflare/worker.js` のコードを貼り付けてデプロイ。
+3. Workerの設定「**変数**」➔「**KV ネームスペースのバインド**」で、変数名を `FAVS_KV`、ネームスペースを `FAVS_KV` に指定して保存。
+4. 発行されたURL（例: `https://pspo-favs.xxxx.workers.dev/api/favs`）を、Webアプリの「☁️ クラウド自動同期」モーダル内にある「⚙️ 接続先設定」に一度貼り付けて保存するだけ！
+
+---
+
+## 📱 アプリの使い方（超シンプル）
+1. スマホでアプリを開き、「⭐ お気に入り」またはモーダルから**好きな合言葉（例: `kotsuka`）**を入力して「同期開始」。
+2. パソコンでも同じ**合言葉（`kotsuka`）**を入力して「同期開始」。
+3. これで完了です！以後はスマホで☆を登録すると、パソコンの画面にも自動的に反映されます。
+
