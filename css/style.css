@@ -915,27 +915,46 @@ body {
 
   .main-container {
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* In mobile, toggle between List View and Map View */
-  .list-panel {
-    width: 100%;
-    height: 100%;
-    border-right: none;
-  }
-
+  /* Default on mobile: Split View (Map on top 45%, List on bottom 55%) */
   .map-panel {
     width: 100%;
-    height: 100%;
-    display: none;
-  }
-
-  .main-container.show-map .list-panel {
-    display: none;
-  }
-
-  .main-container.show-map .map-panel {
+    height: 44vh;
     display: block;
+    flex-shrink: 0;
+    order: 1;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .list-panel {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: none;
+    order: 2;
+    overflow: hidden;
+  }
+
+  /* Mode: Full Map */
+  .main-container.mode-map .map-panel {
+    height: 100%;
+    display: block;
+  }
+  .main-container.mode-map .list-panel {
+    display: none;
+  }
+
+  /* Mode: Full List */
+  .main-container.mode-list .map-panel {
+    display: none;
+  }
+  .main-container.mode-list .list-panel {
+    height: 100%;
+    display: flex;
   }
 
   .mobile-nav {
@@ -943,12 +962,27 @@ body {
   }
 
   .map-floating-controls {
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
+    gap: 6px;
   }
 
   .float-btn {
-    padding: 7px 11px;
-    font-size: 0.75rem;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+  }
+
+  .filter-box {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .stores-scroll-list {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .store-card {
+    padding: 12px;
   }
 }

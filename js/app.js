@@ -47,10 +47,10 @@
     btnRecenterEhime: document.getElementById('btn-recenter-ehime'),
     btnRecenterMatsuyama: document.getElementById('btn-recenter-matsuyama'),
     // Mobile Nav
+    navBtnSplit: document.getElementById('nav-btn-split'),
     navBtnList: document.getElementById('nav-btn-list'),
     navBtnMap: document.getElementById('nav-btn-map'),
     navBtnCrunch: document.getElementById('nav-btn-crunch'),
-    navBtnStudy: document.getElementById('nav-btn-study'),
     navBtnNearby: document.getElementById('nav-btn-nearby')
   };
 
@@ -64,6 +64,18 @@
     initMap();
     setupEventListeners();
     applyFilters();
+
+    // Responsive setup
+    if (window.innerWidth <= 768) {
+      switchMobileTab('split');
+    }
+
+    // Handle orientation change and resize
+    window.addEventListener('resize', () => {
+      if (state.map) {
+        state.map.invalidateSize();
+      }
+    });
   }
 
   // Update quick filter counts
@@ -92,19 +104,29 @@
       return;
     }
 
-    state.map = L.map('map-view', {
-      zoomControl: true,
-      attributionControl: true
-    }).setView(MATSUYAMA_CENTER, 13);
+    try {
+      state.map = L.map('map-view', {
+        zoomControl: true,
+        attributionControl: true
+      }).setView(MATSUYAMA_CENTER, 12);
 
-    // OpenStreetMap Tile Layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors | P・SPO'
-    }).addTo(state.map);
+      // CartoDB Voyager Tiles (Beautiful, clear Japanese labels, fast CDN)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        subdomains: 'abcd',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> | P・SPO'
+      }).addTo(state.map);
 
-    // Render Markers for all stores
-    renderMarkers();
+      // Render Markers for all stores
+      renderMarkers();
+
+      // Trigger size invalidation to guarantee full tile rendering
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 100);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 300);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 800);
+    } catch (err) {
+      console.error('Error initializing Leaflet map:', err);
+    }
   }
 
   // Custom Marker Icons
@@ -616,21 +638,33 @@
     );
   }
 
-  // Switch Mobile Tab (List or Map)
-  function switchMobileTab(tab) {
-    state.activeTab = tab;
-    if (tab === 'map') {
-      el.container.classList.add('show-map');
-      el.navBtnMap.classList.add('active');
-      el.navBtnList.classList.remove('active');
-      if (state.map) {
-        setTimeout(() => state.map.invalidateSize(), 150);
-      }
-    } else {
-      el.container.classList.remove('show-map');
-      el.navBtnList.classList.add('active');
-      el.navBtnMap.classList.remove('active');
-      el.mobilePreview.style.display = 'none';
+  // Switch Mobile Tab (Split, Map, List)
+  function switchMobileTab(mode) {
+    state.activeTab = mode;
+    
+    // Clear mode classes
+    el.container.classList.remove('mode-map', 'mode-list');
+    
+    // Update active nav item
+    [el.navBtnSplit, el.navBtnMap, el.navBtnList].forEach(b => {
+      if (b) b.classList.remove('active');
+    });
+
+    if (mode === 'map') {
+      el.container.classList.add('mode-map');
+      if (el.navBtnMap) el.navBtnMap.classList.add('active');
+    } else if (mode === 'list') {
+      el.container.classList.add('mode-list');
+      if (el.navBtnList) el.navBtnList.classList.add('active');
+      if (el.mobilePreview) el.mobilePreview.style.display = 'none';
+    } else { // 'split'
+      if (el.navBtnSplit) el.navBtnSplit.classList.add('active');
+      if (el.mobilePreview) el.mobilePreview.style.display = 'none';
+    }
+
+    if (state.map) {
+      setTimeout(() => state.map.invalidateSize(), 100);
+      setTimeout(() => state.map.invalidateSize(), 300);
     }
   }
 
@@ -736,27 +770,20 @@
     });
 
     // Mobile Nav Bar
-    el.navBtnList.addEventListener('click', () => switchMobileTab('list'));
-    el.navBtnMap.addEventListener('click', () => switchMobileTab('map'));
-    el.navBtnNearby.addEventListener('click', locateUser);
+    if (el.navBtnSplit) el.navBtnSplit.addEventListener('click', () => switchMobileTab('split'));
+    if (el.navBtnMap) el.navBtnMap.addEventListener('click', () => switchMobileTab('map'));
+    if (el.navBtnList) el.navBtnList.addEventListener('click', () => switchMobileTab('list'));
+    if (el.navBtnNearby) el.navBtnNearby.addEventListener('click', locateUser);
 
-    el.navBtnCrunch.addEventListener('click', () => {
-      // Activate Crunch Quick Filter
-      document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-      const crunchBtn = document.querySelector('.quick-btn.q-crunch');
-      if (crunchBtn) crunchBtn.classList.add('active');
-      state.activeQuickFilter = 'crunch';
-      applyFilters();
-    });
-
-    el.navBtnStudy.addEventListener('click', () => {
-      // Activate Study Quick Filter
-      document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-      const studyBtn = document.querySelector('.quick-btn.q-study');
-      if (studyBtn) studyBtn.classList.add('active');
-      state.activeQuickFilter = 'study';
-      applyFilters();
-    });
+    if (el.navBtnCrunch) {
+      el.navBtnCrunch.addEventListener('click', () => {
+        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+        const crunchBtn = document.querySelector('.quick-btn.q-crunch');
+        if (crunchBtn) crunchBtn.classList.add('active');
+        state.activeQuickFilter = 'crunch';
+        applyFilters();
+      });
+    }
   }
 
   // Launch on DOM Ready
