@@ -135,24 +135,53 @@
     }
 
     try {
+      if (L.Icon && L.Icon.Default) {
+        L.Icon.Default.imagePath = 'vendor/leaflet/images/';
+      }
+
       state.map = L.map('map-view', {
         zoomControl: true,
         attributionControl: true
       }).setView(MATSUYAMA_CENTER, 12);
 
-      // OpenStreetMap Standard Tiles (No API key required, 100% free, clean map)
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | P・SPO'
-      }).addTo(state.map);
+      // OpenStreetMap Japan (100% free, reliable, no API key, CORS enabled)
+      const osmJp = L.tileLayer('https://tile.openstreetmap.jp/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 4,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> | <a href="https://openstreetmap.jp" target="_blank">OSM Japan</a>'
+      });
+
+      // 国土地理院 淡色地図 (Clean, official Japanese government map, CloudFront CDN)
+      const gsiPale = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 4,
+        attribution: '&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">国土地理院</a>'
+      });
+
+      // Automatic fallback to GSI if an OSM Japan tile ever fails
+      osmJp.on('tileerror', function(error) {
+        if (error.tile && error.coords) {
+          error.tile.src = `https://cyberjapandata.gsi.go.jp/xyz/pale/${error.coords.z}/${error.coords.x}/${error.coords.y}.png`;
+        }
+      });
+
+      // Add default layer: OpenStreetMap Japan
+      osmJp.addTo(state.map);
+
+      // Map Layer Toggle Control
+      L.control.layers({
+        '🗺️ 標準マップ (OSM)': osmJp,
+        '🗾 国土地理院 (淡色)': gsiPale
+      }, null, { position: 'topleft' }).addTo(state.map);
 
       // Render Markers for all stores
       renderMarkers();
 
       // Trigger size invalidation to guarantee full tile rendering
-      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 100);
-      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 300);
-      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 800);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 50);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 200);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 500);
+      setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 1000);
     } catch (err) {
       console.error('Error initializing Leaflet map:', err);
     }
@@ -791,33 +820,12 @@
     );
   }
 
-  // Switch Mobile Tab (Split, Map, List)
+  // Switch Mobile Tab (Helper)
   function switchMobileTab(mode) {
     state.activeTab = mode;
-    
-    // Clear mode classes
-    el.container.classList.remove('mode-map', 'mode-list');
-    
-    // Update active nav item
-    [el.navBtnSplit, el.navBtnMap, el.navBtnList].forEach(b => {
-      if (b) b.classList.remove('active');
-    });
-
-    if (mode === 'map') {
-      el.container.classList.add('mode-map');
-      if (el.navBtnMap) el.navBtnMap.classList.add('active');
-    } else if (mode === 'list') {
-      el.container.classList.add('mode-list');
-      if (el.navBtnList) el.navBtnList.classList.add('active');
-      if (el.mobilePreview) el.mobilePreview.style.display = 'none';
-    } else { // 'split'
-      if (el.navBtnSplit) el.navBtnSplit.classList.add('active');
-      if (el.mobilePreview) el.mobilePreview.style.display = 'none';
-    }
-
     if (state.map) {
-      setTimeout(() => state.map.invalidateSize(), 100);
-      setTimeout(() => state.map.invalidateSize(), 300);
+      setTimeout(() => state.map.invalidateSize(), 50);
+      setTimeout(() => state.map.invalidateSize(), 200);
     }
   }
 
