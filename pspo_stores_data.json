@@ -1,5 +1,39 @@
 [
   {
+    "id": "teiregi",
+    "title": "南道後温泉 ていれぎの湯（P・SPO提携）",
+    "name": "南道後温泉 ていれぎの湯",
+    "area": "matsuyama",
+    "area_name": "松山エリア",
+    "category": "specialty",
+    "address": "愛媛県松山市中野町甲853",
+    "lat": 33.780637,
+    "lng": 132.818694,
+    "hours": "6:00~24:00 (札止 23:00) / 年中無休",
+    "staff_hours": "終日スタッフ常駐",
+    "parking": "150台 無料",
+    "tel": "089-963-3535",
+    "image": "assets/teiregi.jpg",
+    "detail_url": "https://teiregi.jp/",
+    "tags": [
+      "温泉",
+      "サウナ",
+      "露天風呂",
+      "天然温泉",
+      "P・SPO会員割引特典"
+    ],
+    "has_crunch_bench": false,
+    "has_study_room": false,
+    "features": {
+      "gym": false,
+      "esthe": false,
+      "sauna": true,
+      "golf": false,
+      "cafe": true,
+      "staffed": true
+    }
+  },
+  {
     "id": "honmachi",
     "title": "P・SPO本町店",
     "name": "P・SPO24本町店",
