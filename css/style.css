@@ -62,8 +62,6 @@ body {
 .app-header {
   background: #ffffff;
   border-bottom: 1px solid var(--border-color);
-  z-index: 1000;
-  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
@@ -160,13 +158,26 @@ body {
   font-size: 0.95rem;
 }
 
-/* Quick Filter Bar */
+/* Quick Filter Bar (Sticky Horizontal Filter) */
 .quick-filter-bar {
-  background: #fbfcfe;
-  border-top: 1px solid #f1f5f9;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 950;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   padding: 8px 12px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.quick-filter-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .quick-filter-scroll {
@@ -1141,6 +1152,7 @@ body {
     order: 1;
     border-bottom: 2px solid var(--border-color);
     position: relative;
+    scroll-margin-top: 52px;
   }
 
   .map-view {
@@ -1160,6 +1172,7 @@ body {
     border-right: none;
     order: 2;
     overflow: visible !important;
+    scroll-margin-top: 52px;
   }
 
   .filter-box {
