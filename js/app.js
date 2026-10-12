@@ -110,11 +110,10 @@
         attributionControl: true
       }).setView(MATSUYAMA_CENTER, 12);
 
-      // CartoDB Voyager Tiles (Beautiful, clear Japanese labels, fast CDN)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      // OpenStreetMap Standard Tiles (No API key required, 100% free, clean map)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        subdomains: 'abcd',
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a> | P・SPO'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors | P・SPO'
       }).addTo(state.map);
 
       // Render Markers for all stores
