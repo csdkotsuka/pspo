@@ -46,11 +46,12 @@
     btnMapLocate: document.getElementById('btn-map-locate'),
     btnRecenterEhime: document.getElementById('btn-recenter-ehime'),
     btnRecenterMatsuyama: document.getElementById('btn-recenter-matsuyama'),
+    btnScrollToList: document.getElementById('btn-scroll-to-list'),
     // Mobile Nav
-    navBtnSplit: document.getElementById('nav-btn-split'),
     navBtnList: document.getElementById('nav-btn-list'),
     navBtnMap: document.getElementById('nav-btn-map'),
     navBtnCrunch: document.getElementById('nav-btn-crunch'),
+    navBtnStudy: document.getElementById('nav-btn-study'),
     navBtnNearby: document.getElementById('nav-btn-nearby')
   };
 
@@ -457,7 +458,7 @@
   }
 
   // Select Store & Center Map
-  function selectStore(storeId, openPopup) {
+  function selectStore(storeId, openPopup = true) {
     state.selectedStoreId = storeId;
     const store = state.stores.find(s => s.id === storeId);
     if (!store) return;
@@ -467,10 +468,6 @@
     const targetCard = document.getElementById(`card-${storeId}`);
     if (targetCard) {
       targetCard.classList.add('selected');
-      // Scroll to card smoothly if list is visible
-      if (window.innerWidth > 768 || state.activeTab === 'list') {
-        targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
     }
 
     // Map Center & Popup
@@ -484,9 +481,12 @@
       }
     }
 
-    // Mobile Preview Sheet
-    if (window.innerWidth <= 768 && state.activeTab === 'map') {
-      showMobilePreview(store);
+    // When on mobile, smooth scroll up to the map so the user can see it!
+    if (window.innerWidth <= 768) {
+      const mapPanel = document.getElementById('map-panel');
+      if (mapPanel) {
+        mapPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }
 
@@ -768,11 +768,32 @@
       if (e.target === el.modal) el.modal.style.display = 'none';
     });
 
-    // Mobile Nav Bar
-    if (el.navBtnSplit) el.navBtnSplit.addEventListener('click', () => switchMobileTab('split'));
-    if (el.navBtnMap) el.navBtnMap.addEventListener('click', () => switchMobileTab('map'));
-    if (el.navBtnList) el.navBtnList.addEventListener('click', () => switchMobileTab('list'));
-    if (el.navBtnNearby) el.navBtnNearby.addEventListener('click', locateUser);
+    // Scroll to List from Map
+    if (el.btnScrollToList) {
+      el.btnScrollToList.addEventListener('click', () => {
+        const listElem = document.getElementById('stores-list') || document.getElementById('list-panel');
+        if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    // Mobile Nav Bar Smooth Scroll & Filter Triggers
+    if (el.navBtnMap) {
+      el.navBtnMap.addEventListener('click', () => {
+        const mapElem = document.getElementById('map-panel');
+        if (mapElem) mapElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    if (el.navBtnList) {
+      el.navBtnList.addEventListener('click', () => {
+        const listElem = document.getElementById('stores-list') || document.getElementById('list-panel');
+        if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    if (el.navBtnNearby) {
+      el.navBtnNearby.addEventListener('click', locateUser);
+    }
 
     if (el.navBtnCrunch) {
       el.navBtnCrunch.addEventListener('click', () => {
@@ -781,6 +802,20 @@
         if (crunchBtn) crunchBtn.classList.add('active');
         state.activeQuickFilter = 'crunch';
         applyFilters();
+        const listElem = document.getElementById('stores-list');
+        if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    if (el.navBtnStudy) {
+      el.navBtnStudy.addEventListener('click', () => {
+        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+        const studyBtn = document.querySelector('.quick-btn.q-study');
+        if (studyBtn) studyBtn.classList.add('active');
+        state.activeQuickFilter = 'study';
+        applyFilters();
+        const listElem = document.getElementById('stores-list');
+        if (listElem) listElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
   }
