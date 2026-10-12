@@ -1,0 +1,6 @@
+# Development dumps and temp files
+pages.json
+area_content.html
+parsed_stores.json
+.DS_Store
+Thumbs.db
