@@ -30,8 +30,10 @@
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "honmachi",
@@ -63,8 +65,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "daino",
@@ -98,8 +102,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kukou",
@@ -132,8 +138,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "yuwatari",
@@ -165,8 +173,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chuo",
@@ -199,8 +209,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tohon",
@@ -231,8 +243,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "hojo",
@@ -265,8 +279,10 @@
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kitauwajima",
@@ -297,8 +313,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "udonhomen",
@@ -328,8 +346,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "pigcafe",
@@ -358,8 +378,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tobeonsen",
@@ -389,8 +411,10 @@
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "hondani",
@@ -426,8 +450,10 @@
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "marriyell_imabari",
@@ -460,8 +486,10 @@
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "worldplaza",
@@ -494,8 +522,10 @@
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mega",
@@ -529,8 +559,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "saiin",
@@ -560,8 +592,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kosaka",
@@ -591,8 +625,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tobe",
@@ -623,8 +659,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mitsusuga",
@@ -653,8 +691,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "iwaidani",
@@ -683,8 +723,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "umaki",
@@ -715,8 +757,10 @@
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato",
@@ -745,8 +789,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "takanoko",
@@ -778,8 +824,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato2",
@@ -811,8 +859,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gymstudy_okaido",
@@ -844,8 +894,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "iyo",
@@ -876,8 +928,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "dobashi",
@@ -909,8 +963,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "uchiko",
@@ -941,8 +997,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "himebara",
@@ -975,8 +1033,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "natsume",
@@ -1006,8 +1066,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mitsuten",
@@ -1042,8 +1104,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "niihama",
@@ -1076,8 +1140,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "ozu",
@@ -1110,8 +1176,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "toyo",
@@ -1144,8 +1212,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tsuitachi",
@@ -1178,8 +1248,10 @@
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sakuragi",
@@ -1208,8 +1280,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kawahigashi",
@@ -1239,8 +1313,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "bujyo",
@@ -1273,8 +1349,10 @@
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gintengai",
@@ -1303,8 +1381,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kuwabara",
@@ -1333,8 +1413,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "okaido",
@@ -1363,8 +1445,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "higashino",
@@ -1393,8 +1477,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kitayoshida",
@@ -1423,8 +1509,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "groupcafe",
@@ -1453,8 +1541,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "study1",
@@ -1483,8 +1573,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "study2",
@@ -1513,8 +1605,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "studycafe",
@@ -1543,8 +1637,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "studyroommatsudai",
@@ -1573,8 +1669,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "asanami",
@@ -1604,8 +1702,10 @@
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "heiwa",
@@ -1635,8 +1735,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "shiekiminami",
@@ -1667,8 +1769,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "jrmatsuyama",
@@ -1697,8 +1801,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "heiwa_2",
@@ -1728,8 +1834,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "aidai",
@@ -1760,8 +1868,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "dogo_kitashiro",
@@ -1790,8 +1900,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chifune",
@@ -1821,8 +1933,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kumanodai",
@@ -1851,8 +1965,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "cafeevent",
@@ -1882,8 +1998,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato_3",
@@ -1914,8 +2032,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sanmachi",
@@ -1944,8 +2064,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sakaba",
@@ -1975,8 +2097,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "furugi",
@@ -2006,8 +2130,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "karaokehojo",
@@ -2038,8 +2164,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gallery",
@@ -2069,8 +2197,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "piano",
@@ -2101,8 +2231,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "karaokeniban",
@@ -2131,8 +2263,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sauna",
@@ -2163,8 +2297,10 @@
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "works",
@@ -2185,7 +2321,12 @@
     "tags": [
       "コワーキング",
       "会議室",
-      "スタディ自習室"
+      "スタディ自習室",
+      "法人登記",
+      "住所利用",
+      "専用ポスト",
+      "WEB会議室",
+      "P・SPOジム利用特典"
     ],
     "has_crunch_bench": false,
     "has_study_room": true,
@@ -2194,9 +2335,11 @@
       "esthe": false,
       "sauna": false,
       "golf": false,
-      "cafe": false,
-      "staffed": null
-    }
+      "cafe": true,
+      "staffed": null,
+      "office": true
+    },
+    "has_office_reg": true
   },
   {
     "id": "worksmitakara",
@@ -2217,7 +2360,12 @@
     "tags": [
       "コワーキング",
       "会議室",
-      "スタディ自習室"
+      "スタディ自習室",
+      "法人登記",
+      "住所利用",
+      "専用ポスト",
+      "WEB会議室",
+      "P・SPOジム利用特典"
     ],
     "has_crunch_bench": false,
     "has_study_room": true,
@@ -2226,9 +2374,11 @@
       "esthe": false,
       "sauna": false,
       "golf": false,
-      "cafe": false,
-      "staffed": null
-    }
+      "cafe": true,
+      "staffed": null,
+      "office": true
+    },
+    "has_office_reg": true
   },
   {
     "id": "laundry",
@@ -2257,8 +2407,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "Billiards&#038;Darts",
@@ -2288,8 +2440,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kankoko",
@@ -2318,8 +2472,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sanpuku_lounge",
@@ -2351,8 +2507,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "base",
@@ -2384,8 +2542,10 @@
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "furugikitasaya",
@@ -2415,8 +2575,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "laundrybefu",
@@ -2445,8 +2607,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "beauty_chuodori",
@@ -2475,8 +2639,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "beauty_daino",
@@ -2505,8 +2671,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "naturalbeauty_tohon",
@@ -2536,8 +2704,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "store_79",
@@ -2568,8 +2738,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "store_80",
@@ -2602,8 +2774,10 @@
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "marriyell_imabari",
@@ -2636,8 +2810,10 @@
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "loungebeauty_okaido",
@@ -2667,8 +2843,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "epi_emifull",
@@ -2697,8 +2875,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "epi_okaido",
@@ -2728,8 +2908,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "eyecare",
@@ -2759,8 +2941,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "asahikawa",
@@ -2789,8 +2973,10 @@
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "seishiro",
@@ -2819,8 +3005,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chitahandaekimae",
@@ -2849,8 +3037,10 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "handasumiyoshi",
@@ -2882,7 +3072,9 @@
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   }
 ]

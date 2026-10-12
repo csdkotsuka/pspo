@@ -36,6 +36,10 @@
           </div>
         </div>
         <div class="header-actions">
+          <button id="btn-open-quiz" class="btn-action btn-quiz" type="button" title="PSPO検定 対策クイズ（100問）">
+            <span class="icon">🏆</span>
+            <span class="btn-text">検定対策クイズ</span>
+          </button>
           <a href="https://pspo24.hacomono.jp/app/login?_gl=1*slop4d*_gcl_au*NTg5MDM2NDY1LjE3OTE3ODAzNjU.*_ga*MTEyNDY5OTcwLjE3OTE3ODAzNjY.*_ga_RJ405SZ292*czE3OTE3ODc5MDgkbzIkZzAkdDE3OTE3ODc5MDgkajYwJGwwJGgw"
              class="btn-action btn-mypage"
              target="_blank"
@@ -56,6 +60,9 @@
         </button>
         <button class="quick-btn q-fav" data-quick="fav">
           <span class="q-icon">⭐</span> お気に入り (<span id="count-fav">0</span>)
+        </button>
+        <button class="quick-btn q-office" data-quick="office">
+          <span class="q-icon">💼</span> オフィス・登記 (<span id="count-office">0</span>)
         </button>
         <button class="quick-btn q-crunch" data-quick="crunch">
           <span class="q-icon">🏋️‍♂️</span> クランクベンチ (<span id="count-crunch">0</span>)
@@ -122,6 +129,9 @@
 
           <!-- Feature Tag Pills -->
           <div class="feature-pills">
+            <button class="pill-btn" data-feature="office">
+              <span class="pill-dot office"></span>法人登記・オフィス
+            </button>
             <button class="pill-btn" data-feature="has_crunch_bench">
               <span class="pill-dot crunch"></span>クランクベンチ
             </button>
@@ -229,9 +239,39 @@
     </div>
   </div>
 
+  <!-- PSPO Exam Quiz Modal -->
+  <div id="quiz-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-card quiz-modal-card">
+      <!-- Header -->
+      <div class="quiz-header-bar">
+        <div class="quiz-header-info">
+          <span class="quiz-header-icon">🏆</span>
+          <div>
+            <h3 class="quiz-header-title">PSPO検定 対策クイズ</h3>
+            <span class="quiz-header-sub">目指せ全問正解！1年分会費無料を勝ち取ろう</span>
+          </div>
+        </div>
+        <button id="btn-quiz-close" class="quiz-close-btn" type="button" title="閉じる">✕</button>
+      </div>
+
+      <!-- Mode Selection Tabs -->
+      <div class="quiz-mode-tabs">
+        <button class="quiz-tab-btn active" data-tab="exam">📝 模擬検定 (10問)</button>
+        <button class="quiz-tab-btn" data-tab="genres">🎯 ジャンル別攻略</button>
+        <button class="quiz-tab-btn" data-tab="archive">📖 100問完全問題集</button>
+      </div>
+
+      <!-- Quiz Body Content -->
+      <div id="quiz-body-container" class="quiz-body">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="vendor/leaflet/leaflet.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/quiz_data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

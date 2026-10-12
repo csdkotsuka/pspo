@@ -1,6 +1,6 @@
 /**
  * P・SPO24 全店舗データセット
- * 愛媛県内および全店舗情報、クランチベンチ（クランクベンチ）情報、スタディroom情報、Apple Maps/CarPlayナビ座標
+ * 愛媛県内および全店舗情報、クランチベンチ（クランクベンチ）情報、スタディroom情報、オフィス・法人登記情報、Apple Maps/CarPlayナビ座標
  */
 const PSPO_STORES = [
   {
@@ -34,8 +34,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "honmachi",
@@ -67,8 +69,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "daino",
@@ -100,11 +104,12 @@ const PSPO_STORES = [
       "gym": true,
       "esthe": true,
       "sauna": false,
-      "tennis": false,
-      "boulder": true,
+      "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kukou",
@@ -137,8 +142,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "yuwatari",
@@ -170,8 +177,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chuo",
@@ -204,8 +213,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tohon",
@@ -236,8 +247,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "hojo",
@@ -270,8 +283,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kitauwajima",
@@ -302,8 +317,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "udonhomen",
@@ -333,8 +350,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "pigcafe",
@@ -363,8 +382,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tobeonsen",
@@ -394,8 +415,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "hondani",
@@ -431,8 +454,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "marriyell_imabari",
@@ -465,8 +490,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "worldplaza",
@@ -499,8 +526,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mega",
@@ -532,11 +561,12 @@ const PSPO_STORES = [
       "gym": true,
       "esthe": false,
       "sauna": false,
-      "tennis": true,
-      "boulder": false,
+      "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "saiin",
@@ -566,8 +596,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kosaka",
@@ -597,8 +629,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tobe",
@@ -629,8 +663,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mitsusuga",
@@ -659,8 +695,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "iwaidani",
@@ -689,8 +727,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "umaki",
@@ -721,8 +761,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato",
@@ -751,8 +793,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "takanoko",
@@ -784,8 +828,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato2",
@@ -817,8 +863,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gymstudy_okaido",
@@ -850,8 +898,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "iyo",
@@ -882,8 +932,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "dobashi",
@@ -915,8 +967,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "uchiko",
@@ -947,8 +1001,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "himebara",
@@ -981,8 +1037,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "natsume",
@@ -1012,8 +1070,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "mitsuten",
@@ -1048,8 +1108,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "niihama",
@@ -1082,8 +1144,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "ozu",
@@ -1116,8 +1180,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "toyo",
@@ -1150,8 +1216,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "tsuitachi",
@@ -1184,8 +1252,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sakuragi",
@@ -1214,8 +1284,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kawahigashi",
@@ -1245,8 +1317,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "bujyo",
@@ -1279,8 +1353,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gintengai",
@@ -1309,8 +1385,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kuwabara",
@@ -1339,8 +1417,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "okaido",
@@ -1369,8 +1449,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "higashino",
@@ -1399,8 +1481,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kitayoshida",
@@ -1429,8 +1513,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "groupcafe",
@@ -1459,8 +1545,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "study1",
@@ -1489,8 +1577,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "study2",
@@ -1519,8 +1609,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "studycafe",
@@ -1549,8 +1641,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "studyroommatsudai",
@@ -1579,8 +1673,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "asanami",
@@ -1610,8 +1706,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "heiwa",
@@ -1641,8 +1739,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "shiekiminami",
@@ -1673,8 +1773,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "jrmatsuyama",
@@ -1703,8 +1805,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "heiwa_2",
@@ -1734,8 +1838,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "aidai",
@@ -1766,8 +1872,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "dogo_kitashiro",
@@ -1796,8 +1904,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chifune",
@@ -1827,8 +1937,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kumanodai",
@@ -1857,8 +1969,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "cafeevent",
@@ -1888,8 +2002,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "minato_3",
@@ -1920,8 +2036,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sanmachi",
@@ -1950,8 +2068,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sakaba",
@@ -1981,8 +2101,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "furugi",
@@ -2012,8 +2134,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "karaokehojo",
@@ -2044,8 +2168,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "gallery",
@@ -2075,8 +2201,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "piano",
@@ -2107,8 +2235,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "karaokeniban",
@@ -2137,8 +2267,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sauna",
@@ -2169,8 +2301,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "works",
@@ -2191,7 +2325,12 @@ const PSPO_STORES = [
     "tags": [
       "コワーキング",
       "会議室",
-      "スタディ自習室"
+      "スタディ自習室",
+      "法人登記",
+      "住所利用",
+      "専用ポスト",
+      "WEB会議室",
+      "P・SPOジム利用特典"
     ],
     "has_crunch_bench": false,
     "has_study_room": true,
@@ -2200,9 +2339,11 @@ const PSPO_STORES = [
       "esthe": false,
       "sauna": false,
       "golf": false,
-      "cafe": false,
-      "staffed": null
-    }
+      "cafe": true,
+      "staffed": null,
+      "office": true
+    },
+    "has_office_reg": true
   },
   {
     "id": "worksmitakara",
@@ -2223,7 +2364,12 @@ const PSPO_STORES = [
     "tags": [
       "コワーキング",
       "会議室",
-      "スタディ自習室"
+      "スタディ自習室",
+      "法人登記",
+      "住所利用",
+      "専用ポスト",
+      "WEB会議室",
+      "P・SPOジム利用特典"
     ],
     "has_crunch_bench": false,
     "has_study_room": true,
@@ -2232,9 +2378,11 @@ const PSPO_STORES = [
       "esthe": false,
       "sauna": false,
       "golf": false,
-      "cafe": false,
-      "staffed": null
-    }
+      "cafe": true,
+      "staffed": null,
+      "office": true
+    },
+    "has_office_reg": true
   },
   {
     "id": "laundry",
@@ -2263,8 +2411,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "Billiards&#038;Darts",
@@ -2294,8 +2444,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "kankoko",
@@ -2324,8 +2476,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "sanpuku_lounge",
@@ -2357,8 +2511,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "base",
@@ -2390,8 +2546,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "furugikitasaya",
@@ -2421,8 +2579,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "laundrybefu",
@@ -2451,8 +2611,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "beauty_chuodori",
@@ -2481,8 +2643,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "beauty_daino",
@@ -2511,8 +2675,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "naturalbeauty_tohon",
@@ -2542,8 +2708,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "store_79",
@@ -2574,8 +2742,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "store_80",
@@ -2608,8 +2778,10 @@ const PSPO_STORES = [
       "sauna": true,
       "golf": false,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "marriyell_imabari",
@@ -2642,8 +2814,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": true,
       "cafe": true,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "loungebeauty_okaido",
@@ -2673,8 +2847,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "epi_emifull",
@@ -2703,8 +2879,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "epi_okaido",
@@ -2734,8 +2912,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "eyecare",
@@ -2765,8 +2945,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "asahikawa",
@@ -2795,8 +2977,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": false,
-      "staffed": true
-    }
+      "staffed": true,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "seishiro",
@@ -2825,8 +3009,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "chitahandaekimae",
@@ -2855,8 +3041,10 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   },
   {
     "id": "handasumiyoshi",
@@ -2888,7 +3076,9 @@ const PSPO_STORES = [
       "sauna": false,
       "golf": false,
       "cafe": true,
-      "staffed": null
-    }
+      "staffed": null,
+      "office": false
+    },
+    "has_office_reg": false
   }
 ];

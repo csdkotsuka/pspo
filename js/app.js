@@ -48,6 +48,11 @@
     btnRecenterEhime: document.getElementById('btn-recenter-ehime'),
     btnRecenterMatsuyama: document.getElementById('btn-recenter-matsuyama'),
     btnScrollToList: document.getElementById('btn-scroll-to-list'),
+    // Quiz Elements
+    btnOpenQuiz: document.getElementById('btn-open-quiz'),
+    quizModal: document.getElementById('quiz-modal'),
+    btnQuizClose: document.getElementById('btn-quiz-close'),
+    quizBody: document.getElementById('quiz-body-container'),
     // Mobile Nav
     navBtnList: document.getElementById('nav-btn-list'),
     navBtnMap: document.getElementById('nav-btn-map'),
@@ -85,6 +90,7 @@
   function updateCategoryCounts() {
     const total = state.stores.length;
     const fav = state.favorites.size;
+    const office = state.stores.filter(s => s.has_office_reg || (s.features && s.features.office)).length;
     const crunch = state.stores.filter(s => s.has_crunch_bench).length;
     const study = state.stores.filter(s => s.has_study_room).length;
     const sauna = state.stores.filter(s => s.features && s.features.sauna).length;
@@ -95,6 +101,7 @@
 
     const elCountAll = document.getElementById('count-all');
     const elCountFav = document.getElementById('count-fav');
+    const elCountOffice = document.getElementById('count-office');
     const elCountCrunch = document.getElementById('count-crunch');
     const elCountStudy = document.getElementById('count-study');
     const elCountSauna = document.getElementById('count-sauna');
@@ -105,6 +112,7 @@
 
     if (elCountAll) elCountAll.textContent = total;
     if (elCountFav) elCountFav.textContent = fav;
+    if (elCountOffice) elCountOffice.textContent = office;
     if (elCountCrunch) elCountCrunch.textContent = crunch;
     if (elCountStudy) elCountStudy.textContent = study;
     if (elCountSauna) elCountSauna.textContent = sauna;
@@ -195,7 +203,10 @@
     let pinClass = 'pin-default';
     let iconSymbol = '🏢';
 
-    if (store.has_crunch_bench) {
+    if (store.has_office_reg || (store.features && store.features.office)) {
+      pinClass = 'pin-office';
+      iconSymbol = '💼';
+    } else if (store.has_crunch_bench) {
       pinClass = 'pin-crunch';
       iconSymbol = '🏋️';
     } else if (store.has_study_room) {
@@ -263,6 +274,8 @@
     const googleNavUrl = getGoogleMapsNavUrl(store);
     const isFav = state.favorites && state.favorites.has(store.id);
 
+    let officeBadge = (store.has_office_reg || (store.features && store.features.office))
+      ? '<span class="tag-badge office-badge">💼 法人登記・オフィスOK</span>' : '';
     let crunchBadge = store.has_crunch_bench ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ</span>' : '';
     let studyBadge = store.has_study_room ? '<span class="tag-badge study-badge">📖 スタディROOM</span>' : '';
     let tennisBadge = ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス')))
@@ -286,6 +299,7 @@
           </div>
         </div>
         <div class="popup-tags">
+          ${officeBadge}
           ${crunchBadge}
           ${studyBadge}
           ${tennisBadge}
@@ -330,6 +344,8 @@
     // Quick Filter
     if (state.activeQuickFilter === 'fav') {
       results = results.filter(s => state.favorites.has(s.id));
+    } else if (state.activeQuickFilter === 'office') {
+      results = results.filter(s => s.has_office_reg || (s.features && s.features.office));
     } else if (state.activeQuickFilter === 'crunch') {
       results = results.filter(s => s.has_crunch_bench);
     } else if (state.activeQuickFilter === 'study') {
@@ -362,7 +378,9 @@
 
     // Feature Flags Pills
     state.activeFeatures.forEach(feat => {
-      if (feat === 'has_crunch_bench') {
+      if (feat === 'office') {
+        results = results.filter(s => s.has_office_reg || (s.features && s.features.office));
+      } else if (feat === 'has_crunch_bench') {
         results = results.filter(s => s.has_crunch_bench);
       } else if (feat === 'has_study_room') {
         results = results.filter(s => s.has_study_room);
@@ -514,6 +532,9 @@
       let favBadge = isFav
         ? '<span class="tag-badge fav-badge">⭐ お気に入り</span>'
         : '';
+      let officeBadge = (store.has_office_reg || (store.features && store.features.office))
+        ? '<span class="tag-badge office-badge">💼 法人登記・オフィスOK</span>'
+        : '';
       let crunchBadge = store.has_crunch_bench
         ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ設置</span>'
         : '';
@@ -556,6 +577,7 @@
 
         <div class="card-tags">
           ${favBadge}
+          ${officeBadge}
           ${crunchBadge}
           ${studyBadge}
           ${tennisBadge}
@@ -608,7 +630,17 @@
 
   // Update Spotlight Banner
   function updateSpotlightBanner() {
-    if (state.activeQuickFilter === 'crunch' || state.activeFeatures.has('has_crunch_bench')) {
+    if (state.activeQuickFilter === 'office' || state.activeFeatures.has('office')) {
+      el.spotlightBanner.className = 'spotlight-banner office';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">💼</div>
+        <div class="spotlight-info">
+          <h4>💼 P・SPO WORKS（会社設立・法人登記・住所利用対応オフィス）</h4>
+          <p>起業・法人登記・住所利用・専用ポスト・会議室完備！24時間利用でき、P・SPO各店のジムも使える松山市駅近くの湊町店＆御宝店です。</p>
+        </div>
+      `;
+    } else if (state.activeQuickFilter === 'crunch' || state.activeFeatures.has('has_crunch_bench')) {
       el.spotlightBanner.className = 'spotlight-banner';
       el.spotlightBanner.style.display = 'flex';
       el.spotlightBanner.innerHTML = `
@@ -727,6 +759,16 @@
     const googleNavUrl = getGoogleMapsNavUrl(store);
     const isFav = state.favorites && state.favorites.has(store.id);
 
+    let officeSection = '';
+    if (store.has_office_reg || (store.features && store.features.office)) {
+      officeSection = `
+        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px; margin:14px 0;">
+          <strong style="color:#1d4ed8; font-size:0.9rem;">💼 法人登記・住所利用・シェアオフィス対応店舗</strong>
+          <p style="font-size:0.78rem; color:#1e3a8a; margin-top:2px;">会社設立・法人登記やビジネス住所登録が可能！専用ポスト・WEBブース・会議室完備。さらにP・SPO各店のジムや自習室も使える起業家・フリーランス必見のワークスペースです。</p>
+        </div>
+      `;
+    }
+
     let benchSection = '';
     if (store.has_crunch_bench) {
       benchSection = `
@@ -781,6 +823,7 @@
       <h2 style="font-size:1.25rem; font-weight:800; margin:4px 0 8px 0; color:#1c1c1e;">${store.title}</h2>
       <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">📍 ${store.address}</p>
 
+      ${officeSection}
       ${benchSection}
       ${studySection}
       ${tennisSection}
@@ -1022,10 +1065,26 @@
       }
     }, { passive: true });
 
+    // Quiz Modal Listeners
+    if (el.btnOpenQuiz) {
+      el.btnOpenQuiz.addEventListener('click', openQuizModal);
+    }
+    if (el.btnQuizClose) {
+      el.btnQuizClose.addEventListener('click', closeQuizModal);
+    }
+    if (el.quizModal) {
+      el.quizModal.addEventListener('click', (e) => {
+        if (!e.target.closest('.modal-card')) {
+          closeQuizModal();
+        }
+      });
+    }
+
     // Keyboard ESC key to close modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeStoreModal();
+        closeQuizModal();
         if (el.mobilePreview) el.mobilePreview.style.display = 'none';
       }
     });
@@ -1121,6 +1180,344 @@
     if (el.navBtnNearby) {
       el.navBtnNearby.addEventListener('click', locateUser);
     }
+
+    initQuizTabs();
+  }
+
+  // ==========================================================================
+  // PSPO EXAM QUIZ CONTROLLER
+  // ==========================================================================
+  const quizState = {
+    activeTab: 'exam',
+    examQuestions: [],
+    currentIndex: 0,
+    score: 0,
+    isAnswered: false,
+    genreQuestions: [],
+    genreIndex: 0,
+    genreScore: 0,
+    isGenreAnswered: false,
+    selectedGenreName: '',
+    archiveKeyword: ''
+  };
+
+  const GENRES_INFO = [
+    { key: 'unique', name: 'ユニーク・エンタメ店舗編', icon: '🐷', desc: 'ブタカフェ、うどん、酒場、ピアノ、古着、大人の秘密基地など' },
+    { key: 'spa', name: '温泉・サウナ・スパ施設編', icon: '♨️', desc: 'ていれぎの湯、本谷温泉、湯砥里館とべ温泉、SAUNA大街道など' },
+    { key: 'sports', name: '本格スポーツ・アクティビティ編', icon: '⚾', desc: 'MEGA東石井の野球/テニス、DAINO土居田ボルダリング、ゴルフなど' },
+    { key: 'beauty', name: '女性専用・ビューティー編', icon: '💆', desc: '土橋/湊町2号店、マシンピラティス、よもぎ蒸し、染ときなど' },
+    { key: 'office', name: 'オフィス・法人登記・自習室編', icon: '💼', desc: 'P・SPO WORKS湊町/御宝店、法人登記、専用ポスト、24時間利用など' },
+    { key: 'machines', name: 'トレーニングマシン・バイオ編', icon: '🏋️', desc: 'Technogymバイオサーキット、クランクベンチ、酸素カプセルなど' },
+    { key: 'regions', name: '地域・エリア展開・県外店舗編', icon: '🗺️', desc: '松山・東温・砥部・今治・東予・南予、愛知県、北海道旭川など' },
+    { key: 'collab', name: '複合・コラボ・mac併設編', icon: '🏪', desc: 'ドラッグストアmac併設、マリエール今治、ワールドプラザなど' },
+    { key: 'systems', name: '施設利用・システム・特典編', icon: '📱', desc: '顔認証/QRコード、全店舗相互利用、土足OK、セキュリティなど' },
+    { key: 'history', name: '運営会社・三福グループの歴史編', icon: '🏛️', desc: '三福グループ、P・SPO創業の歩み、理念、検定1年無料特典など' }
+  ];
+
+  function openQuizModal() {
+    if (!el.quizModal) return;
+    el.quizModal.style.display = 'flex';
+    switchQuizTab('exam');
+  }
+
+  function closeQuizModal() {
+    if (!el.quizModal) return;
+    el.quizModal.style.display = 'none';
+  }
+
+  function initQuizTabs() {
+    document.querySelectorAll('.quiz-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        switchQuizTab(tab);
+      });
+    });
+  }
+
+  function switchQuizTab(tab) {
+    quizState.activeTab = tab;
+    document.querySelectorAll('.quiz-tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+
+    if (tab === 'exam') {
+      startExam();
+    } else if (tab === 'genres') {
+      renderGenresView();
+    } else if (tab === 'archive') {
+      renderArchiveView();
+    }
+  }
+
+  // --- 模擬検定モード（10問） ---
+  function startExam() {
+    if (typeof PSPO_QUIZ_DATA === 'undefined' || !PSPO_QUIZ_DATA.length) {
+      if (el.quizBody) el.quizBody.innerHTML = '<p style="text-align:center; padding:30px;">クイズデータを読み込み中...</p>';
+      return;
+    }
+
+    // 10ジャンルから各1問ずつランダム抽出してバランスよく出題
+    const selected = [];
+    const genreKeys = ['unique', 'spa', 'sports', 'beauty', 'office', 'machines', 'regions', 'collab', 'systems', 'history'];
+
+    genreKeys.forEach(gKey => {
+      const gQuestions = PSPO_QUIZ_DATA.filter(q => q.genre === gKey);
+      if (gQuestions.length > 0) {
+        const randQ = gQuestions[Math.floor(Math.random() * gQuestions.length)];
+        selected.push(randQ);
+      }
+    });
+
+    // シャッフル
+    selected.sort(() => Math.random() - 0.5);
+
+    quizState.examQuestions = selected;
+    quizState.currentIndex = 0;
+    quizState.score = 0;
+    quizState.isAnswered = false;
+
+    renderExamQuestion();
+  }
+
+  function renderExamQuestion() {
+    const q = quizState.examQuestions[quizState.currentIndex];
+    if (!q) {
+      showExamResult();
+      return;
+    }
+
+    quizState.isAnswered = false;
+    const progressPercent = ((quizState.currentIndex + 1) / quizState.examQuestions.length) * 100;
+    const prefixes = ['A', 'B', 'C', 'D'];
+
+    let optionsHtml = q.options.map((opt, idx) => `
+      <button class="quiz-opt-btn" data-index="${idx}" type="button">
+        <span class="quiz-opt-prefix">${prefixes[idx]}</span>
+        <span>${opt}</span>
+      </button>
+    `).join('');
+
+    el.quizBody.innerHTML = `
+      <div class="quiz-box">
+        <div class="quiz-meta-row">
+          <span class="quiz-genre-badge">${q.genreName}</span>
+          <span class="quiz-counter">問題 ${quizState.currentIndex + 1} / ${quizState.examQuestions.length}</span>
+        </div>
+        <div class="quiz-progress-bar-wrap">
+          <div class="quiz-progress-fill" style="width: ${progressPercent}%;"></div>
+        </div>
+        <h4 class="quiz-question-text">Q. ${q.question}</h4>
+        <div class="quiz-options-list" id="exam-options-wrap">
+          ${optionsHtml}
+        </div>
+        <div id="exam-feedback-wrap" style="display:none;"></div>
+      </div>
+    `;
+
+    // Listeners for options
+    const optButtons = el.quizBody.querySelectorAll('.quiz-opt-btn');
+    optButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (quizState.isAnswered) return;
+        handleExamAnswer(parseInt(btn.dataset.index, 10));
+      });
+    });
+  }
+
+  function handleExamAnswer(selectedIndex) {
+    quizState.isAnswered = true;
+    const q = quizState.examQuestions[quizState.currentIndex];
+    const isCorrect = selectedIndex === q.answer;
+
+    if (isCorrect) {
+      quizState.score += 10;
+    }
+
+    const optButtons = el.quizBody.querySelectorAll('.quiz-opt-btn');
+    optButtons.forEach((b, idx) => {
+      b.disabled = true;
+      if (idx === q.answer) {
+        b.classList.add('correct');
+      } else if (idx === selectedIndex) {
+        b.classList.add('wrong');
+      }
+    });
+
+    const isLast = quizState.currentIndex === quizState.examQuestions.length - 1;
+    const nextBtnText = isLast ? '結果発表を見る 🏆' : '次の問題へ ➔';
+
+    const feedbackWrap = document.getElementById('exam-feedback-wrap');
+    if (feedbackWrap) {
+      feedbackWrap.style.display = 'block';
+      feedbackWrap.innerHTML = `
+        <div class="quiz-feedback-box ${isCorrect ? 'is-correct' : 'is-wrong'}">
+          <div class="quiz-feedback-header">
+            ${isCorrect ? '🎉 正解！' : '😢 残念、不正解…'}
+          </div>
+          <p class="quiz-feedback-exp"><strong>正解：</strong> ${q.options[q.answer]}</p>
+          <p class="quiz-feedback-exp" style="margin-top:6px;">${q.explanation}</p>
+          <button id="btn-next-question" class="quiz-next-btn" type="button">${nextBtnText}</button>
+        </div>
+      `;
+
+      const btnNext = document.getElementById('btn-next-question');
+      if (btnNext) {
+        btnNext.addEventListener('click', () => {
+          quizState.currentIndex++;
+          if (quizState.currentIndex < quizState.examQuestions.length) {
+            renderExamQuestion();
+          } else {
+            showExamResult();
+          }
+        });
+      }
+    }
+  }
+
+  function showExamResult() {
+    const totalScore = quizState.score;
+    let rankTitle = '';
+    let rankMsg = '';
+    let crownIcon = '👑';
+
+    if (totalScore === 100) {
+      crownIcon = '👑';
+      rankTitle = '【満点】神レベル！PSPOマスター！';
+      rankMsg = '驚異の全問正解！愛媛県内85店舗＋全施設を知り尽くした本物のマニアです！これなら本番のPSPO検定でも「1年分の会費無料」獲得間違いなしです！';
+    } else if (totalScore >= 80) {
+      crownIcon = '🥇';
+      rankTitle = '【合格圏内】PSPOエキスパート！';
+      rankMsg = '素晴らしい正解率です！各店舗の特徴や設備をしっかり把握できています。間違えた問題を復習すれば満点合格を狙えます！';
+    } else if (totalScore >= 60) {
+      crownIcon = '🥈';
+      rankTitle = '【あと一歩】PSPOアドバイザー！';
+      rankMsg = '惜しい！日常で使う店舗の知識はバッチリです。ユニーク店舗やオフィス、県外店舗の知識を補強して再チャレンジしましょう！';
+    } else {
+      crownIcon = '🥉';
+      rankTitle = '【勉強中】PSPOビギナー！';
+      rankMsg = 'まだまだ伸びしろがたくさんあります！「100問完全問題集」をチェックして、P・SPOの驚くほど多彩な店舗を攻略していきましょう！';
+    }
+
+    el.quizBody.innerHTML = `
+      <div class="quiz-box quiz-result-view">
+        <div class="quiz-result-crown">${crownIcon}</div>
+        <h3 class="quiz-result-title">模擬検定 採点結果</h3>
+        <div class="quiz-score-badge">${totalScore} 点 <span style="font-size:1.1rem; color:#64748b;">/ 100点</span></div>
+        <div class="quiz-eval-rank">${rankTitle}</div>
+        <p class="quiz-eval-msg">${rankMsg}</p>
+        <div class="quiz-result-actions">
+          <button id="btn-result-retry" class="btn-quiz-retry" type="button">🔄 別の問題で再挑戦 (10問)</button>
+          <button id="btn-result-genres" class="btn-quiz-mode" type="button">🎯 ジャンル別攻略</button>
+          <button id="btn-result-archive" class="btn-quiz-mode" type="button">📖 100問完全問題集</button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('btn-result-retry').addEventListener('click', startExam);
+    document.getElementById('btn-result-genres').addEventListener('click', () => switchQuizTab('genres'));
+    document.getElementById('btn-result-archive').addEventListener('click', () => switchQuizTab('archive'));
+  }
+
+  // --- ジャンル別攻略モード ---
+  function renderGenresView() {
+    let cardsHtml = GENRES_INFO.map(g => {
+      const qCount = (typeof PSPO_QUIZ_DATA !== 'undefined') ? PSPO_QUIZ_DATA.filter(q => q.genre === g.key).length : 10;
+      return `
+        <div class="genre-card" data-genre="${g.key}">
+          <div>
+            <div class="genre-card-title">${g.icon} ${g.name}</div>
+            <p class="genre-card-desc">${g.desc}</p>
+          </div>
+          <div class="genre-card-footer">
+            <span>全 ${qCount} 問</span>
+            <span>挑戦する ➔</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    el.quizBody.innerHTML = `
+      <div style="margin-bottom:14px;">
+        <h4 style="font-size:1rem; font-weight:800; color:#1e293b;">🎯 ジャンル別 集中攻略</h4>
+        <p style="font-size:0.8rem; color:#64748b;">苦手な分野を選んで10問集中トレーニング！弱点を克服しよう。</p>
+      </div>
+      <div class="quiz-genre-grid">
+        ${cardsHtml}
+      </div>
+    `;
+
+    el.quizBody.querySelectorAll('.genre-card').forEach(card => {
+      card.addEventListener('click', () => {
+        startGenreExam(card.dataset.genre);
+      });
+    });
+  }
+
+  function startGenreExam(genreKey) {
+    const genreInfo = GENRES_INFO.find(g => g.key === genreKey);
+    const questions = PSPO_QUIZ_DATA.filter(q => q.genre === genreKey);
+
+    quizState.examQuestions = [...questions];
+    quizState.currentIndex = 0;
+    quizState.score = 0;
+    quizState.isAnswered = false;
+
+    renderExamQuestion();
+  }
+
+  // --- 100問完全問題集モード ---
+  function renderArchiveView(searchKeyword = '') {
+    if (typeof PSPO_QUIZ_DATA === 'undefined') return;
+
+    let filtered = PSPO_QUIZ_DATA;
+    if (searchKeyword.trim()) {
+      const k = searchKeyword.toLowerCase().trim();
+      filtered = filtered.filter(q => {
+        return q.question.toLowerCase().includes(k) ||
+               q.explanation.toLowerCase().includes(k) ||
+               q.options.some(opt => opt.toLowerCase().includes(k)) ||
+               q.genreName.toLowerCase().includes(k);
+      });
+    }
+
+    let cardsHtml = filtered.map(q => `
+      <div class="archive-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span class="quiz-genre-badge">${q.genreName}</span>
+          <span style="font-size:0.75rem; font-weight:700; color:#94a3b8;">Q${q.id}</span>
+        </div>
+        <div class="archive-card-q">${q.question}</div>
+        <div class="archive-card-ans">【正解】 ${q.options[q.answer]}</div>
+        <div class="archive-card-exp">💡 ${q.explanation}</div>
+      </div>
+    `).join('');
+
+    if (filtered.length === 0) {
+      cardsHtml = '<p style="text-align:center; padding:30px; color:#94a3b8;">該当する問題が見つかりませんでした。</p>';
+    }
+
+    el.quizBody.innerHTML = `
+      <div class="quiz-archive-container">
+        <div class="archive-search-box">
+          <input type="text" id="quiz-archive-search" class="archive-search-input" placeholder="🔍 キーワードで問題を検索（例: サウナ、登記、ブタ、クランク）..." value="${searchKeyword}">
+        </div>
+        <div style="font-size:0.78rem; color:#64748b; margin-bottom:4px;">全 ${filtered.length} 問 表示中</div>
+        ${cardsHtml}
+      </div>
+    `;
+
+    const searchInput = document.getElementById('quiz-archive-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        renderArchiveView(e.target.value);
+        // keep focus and cursor at end
+        const nextInput = document.getElementById('quiz-archive-search');
+        if (nextInput) {
+          nextInput.focus();
+          nextInput.selectionStart = nextInput.selectionEnd = nextInput.value.length;
+        }
+      });
+    }
   }
 
   // Global Helpers for HTML inline calls
@@ -1139,6 +1536,8 @@
     if (store) openStoreModal(store);
   };
 
+  window.pspoOpenQuiz = openQuizModal;
+
   // Launch on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -1147,3 +1546,4 @@
   }
 
 })();
+
