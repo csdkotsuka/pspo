@@ -838,13 +838,25 @@
       return;
     }
 
-    el.btnLocateMe.classList.add('loading');
-    el.btnLocateMe.querySelector('.btn-text').textContent = '取得中...';
+    if (el.btnLocateMe) {
+      el.btnLocateMe.classList.add('loading');
+      const textNode = el.btnLocateMe.querySelector('.btn-text');
+      if (textNode) textNode.textContent = '取得中...';
+    }
+    if (el.btnMapLocate) {
+      el.btnMapLocate.classList.add('loading');
+    }
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        el.btnLocateMe.classList.remove('loading');
-        el.btnLocateMe.querySelector('.btn-text').textContent = '現在地';
+        if (el.btnLocateMe) {
+          el.btnLocateMe.classList.remove('loading');
+          const textNode = el.btnLocateMe.querySelector('.btn-text');
+          if (textNode) textNode.textContent = '現在地';
+        }
+        if (el.btnMapLocate) {
+          el.btnMapLocate.classList.remove('loading');
+        }
 
         state.userLocation = {
           lat: pos.coords.latitude,
@@ -882,8 +894,14 @@
         }
       },
       (err) => {
-        el.btnLocateMe.classList.remove('loading');
-        el.btnLocateMe.querySelector('.btn-text').textContent = '現在地';
+        if (el.btnLocateMe) {
+          el.btnLocateMe.classList.remove('loading');
+          const textNode = el.btnLocateMe.querySelector('.btn-text');
+          if (textNode) textNode.textContent = '現在地';
+        }
+        if (el.btnMapLocate) {
+          el.btnMapLocate.classList.remove('loading');
+        }
         console.warn('Geolocation error:', err);
         alert('位置情報の取得に失敗しました。端末の位置情報許可設定をご確認ください。');
       },
@@ -967,8 +985,12 @@
     });
 
     // Location Buttons
-    el.btnLocateMe.addEventListener('click', locateUser);
-    el.btnMapLocate.addEventListener('click', locateUser);
+    if (el.btnLocateMe) {
+      el.btnLocateMe.addEventListener('click', locateUser);
+    }
+    if (el.btnMapLocate) {
+      el.btnMapLocate.addEventListener('click', locateUser);
+    }
 
     // Map Recenter Buttons
     el.btnRecenterEhime.addEventListener('click', () => {
