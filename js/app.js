@@ -110,6 +110,16 @@
     });
   }
 
+  // Helper to check if store offers karaoke box
+  function isKaraokeStore(store) {
+    return !!(
+      (store.features && store.features.karaoke) ||
+      (store.tags && (store.tags.includes('カラオケ') || store.tags.includes('カラオケボックス'))) ||
+      (store.title && store.title.includes('カラオケ')) ||
+      (store.name && store.name.includes('カラオケ'))
+    );
+  }
+
   // Update quick filter counts
   function updateCategoryCounts() {
     const total = state.stores.length;
@@ -122,6 +132,7 @@
     const tennis = state.stores.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス'))).length;
     const boulder = state.stores.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング'))).length;
     const cafe = state.stores.filter(s => s.features && s.features.cafe).length;
+    const karaoke = state.stores.filter(isKaraokeStore).length;
 
     const elCountAll = document.getElementById('count-all');
     const elCountFav = document.getElementById('count-fav');
@@ -133,6 +144,7 @@
     const elCountTennis = document.getElementById('count-tennis');
     const elCountBoulder = document.getElementById('count-boulder');
     const elCountCafe = document.getElementById('count-cafe');
+    const elCountKaraoke = document.getElementById('count-karaoke');
 
     if (elCountAll) elCountAll.textContent = total;
     if (elCountFav) elCountFav.textContent = fav;
@@ -144,6 +156,7 @@
     if (elCountTennis) elCountTennis.textContent = tennis;
     if (elCountBoulder) elCountBoulder.textContent = boulder;
     if (elCountCafe) elCountCafe.textContent = cafe;
+    if (elCountKaraoke) elCountKaraoke.textContent = karaoke;
   }
 
   // Toggle Favorite
@@ -250,6 +263,9 @@
     } else if ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング'))) {
       pinClass = 'pin-boulder';
       iconSymbol = '🧗';
+    } else if (isKaraokeStore(store)) {
+      pinClass = 'pin-karaoke';
+      iconSymbol = '🎤';
     } else if (store.features && store.features.gym) {
       pinClass = 'pin-gym';
       iconSymbol = '💪';
@@ -311,6 +327,8 @@
       ? '<span class="tag-badge tennis-badge">🎾 テニス</span>' : '';
     let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
       ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>' : '';
+    let karaokeBadge = isKaraokeStore(store)
+      ? '<span class="tag-badge karaoke-badge">🎤 カラオケボックス</span>' : '';
 
     return `
       <div class="popup-card">
@@ -333,6 +351,7 @@
           ${studyBadge}
           ${tennisBadge}
           ${boulderBadge}
+          ${karaokeBadge}
           <span class="tag-badge">🕒 ${store.hours}</span>
           <span class="tag-badge">🅿️ ${store.parking}</span>
         </div>
@@ -389,6 +408,8 @@
       results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
     } else if (state.activeQuickFilter === 'cafe') {
       results = results.filter(s => s.features && s.features.cafe);
+    } else if (state.activeQuickFilter === 'karaoke') {
+      results = results.filter(isKaraokeStore);
     }
 
     // Area Select
@@ -417,6 +438,8 @@
         results = results.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス')));
       } else if (feat === 'boulder') {
         results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
+      } else if (feat === 'karaoke') {
+        results = results.filter(isKaraokeStore);
       } else {
         results = results.filter(s => s.features && s.features[feat]);
       }
@@ -585,8 +608,12 @@
       let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
         ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>'
         : '';
+      let karaokeBadge = isKaraokeStore(store)
+        ? '<span class="tag-badge karaoke-badge">🎤 カラオケボックス</span>'
+        : '';
 
-      const tagsHtml = (store.tags || []).slice(0, 4).map(t => `<span class="tag-badge">${t}</span>`).join('');
+      const filteredTags = (store.tags || []).filter(t => !karaokeBadge || (t !== 'カラオケ' && t !== 'カラオケボックス'));
+      const tagsHtml = filteredTags.slice(0, 4).map(t => `<span class="tag-badge">${t}</span>`).join('');
 
       const appleNavUrl = getAppleMapsNavUrl(store);
       const googleNavUrl = getGoogleMapsNavUrl(store);
@@ -620,6 +647,7 @@
           ${studyBadge}
           ${tennisBadge}
           ${boulderBadge}
+          ${karaokeBadge}
           ${tagsHtml}
         </div>
 
@@ -732,6 +760,16 @@
         <div class="spotlight-info">
           <h4>🧗 愛媛県最大級 本格ボルダリング（DAINO土居田店）</h4>
           <p>初心者から上級者まで登れる本格ウォール！P・SPO会員は利用料・シューズ・チョークレンタルすべて無料です。</p>
+        </div>
+      `;
+    } else if (state.activeQuickFilter === 'karaoke' || state.activeFeatures.has('karaoke')) {
+      el.spotlightBanner.className = 'spotlight-banner karaoke';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">🎤</div>
+        <div class="spotlight-info">
+          <h4>🎤 カラオケボックス・個室カラオケ設置店舗 (${state.filteredStores.length}店舗)</h4>
+          <p>防音個室でカラオケや楽器演奏、歌の練習が楽しめる！清水町店・二番町店・北条店・ワールドプラザ店・本谷温泉で利用可能です。</p>
         </div>
       `;
     } else {
@@ -866,6 +904,16 @@
       `;
     }
 
+    let karaokeSection = '';
+    if (isKaraokeStore(store)) {
+      karaokeSection = `
+        <div style="background:#fdf2f8; border:1px solid #fbcfe8; border-radius:12px; padding:12px; margin:14px 0;">
+          <strong style="color:#be185d; font-size:0.9rem;">🎤 カラオケボックス・個室カラオケ完備</strong>
+          <p style="font-size:0.78rem; color:#9d174d; margin-top:2px;">最新のカラオケ設備を備えた防音個室！歌の練習やリフレッシュ、お友達との楽しい時間に利用可能です。</p>
+        </div>
+      `;
+    }
+
     el.modalBody.innerHTML = `
       <div style="position:relative; margin-bottom:14px;">
         <img src="${store.image}" alt="${store.title}" style="width:100%; height:190px; object-fit:cover; border-radius:12px;" onerror="this.src='assets/logo.png'">
@@ -882,6 +930,7 @@
       ${studySection}
       ${tennisSection}
       ${boulderSection}
+      ${karaokeSection}
 
       <div style="background:#f8fafc; border-radius:10px; padding:12px; margin-bottom:16px; font-size:0.82rem; display:flex; flex-direction:column; gap:6px;">
         <div><strong>🕒 営業時間:</strong> ${store.hours}</div>

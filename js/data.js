@@ -35,7 +35,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -70,7 +71,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -107,7 +109,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -143,7 +146,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -178,7 +182,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -214,7 +219,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -248,7 +254,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -284,7 +291,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -318,7 +326,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -351,7 +360,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -383,7 +393,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -416,7 +427,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -455,7 +467,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": true
     },
     "has_office_reg": false
   },
@@ -491,7 +504,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -527,7 +541,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": true
     },
     "has_office_reg": false
   },
@@ -564,7 +579,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -597,7 +613,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -630,7 +647,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -664,7 +682,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -696,7 +715,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -728,7 +748,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -762,7 +783,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -794,7 +816,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -829,7 +852,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -864,7 +888,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -899,7 +924,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -933,7 +959,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -968,7 +995,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1002,7 +1030,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1038,7 +1067,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1071,7 +1101,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1109,7 +1140,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1145,7 +1177,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1181,7 +1214,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1217,7 +1251,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1253,7 +1288,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1285,7 +1321,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1318,7 +1355,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1354,7 +1392,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1386,7 +1425,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1418,7 +1458,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1450,7 +1491,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1482,7 +1524,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1514,7 +1557,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1546,7 +1590,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1578,7 +1623,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1610,7 +1656,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1642,7 +1689,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1674,7 +1722,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1707,7 +1756,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1740,7 +1790,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1774,7 +1825,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1806,7 +1858,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1839,7 +1892,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1873,7 +1927,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1905,7 +1960,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1938,7 +1994,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -1970,7 +2027,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2003,7 +2061,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2037,7 +2096,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2069,7 +2129,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2102,7 +2163,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2135,7 +2197,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2169,7 +2232,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": true
     },
     "has_office_reg": false
   },
@@ -2202,7 +2266,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2236,7 +2301,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": true
     },
     "has_office_reg": false
   },
@@ -2268,7 +2334,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": true
     },
     "has_office_reg": false
   },
@@ -2302,7 +2369,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2341,7 +2409,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": true
+      "office": true,
+      "karaoke": false
     },
     "has_office_reg": true
   },
@@ -2380,7 +2449,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": true
+      "office": true,
+      "karaoke": false
     },
     "has_office_reg": true
   },
@@ -2412,7 +2482,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2445,7 +2516,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2477,7 +2549,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2512,7 +2585,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2547,7 +2621,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2580,7 +2655,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2612,7 +2688,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2644,7 +2721,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2676,7 +2754,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2709,7 +2788,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2743,7 +2823,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2779,7 +2860,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2815,7 +2897,8 @@ const PSPO_STORES = [
       "golf": true,
       "cafe": true,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2848,7 +2931,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2880,7 +2964,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2913,7 +2998,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2946,7 +3032,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -2978,7 +3065,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": false,
       "staffed": true,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -3010,7 +3098,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -3042,7 +3131,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   },
@@ -3077,7 +3167,8 @@ const PSPO_STORES = [
       "golf": false,
       "cafe": true,
       "staffed": null,
-      "office": false
+      "office": false,
+      "karaoke": false
     },
     "has_office_reg": false
   }

@@ -261,6 +261,12 @@ body {
   color: #fff;
 }
 
+.quick-btn.q-karaoke.active {
+  background: #db2777;
+  border-color: #db2777;
+  color: #fff;
+}
+
 .btn-quiz {
   display: inline-flex;
   align-items: center;
@@ -450,6 +456,7 @@ body {
 .pill-dot.tennis { background: #84cc16; }
 .pill-dot.boulder { background: #f97316; }
 .pill-dot.office { background: #1e3a8a; }
+.pill-dot.karaoke { background: #db2777; }
 .pill-dot.staffed { background: #f59e0b; }
 
 /* Status Bar */
@@ -495,6 +502,11 @@ body {
 .spotlight-banner.boulder {
   background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
   border-bottom: 1px solid #fed7aa;
+}
+
+.spotlight-banner.karaoke {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+  border-bottom: 1px solid #fbcfe8;
 }
 
 .spotlight-banner img {
@@ -729,6 +741,13 @@ body {
   font-weight: 700;
 }
 
+.tag-badge.karaoke-badge {
+  background: #fdf2f8;
+  color: #be185d;
+  border: 1px solid #fbcfe8;
+  font-weight: 700;
+}
+
 .tag-badge.office-badge {
   background: #eff6ff;
   color: #1e40af;
@@ -926,6 +945,10 @@ body {
 
 .pin-boulder {
   background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.pin-karaoke {
+  background: linear-gradient(135deg, #ec4899, #db2777);
 }
 
 .pin-default {
