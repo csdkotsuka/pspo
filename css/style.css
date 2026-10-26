@@ -448,6 +448,8 @@ body {
   background: #94a3b8;
 }
 
+.pill-dot.cafe { background: #b45309; }
+.pill-dot.izakaya { background: #ea580c; }
 .pill-dot.crunch { background: var(--crunch-accent); }
 .pill-dot.study { background: var(--study-accent); }
 .pill-dot.gym { background: #10b981; }

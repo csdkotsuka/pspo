@@ -200,8 +200,8 @@ const PSPO_STORES = [
     "area_name": "松山エリア",
     "category": "staffed",
     "address": "愛媛県松山市中央2-76-1",
-    "lat": 33.842134,
-    "lng": 132.738169,
+    "lat": 33.855394,
+    "lng": 132.747602,
     "hours": "24時間／年中無休",
     "staff_hours": "9:00 &#8211; 21:00",
     "parking": "45台 無料",
@@ -369,7 +369,8 @@ const PSPO_STORES = [
       "cafe": false,
       "staffed": true,
       "office": false,
-      "karaoke": false
+      "karaoke": false,
+      "izakaya": true
     },
     "has_office_reg": false,
     "has_lower_back_bench": false
@@ -451,8 +452,8 @@ const PSPO_STORES = [
     "area_name": "愛媛県内エリア",
     "category": "staffed",
     "address": "愛媛県西条市河之内甲494",
-    "lat": 33.9015,
-    "lng": 133.092,
+    "lat": 33.929373,
+    "lng": 133.019079,
     "hours": "営業時間：10:00〜22:00（21:30 札止め）<br>※毎月第4水曜日は12:00〜22:00<br>\r\n        休館日：なし",
     "staff_hours": null,
     "parking": "50台 無料",
@@ -959,7 +960,7 @@ const PSPO_STORES = [
     "category": "unstaffed",
     "address": "愛媛県伊予市下吾川996-1",
     "lat": 33.768988,
-    "lng": 132.638724,
+    "lng": 132.708762,
     "hours": "24時間／年中無休",
     "staff_hours": null,
     "parking": "104台 無料（共用）",
@@ -1068,7 +1069,7 @@ const PSPO_STORES = [
     "category": "unstaffed",
     "address": "愛媛県松山市姫原2丁目4−28 フジ 2F",
     "lat": 33.867149,
-    "lng": 132.688693,
+    "lng": 132.758731,
     "hours": "24時間／年中無休",
     "staff_hours": null,
     "parking": "288台 無料（共用）",
@@ -2199,8 +2200,8 @@ const PSPO_STORES = [
     "area_name": "松山エリア",
     "category": "specialty",
     "address": "愛媛県松山市大街道2丁目2-1 1F",
-    "lat": 33.839,
-    "lng": 132.767,
+    "lat": 33.838665,
+    "lng": 132.769882,
     "hours": "11:00〜17:00（ランチ）／17:00〜22:00",
     "staff_hours": null,
     "parking": "なし・駐輪場 なし",
@@ -2208,6 +2209,7 @@ const PSPO_STORES = [
     "image": "https://pspo.jp/wp2022/wp-content/uploads/2026/02/sakaba.jpg",
     "detail_url": "https://pspo.jp/sakaba/",
     "tags": [
+      "居酒屋",
       "酒場",
       "ランチ"
     ],
@@ -2221,7 +2223,8 @@ const PSPO_STORES = [
       "cafe": false,
       "staffed": null,
       "office": false,
-      "karaoke": false
+      "karaoke": false,
+      "izakaya": true
     },
     "has_office_reg": false,
     "has_lower_back_bench": false
@@ -2280,7 +2283,8 @@ const PSPO_STORES = [
     "tags": [
       "カラオケ",
       "食堂",
-      "ディナー"
+      "ディナー",
+      "居酒屋"
     ],
     "has_crunch_bench": false,
     "has_study_room": false,
@@ -2292,7 +2296,8 @@ const PSPO_STORES = [
       "cafe": false,
       "staffed": null,
       "office": false,
-      "karaoke": true
+      "karaoke": true,
+      "izakaya": true
     },
     "has_office_reg": false,
     "has_lower_back_bench": false

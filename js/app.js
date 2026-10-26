@@ -120,6 +120,25 @@
     );
   }
 
+  // Helper to check if store offers cafe / study cafe
+  function isCafeStore(store) {
+    return !!(
+      (store.features && store.features.cafe) ||
+      (store.tags && store.tags.some(t => t.includes('カフェ'))) ||
+      (store.title && store.title.includes('Cafe')) ||
+      (store.name && store.name.includes('Cafe'))
+    );
+  }
+
+  // Helper to check if store offers izakaya / sakaba / dining
+  function isIzakayaStore(store) {
+    return !!(
+      (store.features && store.features.izakaya) ||
+      (store.tags && store.tags.some(t => t.includes('居酒屋') || t.includes('酒場') || t.includes('食堂'))) ||
+      (store.title && (store.title.includes('酒場') || store.title.includes('居酒屋') || store.title.includes('食堂')))
+    );
+  }
+
   // Update quick filter counts
   function updateCategoryCounts() {
     const total = state.stores.length;
@@ -131,7 +150,8 @@
     const esthe = state.stores.filter(s => s.features && s.features.esthe).length;
     const tennis = state.stores.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス'))).length;
     const boulder = state.stores.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング'))).length;
-    const cafe = state.stores.filter(s => s.features && s.features.cafe).length;
+    const cafe = state.stores.filter(isCafeStore).length;
+    const izakaya = state.stores.filter(isIzakayaStore).length;
     const karaoke = state.stores.filter(isKaraokeStore).length;
 
     const elCountAll = document.getElementById('count-all');
@@ -144,6 +164,7 @@
     const elCountTennis = document.getElementById('count-tennis');
     const elCountBoulder = document.getElementById('count-boulder');
     const elCountCafe = document.getElementById('count-cafe');
+    const elCountIzakaya = document.getElementById('count-izakaya');
     const elCountKaraoke = document.getElementById('count-karaoke');
 
     if (elCountAll) elCountAll.textContent = total;
@@ -156,6 +177,7 @@
     if (elCountTennis) elCountTennis.textContent = tennis;
     if (elCountBoulder) elCountBoulder.textContent = boulder;
     if (elCountCafe) elCountCafe.textContent = cafe;
+    if (elCountIzakaya) elCountIzakaya.textContent = izakaya;
     if (elCountKaraoke) elCountKaraoke.textContent = karaoke;
   }
 
@@ -263,9 +285,15 @@
     } else if ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング'))) {
       pinClass = 'pin-boulder';
       iconSymbol = '🧗';
+    } else if (isIzakayaStore(store)) {
+      pinClass = 'pin-boulder';
+      iconSymbol = '🍻';
     } else if (isKaraokeStore(store)) {
       pinClass = 'pin-karaoke';
       iconSymbol = '🎤';
+    } else if (isCafeStore(store) && (!store.features || !store.features.gym)) {
+      pinClass = 'pin-study';
+      iconSymbol = '☕';
     } else if (store.features && store.features.gym) {
       pinClass = 'pin-gym';
       iconSymbol = '💪';
@@ -327,6 +355,10 @@
       ? '<span class="tag-badge tennis-badge">🎾 テニス</span>' : '';
     let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
       ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>' : '';
+    let izakayaBadge = isIzakayaStore(store)
+      ? '<span class="tag-badge izakaya-badge">🍻 居酒屋・酒場</span>' : '';
+    let cafeBadge = isCafeStore(store)
+      ? '<span class="tag-badge cafe-badge">☕ カフェ</span>' : '';
     let karaokeBadge = isKaraokeStore(store)
       ? '<span class="tag-badge karaoke-badge">🎤 カラオケボックス</span>' : '';
 
@@ -351,6 +383,8 @@
           ${studyBadge}
           ${tennisBadge}
           ${boulderBadge}
+          ${izakayaBadge}
+          ${cafeBadge}
           ${karaokeBadge}
           <span class="tag-badge">🕒 ${store.hours}</span>
           <span class="tag-badge">🅿️ ${store.parking}</span>
@@ -426,7 +460,11 @@
     } else if (state.activeQuickFilter === 'boulder') {
       results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
     } else if (state.activeQuickFilter === 'cafe') {
-      results = results.filter(s => s.features && s.features.cafe);
+      results = results.filter(isCafeStore);
+    } else if (state.activeQuickFilter === 'izakaya') {
+      results = results.filter(isIzakayaStore);
+    } else if (state.activeQuickFilter === 'gym') {
+      results = results.filter(s => s.features && s.features.gym);
     } else if (state.activeQuickFilter === 'karaoke') {
       results = results.filter(isKaraokeStore);
     }
@@ -457,6 +495,10 @@
         results = results.filter(s => (s.features && s.features.tennis) || (s.tags && s.tags.includes('テニス')));
       } else if (feat === 'boulder') {
         results = results.filter(s => (s.features && s.features.boulder) || (s.tags && s.tags.includes('ボルダリング')));
+      } else if (feat === 'cafe') {
+        results = results.filter(isCafeStore);
+      } else if (feat === 'izakaya') {
+        results = results.filter(isIzakayaStore);
       } else if (feat === 'karaoke') {
         results = results.filter(isKaraokeStore);
       } else {
@@ -627,6 +669,12 @@
       let boulderBadge = ((store.features && store.features.boulder) || (store.tags && store.tags.includes('ボルダリング')))
         ? '<span class="tag-badge boulder-badge">🧗 ボルダリング</span>'
         : '';
+      let izakayaBadge = isIzakayaStore(store)
+        ? '<span class="tag-badge izakaya-badge">🍻 居酒屋・酒場</span>'
+        : '';
+      let cafeBadge = isCafeStore(store)
+        ? '<span class="tag-badge cafe-badge">☕ カフェ</span>'
+        : '';
       let karaokeBadge = isKaraokeStore(store)
         ? '<span class="tag-badge karaoke-badge">🎤 カラオケボックス</span>'
         : '';
@@ -666,6 +714,8 @@
           ${studyBadge}
           ${tennisBadge}
           ${boulderBadge}
+          ${izakayaBadge}
+          ${cafeBadge}
           ${karaokeBadge}
           ${tagsHtml}
         </div>
@@ -781,6 +831,26 @@
           <p>初心者から上級者まで登れる本格ウォール！P・SPO会員は利用料・シューズ・チョークレンタルすべて無料です。</p>
         </div>
       `;
+    } else if (state.activeQuickFilter === 'izakaya' || state.activeFeatures.has('izakaya')) {
+      el.spotlightBanner.className = 'spotlight-banner izakaya';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">🍻</div>
+        <div class="spotlight-info">
+          <h4>🍻 P・SPO 酒場 / 居酒屋・飲食店舗</h4>
+          <p>会員限定の半額セルフ居酒屋「P・SPO酒場（大街道）」や食堂など、お得にお酒や食事を楽しめる店舗です。</p>
+        </div>
+      `;
+    } else if (state.activeQuickFilter === 'cafe' || state.activeFeatures.has('cafe')) {
+      el.spotlightBanner.className = 'spotlight-banner cafe';
+      el.spotlightBanner.style.display = 'flex';
+      el.spotlightBanner.innerHTML = `
+        <div style="font-size:2.4rem; padding: 0 8px;">☕</div>
+        <div class="spotlight-info">
+          <h4>☕ P・SPO Cafe / 自習＆カフェ併設店舗</h4>
+          <p>コーヒーサーバーや電源・Wi-Fiを完備し、作業や読書、リラックスに最適なカフェ併設店舗です。</p>
+        </div>
+      `;
     } else if (state.activeQuickFilter === 'karaoke' || state.activeFeatures.has('karaoke')) {
       el.spotlightBanner.className = 'spotlight-banner karaoke';
       el.spotlightBanner.style.display = 'flex';
@@ -800,12 +870,27 @@
   function updateStatusIndicator() {
     let text = [];
     if (state.activeQuickFilter !== 'all') {
-      text.push(`絞込中`);
+      const labelMap = {
+        fav: 'お気に入り',
+        office: '法人登記・オフィス',
+        crunch: 'ローワーバックベンチ',
+        study: 'スタディROOM',
+        sauna: 'サウナ・温泉',
+        esthe: 'セルフエステ',
+        tennis: 'テニス',
+        boulder: 'ボルダリング',
+        cafe: 'カフェ',
+        izakaya: '居酒屋・酒場',
+        gym: 'ジム設備',
+        karaoke: 'カラオケ'
+      };
+      const label = labelMap[state.activeQuickFilter] || state.activeQuickFilter;
+      text.push(`<span class="active-tag-chip" onclick="window.pspoResetFilter()" style="cursor:pointer; background:#e2e8f0; padding:2px 8px; border-radius:12px; font-weight:600; font-size:0.75rem;">絞込: ${label} <span style="color:#ef4444; margin-left:2px;">✕</span></span>`);
     }
-    if (state.activeArea !== 'all') {
+    if (el.areaSelect && state.activeArea !== 'all') {
       text.push(el.areaSelect.options[el.areaSelect.selectedIndex].text);
     }
-    el.activeFilterIndicator.textContent = text.join(' / ');
+    el.activeFilterIndicator.innerHTML = text.join(' ');
   }
 
   // Select Store & Center Map
@@ -935,6 +1020,16 @@
       `;
     }
 
+    let izakayaSection = '';
+    if (isIzakayaStore(store)) {
+      izakayaSection = `
+        <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:12px; margin:14px 0;">
+          <strong style="color:#c2410c; font-size:0.9rem;">🍻 会員限定セルフ居酒屋・酒場・飲食設備</strong>
+          <p style="font-size:0.78rem; color:#7c2d12; margin-top:2px;">生ビール・ハイボール等が相場の半額で楽しめるセルフサービス酒場や食事処が併設されています。</p>
+        </div>
+      `;
+    }
+
     el.modalBody.innerHTML = `
       <div style="position:relative; margin-bottom:14px;">
         <img src="${store.image}" alt="${store.title}" style="width:100%; height:190px; object-fit:cover; border-radius:12px;" onerror="this.src='assets/logo.png'">
@@ -952,6 +1047,7 @@
       ${tennisSection}
       ${boulderSection}
       ${karaokeSection}
+      ${izakayaSection}
 
       <div style="background:#f8fafc; border-radius:10px; padding:12px; margin-bottom:16px; font-size:0.82rem; display:flex; flex-direction:column; gap:6px;">
         <div><strong>🕒 営業時間:</strong> ${store.hours}</div>
@@ -1059,7 +1155,7 @@
 
         // Switch sort to distance
         state.activeSort = 'distance';
-        el.sortSelect.value = 'distance';
+        if (el.sortSelect) el.sortSelect.value = 'distance';
 
         applyFilters();
 
@@ -1093,22 +1189,69 @@
     }
   }
 
+  const FEATURE_TO_QUICK = {
+    'office': 'office',
+    'has_lower_back_bench': 'crunch',
+    'has_crunch_bench': 'crunch',
+    'has_study_room': 'study',
+    'sauna': 'sauna',
+    'esthe': 'esthe',
+    'tennis': 'tennis',
+    'boulder': 'boulder',
+    'karaoke': 'karaoke',
+    'cafe': 'cafe',
+    'izakaya': 'izakaya',
+    'gym': 'gym'
+  };
+
+  const QUICK_TO_FEATURE = {
+    'office': 'office',
+    'crunch': 'has_lower_back_bench',
+    'study': 'has_study_room',
+    'sauna': 'sauna',
+    'esthe': 'esthe',
+    'tennis': 'tennis',
+    'boulder': 'boulder',
+    'karaoke': 'karaoke',
+    'cafe': 'cafe',
+    'izakaya': 'izakaya',
+    'gym': 'gym'
+  };
+
+  function syncFilterButtons(activeKey) {
+    document.querySelectorAll('.quick-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.quick === activeKey);
+    });
+    const matchingFeat = QUICK_TO_FEATURE[activeKey];
+    document.querySelectorAll('.pill-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.feature === matchingFeat || b.dataset.feature === activeKey);
+    });
+  }
+
+  window.pspoResetFilter = function() {
+    state.activeQuickFilter = 'all';
+    state.activeFeatures.clear();
+    syncFilterButtons('all');
+    applyFilters(true);
+  };
+
   // Setup Event Listeners
   function setupEventListeners() {
     // Quick Filter Buttons
     document.querySelectorAll('.quick-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const isCurrentActive = btn.classList.contains('active');
-        if (isCurrentActive && btn.dataset.quick !== 'all') {
-          // Toggle off back to all
-          document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
-          if (allBtn) allBtn.classList.add('active');
+        const key = btn.dataset.quick;
+        if (state.activeQuickFilter === key && key !== 'all') {
+          // Toggle off -> reset to all
           state.activeQuickFilter = 'all';
+          state.activeFeatures.clear();
+          syncFilterButtons('all');
         } else {
-          document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          state.activeQuickFilter = btn.dataset.quick;
+          state.activeQuickFilter = key;
+          state.activeFeatures.clear();
+          const feat = QUICK_TO_FEATURE[key];
+          if (feat) state.activeFeatures.add(feat);
+          syncFilterButtons(key);
         }
         applyFilters(true);
       });
@@ -1128,32 +1271,41 @@
       applyFilters(true);
     });
 
-    // Area Select
-    el.areaSelect.addEventListener('change', (e) => {
-      state.activeArea = e.target.value;
-      applyFilters(true);
-    });
+    // Area Select (if present)
+    if (el.areaSelect) {
+      el.areaSelect.addEventListener('change', (e) => {
+        state.activeArea = e.target.value;
+        applyFilters(true);
+      });
+    }
 
-    // Sort Select
-    el.sortSelect.addEventListener('change', (e) => {
-      state.activeSort = e.target.value;
-      if (state.activeSort === 'distance' && !state.userLocation) {
-        locateUser();
-      } else {
-        applyFilters(false);
-      }
-    });
+    // Sort Select (if present)
+    if (el.sortSelect) {
+      el.sortSelect.addEventListener('change', (e) => {
+        state.activeSort = e.target.value;
+        if (state.activeSort === 'distance' && !state.userLocation) {
+          locateUser();
+        } else {
+          applyFilters(false);
+        }
+      });
+    }
 
-    // Feature Pills
+    // Feature Pills (地図左の施設一覧の絞り込みボタン)
     document.querySelectorAll('.pill-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const feat = btn.dataset.feature;
-        if (state.activeFeatures.has(feat)) {
-          state.activeFeatures.delete(feat);
-          btn.classList.remove('active');
+        const quickKey = FEATURE_TO_QUICK[feat] || feat;
+        if (state.activeQuickFilter === quickKey) {
+          // Toggle off -> reset to all
+          state.activeQuickFilter = 'all';
+          state.activeFeatures.clear();
+          syncFilterButtons('all');
         } else {
+          state.activeQuickFilter = quickKey;
+          state.activeFeatures.clear();
           state.activeFeatures.add(feat);
-          btn.classList.add('active');
+          syncFilterButtons(quickKey);
         }
         applyFilters(true);
       });
@@ -1280,15 +1432,15 @@
 
     if (el.navBtnCrunch) {
       el.navBtnCrunch.addEventListener('click', () => {
-        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-        const crunchBtn = document.querySelector('.quick-btn.q-crunch');
         if (state.activeQuickFilter === 'crunch') {
-          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
-          if (allBtn) allBtn.classList.add('active');
           state.activeQuickFilter = 'all';
+          state.activeFeatures.clear();
+          syncFilterButtons('all');
         } else {
-          if (crunchBtn) crunchBtn.classList.add('active');
           state.activeQuickFilter = 'crunch';
+          state.activeFeatures.clear();
+          state.activeFeatures.add('has_lower_back_bench');
+          syncFilterButtons('crunch');
         }
         applyFilters(true);
         const listElem = document.getElementById('stores-list');
@@ -1298,15 +1450,15 @@
 
     if (el.navBtnStudy) {
       el.navBtnStudy.addEventListener('click', () => {
-        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
-        const studyBtn = document.querySelector('.quick-btn.q-study');
         if (state.activeQuickFilter === 'study') {
-          const allBtn = document.querySelector('.quick-btn[data-quick="all"]');
-          if (allBtn) allBtn.classList.add('active');
           state.activeQuickFilter = 'all';
+          state.activeFeatures.clear();
+          syncFilterButtons('all');
         } else {
-          if (studyBtn) studyBtn.classList.add('active');
           state.activeQuickFilter = 'study';
+          state.activeFeatures.clear();
+          state.activeFeatures.add('has_study_room');
+          syncFilterButtons('study');
         }
         applyFilters(true);
         const listElem = document.getElementById('stores-list');

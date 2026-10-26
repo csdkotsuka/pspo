@@ -84,6 +84,9 @@
         <button class="quick-btn q-cafe" data-quick="cafe">
           <span class="q-icon">☕</span> カフェ (<span id="count-cafe">0</span>)
         </button>
+        <button class="quick-btn q-izakaya" data-quick="izakaya">
+          <span class="q-icon">🍻</span> 居酒屋・酒場 (<span id="count-izakaya">0</span>)
+        </button>
         <button class="quick-btn q-karaoke" data-quick="karaoke">
           <span class="q-icon">🎤</span> カラオケボックス (<span id="count-karaoke">0</span>)
         </button>
@@ -104,33 +107,14 @@
             <button id="btn-clear-search" class="btn-clear" style="display:none;">✕</button>
           </div>
 
-          <div class="filter-row">
-            <div class="select-group">
-              <label for="area-select">エリア:</label>
-              <select id="area-select">
-                <option value="all">すべてのエリア (愛媛・他)</option>
-                <option value="matsuyama">松山エリア</option>
-                <option value="toon">東温エリア</option>
-                <option value="tobe">砥部エリア</option>
-                <option value="imabari">今治・しまなみエリア</option>
-                <option value="saijo_niihama">西条・新居浜エリア</option>
-                <option value="nanyo">大洲・南予エリア</option>
-                <option value="other">愛知県・北海道</option>
-              </select>
-            </div>
-
-            <div class="select-group">
-              <label for="sort-select">並び替え:</label>
-              <select id="sort-select">
-                <option value="default">標準（エリア順）</option>
-                <option value="distance">現在地から近い順</option>
-                <option value="name">店舗名五十音順</option>
-              </select>
-            </div>
-          </div>
-
           <!-- Feature Tag Pills -->
           <div class="feature-pills">
+            <button class="pill-btn" data-feature="cafe">
+              <span class="pill-dot cafe"></span>カフェ
+            </button>
+            <button class="pill-btn" data-feature="izakaya">
+              <span class="pill-dot izakaya"></span>居酒屋・酒場
+            </button>
             <button class="pill-btn" data-feature="office">
               <span class="pill-dot office"></span>法人登記・オフィス
             </button>
@@ -157,9 +141,6 @@
             </button>
             <button class="pill-btn" data-feature="karaoke">
               <span class="pill-dot karaoke"></span>カラオケボックス
-            </button>
-            <button class="pill-btn" data-feature="staffed">
-              <span class="pill-dot staffed"></span>有人店舗
             </button>
           </div>
         </div>
@@ -189,9 +170,6 @@
         <div class="map-floating-controls">
           <button id="btn-map-locate" class="float-btn float-locate" title="現在地へ移動">
             📍 現在地
-          </button>
-          <button id="btn-scroll-to-list" class="float-btn float-scroll-down" title="店舗一覧へスクロール">
-            👇 店舗一覧へ
           </button>
         </div>
 
