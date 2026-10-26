@@ -34,7 +34,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "honmachi",
@@ -56,7 +57,7 @@
       "ジム",
       "バイオサーキット",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -70,7 +71,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "daino",
@@ -108,7 +110,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kukou",
@@ -131,7 +134,7 @@
       "酸素カプセル",
       "ストレッチ",
       "P・SPOリラクゼーション",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -145,7 +148,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "yuwatari",
@@ -167,7 +171,7 @@
       "ジム",
       "メンズエステ / 脱毛",
       "日焼けマシン",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -181,7 +185,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "chuo",
@@ -204,7 +209,7 @@
       "セルフエステ",
       "酸素カプセル",
       "ホットヨガ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -218,7 +223,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "tohon",
@@ -238,10 +244,9 @@
     "detail_url": "https://pspo.jp/facility/tohon/",
     "tags": [
       "ジム",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -253,7 +258,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "hojo",
@@ -290,7 +296,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kitauwajima",
@@ -325,7 +332,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "udonhomen",
@@ -359,7 +367,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "pigcafe",
@@ -392,7 +401,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "tobeonsen",
@@ -426,7 +436,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "hondani",
@@ -466,7 +477,8 @@
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "marriyell_imabari",
@@ -488,10 +500,9 @@
       "ジム",
       "カフェ/自習室",
       "ゴルフ",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -503,7 +514,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "worldplaza",
@@ -525,10 +537,9 @@
       "ジム",
       "ゴルフ",
       "カラオケ",
-      "カフェ/自習室",
-      "クランチベンチ設置"
+      "カフェ/自習室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -540,7 +551,8 @@
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "mega",
@@ -578,7 +590,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "saiin",
@@ -598,7 +611,7 @@
     "detail_url": "https://pspo.jp/saiin/",
     "tags": [
       "ジム",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -612,7 +625,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "kosaka",
@@ -631,10 +645,9 @@
     "image": "https://pspo.jp/wp2022/wp-content/uploads/2026/02/小坂店.jpg",
     "detail_url": "https://pspo.jp/kosaka/",
     "tags": [
-      "ジム",
-      "クランチベンチ設置"
+      "ジム"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -646,7 +659,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "tobe",
@@ -667,7 +681,7 @@
     "tags": [
       "ジム",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -681,7 +695,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "mitsusuga",
@@ -714,7 +729,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "iwaidani",
@@ -747,7 +763,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "umaki",
@@ -782,7 +799,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato",
@@ -815,7 +833,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "takanoko",
@@ -836,10 +855,9 @@
     "tags": [
       "ジム",
       "セルフエステ",
-      "カフェ/自習室",
-      "クランチベンチ設置"
+      "カフェ/自習室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -851,7 +869,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato2",
@@ -873,9 +892,10 @@
       "ジム",
       "ミラーフィット",
       "マシンピラティス",
-      "女性専用"
+      "女性専用",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -887,7 +907,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "gymstudy_okaido",
@@ -908,10 +929,9 @@
     "tags": [
       "ジム",
       "カフェ/自習室",
-      "WEB個室",
-      "クランチベンチ設置"
+      "WEB個室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -923,7 +943,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "iyo",
@@ -944,7 +965,7 @@
     "tags": [
       "ジム",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -958,7 +979,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "dobashi",
@@ -994,7 +1016,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "uchiko",
@@ -1015,7 +1038,7 @@
     "tags": [
       "ジム",
       "カフェ/自習室",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -1029,7 +1052,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "himebara",
@@ -1066,7 +1090,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "natsume",
@@ -1100,7 +1125,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "mitsuten",
@@ -1139,7 +1165,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "niihama",
@@ -1162,7 +1189,7 @@
       "カフェ/自習室",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -1176,7 +1203,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "ozu",
@@ -1199,7 +1227,7 @@
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1213,7 +1241,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "toyo",
@@ -1236,7 +1265,7 @@
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1250,7 +1279,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "tsuitachi",
@@ -1273,7 +1303,7 @@
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1287,7 +1317,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "sakuragi",
@@ -1320,7 +1351,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kawahigashi",
@@ -1354,7 +1386,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "bujyo",
@@ -1377,9 +1410,10 @@
       "カフェ/自習室",
       "酸素カプセル",
       "サウナ",
-      "岩盤浴"
+      "岩盤浴",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -1391,7 +1425,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "gintengai",
@@ -1424,7 +1459,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kuwabara",
@@ -1457,7 +1493,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "okaido",
@@ -1490,7 +1527,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "higashino",
@@ -1523,7 +1561,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kitayoshida",
@@ -1533,8 +1572,8 @@
     "area_name": "松山エリア",
     "category": "cafe unstaffed",
     "address": "愛媛県松山市北吉田町1031-4",
-    "lat": 33.828,
-    "lng": 132.712,
+    "lat": 33.836015,
+    "lng": 132.708939,
     "hours": "24時間／年中無休",
     "staff_hours": null,
     "parking": "17台 無料",
@@ -1556,7 +1595,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "groupcafe",
@@ -1589,7 +1629,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "study1",
@@ -1622,7 +1663,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "study2",
@@ -1655,7 +1697,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "studycafe",
@@ -1688,7 +1731,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "studyroommatsudai",
@@ -1721,7 +1765,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "asanami",
@@ -1755,7 +1800,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "heiwa",
@@ -1789,7 +1835,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "shiekiminami",
@@ -1824,7 +1871,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "jrmatsuyama",
@@ -1857,7 +1905,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "heiwa_2",
@@ -1891,7 +1940,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "aidai",
@@ -1926,7 +1976,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "dogo_kitashiro",
@@ -1959,7 +2010,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "chifune",
@@ -1993,7 +2045,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kumanodai",
@@ -2026,7 +2079,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "cafeevent",
@@ -2060,7 +2114,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato_3",
@@ -2095,7 +2150,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sanmachi",
@@ -2128,7 +2184,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sakaba",
@@ -2162,7 +2219,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "furugi",
@@ -2196,7 +2254,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "karaokehojo",
@@ -2231,7 +2290,8 @@
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "gallery",
@@ -2265,7 +2325,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "piano",
@@ -2300,7 +2361,8 @@
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "karaokeniban",
@@ -2333,7 +2395,8 @@
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sauna",
@@ -2354,7 +2417,7 @@
     "tags": [
       "サウナ",
       "男性専用",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -2368,7 +2431,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "works",
@@ -2408,7 +2472,8 @@
       "office": true,
       "karaoke": false
     },
-    "has_office_reg": true
+    "has_office_reg": true,
+    "has_lower_back_bench": false
   },
   {
     "id": "worksmitakara",
@@ -2448,7 +2513,8 @@
       "office": true,
       "karaoke": false
     },
-    "has_office_reg": true
+    "has_office_reg": true,
+    "has_lower_back_bench": false
   },
   {
     "id": "laundry",
@@ -2481,7 +2547,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "Billiards&#038;Darts",
@@ -2515,7 +2582,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kankoko",
@@ -2548,7 +2616,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sanpuku_lounge",
@@ -2584,7 +2653,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "base",
@@ -2620,7 +2690,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "furugikitasaya",
@@ -2654,7 +2725,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "laundrybefu",
@@ -2687,7 +2759,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "beauty_chuodori",
@@ -2720,7 +2793,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "beauty_daino",
@@ -2753,7 +2827,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "naturalbeauty_tohon",
@@ -2787,7 +2862,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "store_79",
@@ -2822,7 +2898,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "store_80",
@@ -2859,7 +2936,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "marriyell_imabari",
@@ -2881,10 +2959,9 @@
       "ジム",
       "カフェ/自習室",
       "ゴルフ",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -2896,7 +2973,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "loungebeauty_okaido",
@@ -2930,7 +3008,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "epi_emifull",
@@ -2963,7 +3042,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "epi_okaido",
@@ -2997,7 +3077,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "eyecare",
@@ -3031,7 +3112,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "asahikawa",
@@ -3050,9 +3132,10 @@
     "image": "https://pspo.jp/wp2022/wp-content/themes/pspo24/img/logo.png",
     "detail_url": "https://pspo24asahikawa.jp/",
     "tags": [
-      "ジム"
+      "ジム",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -3064,7 +3147,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "seishiro",
@@ -3097,7 +3181,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "chitahandaekimae",
@@ -3130,7 +3215,8 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "handasumiyoshi",
@@ -3152,7 +3238,7 @@
       "ジム",
       "セルフエステ",
       "カフェ/自習室",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -3166,6 +3252,7 @@
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   }
 ]

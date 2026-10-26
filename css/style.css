@@ -843,6 +843,14 @@ body {
   color: #1a73e8;
 }
 
+.btn-sub.google-map-search {
+  color: #0f766e;
+}
+
+.btn-sub.apple-map-search {
+  color: #334155;
+}
+
 /* Right: Map Panel */
 .map-panel {
   flex: 1;

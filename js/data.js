@@ -1,6 +1,6 @@
 /**
  * P・SPO24 全店舗データセット
- * 愛媛県内および全店舗情報、クランチベンチ（クランクベンチ）情報、スタディroom情報、オフィス・法人登記情報、Apple Maps/CarPlayナビ座標
+ * 愛媛県内および全店舗情報、ローワーバックベンチ情報、スタディroom情報、オフィス・法人登記情報、Apple Maps/CarPlayナビ座標
  */
 const PSPO_STORES = [
   {
@@ -38,7 +38,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "honmachi",
@@ -60,7 +61,7 @@ const PSPO_STORES = [
       "ジム",
       "バイオサーキット",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -74,7 +75,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "daino",
@@ -112,7 +114,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kukou",
@@ -135,7 +138,7 @@ const PSPO_STORES = [
       "酸素カプセル",
       "ストレッチ",
       "P・SPOリラクゼーション",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -149,7 +152,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "yuwatari",
@@ -171,7 +175,7 @@ const PSPO_STORES = [
       "ジム",
       "メンズエステ / 脱毛",
       "日焼けマシン",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -185,7 +189,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "chuo",
@@ -208,7 +213,7 @@ const PSPO_STORES = [
       "セルフエステ",
       "酸素カプセル",
       "ホットヨガ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -222,7 +227,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "tohon",
@@ -242,10 +248,9 @@ const PSPO_STORES = [
     "detail_url": "https://pspo.jp/facility/tohon/",
     "tags": [
       "ジム",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -257,7 +262,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "hojo",
@@ -294,7 +300,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kitauwajima",
@@ -329,7 +336,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "udonhomen",
@@ -363,7 +371,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "pigcafe",
@@ -396,7 +405,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "tobeonsen",
@@ -430,7 +440,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "hondani",
@@ -470,7 +481,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "marriyell_imabari",
@@ -492,10 +504,9 @@ const PSPO_STORES = [
       "ジム",
       "カフェ/自習室",
       "ゴルフ",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -507,7 +518,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "worldplaza",
@@ -529,10 +541,9 @@ const PSPO_STORES = [
       "ジム",
       "ゴルフ",
       "カラオケ",
-      "カフェ/自習室",
-      "クランチベンチ設置"
+      "カフェ/自習室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -544,7 +555,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "mega",
@@ -582,7 +594,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "saiin",
@@ -602,7 +615,7 @@ const PSPO_STORES = [
     "detail_url": "https://pspo.jp/saiin/",
     "tags": [
       "ジム",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -616,7 +629,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "kosaka",
@@ -635,10 +649,9 @@ const PSPO_STORES = [
     "image": "https://pspo.jp/wp2022/wp-content/uploads/2026/02/小坂店.jpg",
     "detail_url": "https://pspo.jp/kosaka/",
     "tags": [
-      "ジム",
-      "クランチベンチ設置"
+      "ジム"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -650,7 +663,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "tobe",
@@ -671,7 +685,7 @@ const PSPO_STORES = [
     "tags": [
       "ジム",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -685,7 +699,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "mitsusuga",
@@ -718,7 +733,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "iwaidani",
@@ -751,7 +767,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "umaki",
@@ -786,7 +803,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato",
@@ -819,7 +837,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "takanoko",
@@ -840,10 +859,9 @@ const PSPO_STORES = [
     "tags": [
       "ジム",
       "セルフエステ",
-      "カフェ/自習室",
-      "クランチベンチ設置"
+      "カフェ/自習室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -855,7 +873,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato2",
@@ -877,9 +896,10 @@ const PSPO_STORES = [
       "ジム",
       "ミラーフィット",
       "マシンピラティス",
-      "女性専用"
+      "女性専用",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -891,7 +911,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "gymstudy_okaido",
@@ -912,10 +933,9 @@ const PSPO_STORES = [
     "tags": [
       "ジム",
       "カフェ/自習室",
-      "WEB個室",
-      "クランチベンチ設置"
+      "WEB個室"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -927,7 +947,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "iyo",
@@ -948,7 +969,7 @@ const PSPO_STORES = [
     "tags": [
       "ジム",
       "ゴルフ",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -962,7 +983,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "dobashi",
@@ -998,7 +1020,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "uchiko",
@@ -1019,7 +1042,7 @@ const PSPO_STORES = [
     "tags": [
       "ジム",
       "カフェ/自習室",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -1033,7 +1056,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "himebara",
@@ -1070,7 +1094,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "natsume",
@@ -1104,7 +1129,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "mitsuten",
@@ -1143,7 +1169,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "niihama",
@@ -1166,7 +1193,7 @@ const PSPO_STORES = [
       "カフェ/自習室",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -1180,7 +1207,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "ozu",
@@ -1203,7 +1231,7 @@ const PSPO_STORES = [
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1217,7 +1245,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "toyo",
@@ -1240,7 +1269,7 @@ const PSPO_STORES = [
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1254,7 +1283,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "tsuitachi",
@@ -1277,7 +1307,7 @@ const PSPO_STORES = [
       "ゴルフ",
       "セルフエステ",
       "mac併設",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -1291,7 +1321,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "sakuragi",
@@ -1324,7 +1355,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kawahigashi",
@@ -1358,7 +1390,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "bujyo",
@@ -1381,9 +1414,10 @@ const PSPO_STORES = [
       "カフェ/自習室",
       "酸素カプセル",
       "サウナ",
-      "岩盤浴"
+      "岩盤浴",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -1395,7 +1429,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "gintengai",
@@ -1428,7 +1463,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kuwabara",
@@ -1461,7 +1497,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "okaido",
@@ -1494,7 +1531,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "higashino",
@@ -1527,7 +1565,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kitayoshida",
@@ -1537,8 +1576,8 @@ const PSPO_STORES = [
     "area_name": "松山エリア",
     "category": "cafe unstaffed",
     "address": "愛媛県松山市北吉田町1031-4",
-    "lat": 33.828,
-    "lng": 132.712,
+    "lat": 33.836015,
+    "lng": 132.708939,
     "hours": "24時間／年中無休",
     "staff_hours": null,
     "parking": "17台 無料",
@@ -1560,7 +1599,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "groupcafe",
@@ -1593,7 +1633,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "study1",
@@ -1626,7 +1667,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "study2",
@@ -1659,7 +1701,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "studycafe",
@@ -1692,7 +1735,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "studyroommatsudai",
@@ -1725,7 +1769,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "asanami",
@@ -1759,7 +1804,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "heiwa",
@@ -1793,7 +1839,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "shiekiminami",
@@ -1828,7 +1875,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "jrmatsuyama",
@@ -1861,7 +1909,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "heiwa_2",
@@ -1895,7 +1944,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "aidai",
@@ -1930,7 +1980,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "dogo_kitashiro",
@@ -1963,7 +2014,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "chifune",
@@ -1997,7 +2049,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kumanodai",
@@ -2030,7 +2083,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "cafeevent",
@@ -2064,7 +2118,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "minato_3",
@@ -2099,7 +2154,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sanmachi",
@@ -2132,7 +2188,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sakaba",
@@ -2166,7 +2223,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "furugi",
@@ -2200,7 +2258,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "karaokehojo",
@@ -2235,7 +2294,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "gallery",
@@ -2269,7 +2329,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "piano",
@@ -2304,7 +2365,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "karaokeniban",
@@ -2337,7 +2399,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": true
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sauna",
@@ -2358,7 +2421,7 @@ const PSPO_STORES = [
     "tags": [
       "サウナ",
       "男性専用",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": false,
@@ -2372,7 +2435,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "works",
@@ -2412,7 +2476,8 @@ const PSPO_STORES = [
       "office": true,
       "karaoke": false
     },
-    "has_office_reg": true
+    "has_office_reg": true,
+    "has_lower_back_bench": false
   },
   {
     "id": "worksmitakara",
@@ -2452,7 +2517,8 @@ const PSPO_STORES = [
       "office": true,
       "karaoke": false
     },
-    "has_office_reg": true
+    "has_office_reg": true,
+    "has_lower_back_bench": false
   },
   {
     "id": "laundry",
@@ -2485,7 +2551,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "Billiards&#038;Darts",
@@ -2519,7 +2586,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "kankoko",
@@ -2552,7 +2620,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "sanpuku_lounge",
@@ -2588,7 +2657,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "base",
@@ -2624,7 +2694,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "furugikitasaya",
@@ -2658,7 +2729,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "laundrybefu",
@@ -2691,7 +2763,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "beauty_chuodori",
@@ -2724,7 +2797,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "beauty_daino",
@@ -2757,7 +2831,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "naturalbeauty_tohon",
@@ -2791,7 +2866,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "store_79",
@@ -2826,7 +2902,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "store_80",
@@ -2863,7 +2940,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "marriyell_imabari",
@@ -2885,10 +2963,9 @@ const PSPO_STORES = [
       "ジム",
       "カフェ/自習室",
       "ゴルフ",
-      "セルフエステ",
-      "クランチベンチ設置"
+      "セルフエステ"
     ],
-    "has_crunch_bench": true,
+    "has_crunch_bench": false,
     "has_study_room": true,
     "features": {
       "gym": true,
@@ -2900,7 +2977,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "loungebeauty_okaido",
@@ -2934,7 +3012,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "epi_emifull",
@@ -2967,7 +3046,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "epi_okaido",
@@ -3001,7 +3081,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "eyecare",
@@ -3035,7 +3116,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "asahikawa",
@@ -3054,9 +3136,10 @@ const PSPO_STORES = [
     "image": "https://pspo.jp/wp2022/wp-content/themes/pspo24/img/logo.png",
     "detail_url": "https://pspo24asahikawa.jp/",
     "tags": [
-      "ジム"
+      "ジム",
+      "ローワーバックベンチ設置"
     ],
-    "has_crunch_bench": false,
+    "has_crunch_bench": true,
     "has_study_room": false,
     "features": {
       "gym": true,
@@ -3068,7 +3151,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   },
   {
     "id": "seishiro",
@@ -3101,7 +3185,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "chitahandaekimae",
@@ -3134,7 +3219,8 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": false
   },
   {
     "id": "handasumiyoshi",
@@ -3156,7 +3242,7 @@ const PSPO_STORES = [
       "ジム",
       "セルフエステ",
       "カフェ/自習室",
-      "クランチベンチ設置"
+      "ローワーバックベンチ設置"
     ],
     "has_crunch_bench": true,
     "has_study_room": true,
@@ -3170,6 +3256,7 @@ const PSPO_STORES = [
       "office": false,
       "karaoke": false
     },
-    "has_office_reg": false
+    "has_office_reg": false,
+    "has_lower_back_bench": true
   }
 ];

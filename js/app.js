@@ -1,7 +1,7 @@
 /**
  * P・SPO 店舗マップ＆ナビゲーション コントローラー
  * - 愛媛県内全店舗マップ表示（Leaflet.js）
- * - クランクベンチ（クランチベンチ）店舗検索 & 画像表示
+ * - ローワーバックベンチ店舗検索 & 画像表示
  * - スタディroom店舗検索
  * - CarPlay / Apple Maps ワンタップ自動車ナビゲーション連携
  */
@@ -125,7 +125,7 @@
     const total = state.stores.length;
     const fav = state.favorites.size;
     const office = state.stores.filter(s => s.has_office_reg || (s.features && s.features.office)).length;
-    const crunch = state.stores.filter(s => s.has_crunch_bench).length;
+    const crunch = state.stores.filter(s => s.has_lower_back_bench || s.has_crunch_bench).length;
     const study = state.stores.filter(s => s.has_study_room).length;
     const sauna = state.stores.filter(s => s.features && s.features.sauna).length;
     const esthe = state.stores.filter(s => s.features && s.features.esthe).length;
@@ -248,7 +248,7 @@
     if (store.has_office_reg || (store.features && store.features.office)) {
       pinClass = 'pin-office';
       iconSymbol = '💼';
-    } else if (store.has_crunch_bench) {
+    } else if (store.has_lower_back_bench || store.has_crunch_bench) {
       pinClass = 'pin-crunch';
       iconSymbol = '🏋️';
     } else if (store.has_study_room) {
@@ -321,7 +321,7 @@
 
     let officeBadge = (store.has_office_reg || (store.features && store.features.office))
       ? '<span class="tag-badge office-badge">💼 法人登記・オフィスOK</span>' : '';
-    let crunchBadge = store.has_crunch_bench ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ</span>' : '';
+    let crunchBadge = (store.has_lower_back_bench || store.has_crunch_bench) ? '<span class="tag-badge crunch-badge">🏋️ ローワーバックベンチ</span>' : '';
     let studyBadge = store.has_study_room ? '<span class="tag-badge study-badge">📖 スタディROOM</span>' : '';
     let tennisBadge = ((store.features && store.features.tennis) || (store.tags && store.tags.includes('テニス')))
       ? '<span class="tag-badge tennis-badge">🎾 テニス</span>' : '';
@@ -374,15 +374,34 @@
     `;
   }
 
-  // Build Apple Maps Navigation URL for CarPlay / iOS
-  // maps://maps.apple.com/?daddr=lat,lng&dirflg=d launches Apple Maps directly with driving directions
-  function getAppleMapsNavUrl(store) {
-    return `maps://maps.apple.com/?daddr=${store.lat},${store.lng}&dirflg=d`;
+  // Search Query for navigation / map searches (施設名 + 住所で確実にスポットを特定)
+  function getStoreSearchQuery(store) {
+    return `${store.title} ${store.address}`;
   }
 
-  // Build Google Maps Navigation URL
+  // Build Apple Maps Navigation URL for CarPlay / iOS
+  // maps://maps.apple.com/?daddr=...&dirflg=d launches Apple Maps directly with driving directions
+  function getAppleMapsNavUrl(store) {
+    const q = encodeURIComponent(getStoreSearchQuery(store));
+    return `maps://maps.apple.com/?daddr=${q}&dirflg=d`;
+  }
+
+  // Build Apple Maps Search URL (地図で場所確認)
+  function getAppleMapsSearchUrl(store) {
+    const q = encodeURIComponent(getStoreSearchQuery(store));
+    return `https://maps.apple.com/?q=${q}`;
+  }
+
+  // Build Google Maps Navigation URL (施設名+住所で確実に案内)
   function getGoogleMapsNavUrl(store) {
-    return `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
+    const q = encodeURIComponent(getStoreSearchQuery(store));
+    return `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+  }
+
+  // Build Google Maps Search URL (地図で場所検索・ピン確認)
+  function getGoogleMapsSearchUrl(store) {
+    const q = encodeURIComponent(getStoreSearchQuery(store));
+    return `https://www.google.com/maps/search/?api=1&query=${q}`;
   }
 
   // Filter & Search Logic
@@ -395,7 +414,7 @@
     } else if (state.activeQuickFilter === 'office') {
       results = results.filter(s => s.has_office_reg || (s.features && s.features.office));
     } else if (state.activeQuickFilter === 'crunch') {
-      results = results.filter(s => s.has_crunch_bench);
+      results = results.filter(s => s.has_lower_back_bench || s.has_crunch_bench);
     } else if (state.activeQuickFilter === 'study') {
       results = results.filter(s => s.has_study_room);
     } else if (state.activeQuickFilter === 'sauna') {
@@ -430,8 +449,8 @@
     state.activeFeatures.forEach(feat => {
       if (feat === 'office') {
         results = results.filter(s => s.has_office_reg || (s.features && s.features.office));
-      } else if (feat === 'has_crunch_bench') {
-        results = results.filter(s => s.has_crunch_bench);
+      } else if (feat === 'has_crunch_bench' || feat === 'has_lower_back_bench') {
+        results = results.filter(s => s.has_lower_back_bench || s.has_crunch_bench);
       } else if (feat === 'has_study_room') {
         results = results.filter(s => s.has_study_room);
       } else if (feat === 'tennis') {
@@ -596,8 +615,8 @@
       let officeBadge = (store.has_office_reg || (store.features && store.features.office))
         ? '<span class="tag-badge office-badge">💼 法人登記・オフィスOK</span>'
         : '';
-      let crunchBadge = store.has_crunch_bench
-        ? '<span class="tag-badge crunch-badge">🏋️ クランクベンチ設置</span>'
+      let crunchBadge = (store.has_lower_back_bench || store.has_crunch_bench)
+        ? '<span class="tag-badge crunch-badge">🏋️ ローワーバックベンチ設置</span>'
         : '';
       let studyBadge = store.has_study_room
         ? '<span class="tag-badge study-badge">📖 スタディROOM</span>'
@@ -722,14 +741,14 @@
           <p>起業・法人登記・住所利用・専用ポスト・会議室完備！24時間利用でき、P・SPO各店のジムも使える松山市駅近くの湊町店＆御宝店です。</p>
         </div>
       `;
-    } else if (state.activeQuickFilter === 'crunch' || state.activeFeatures.has('has_crunch_bench')) {
+    } else if (state.activeQuickFilter === 'crunch' || state.activeFeatures.has('has_crunch_bench') || state.activeFeatures.has('has_lower_back_bench')) {
       el.spotlightBanner.className = 'spotlight-banner';
       el.spotlightBanner.style.display = 'flex';
       el.spotlightBanner.innerHTML = `
-        <img src="assets/img_machine_20.jpg" alt="クランクベンチ" onerror="this.src='https://pspo.jp/wp2022/wp-content/uploads/2022/02/img_machine_20.jpg'">
+        <img src="assets/img_machine_11.jpg" alt="ローワーバックベンチ" onerror="this.src='https://pspo.jp/wp2022/wp-content/uploads/2022/02/img_machine_11.jpg'">
         <div class="spotlight-info">
-          <h4>🏋️‍♂️ クランクベンチ（腹筋多機能ベンチ）設置店舗</h4>
-          <p>脚をローラーパッドまで持ち上げて自重腹筋を徹底強化！愛媛県内 ${state.filteredStores.length} 店舗に導入されています。</p>
+          <h4>🏋️‍♂️ ローワーバックベンチ（背筋・体幹多機能ベンチ）設置店舗</h4>
+          <p>腰・臀筋・ハムストリングスを集中的に鍛える自重バックエクステンションベンチ！現在 ${state.filteredStores.length} 店舗に導入されています。</p>
         </div>
       `;
     } else if (state.activeQuickFilter === 'study' || state.activeFeatures.has('has_study_room')) {
@@ -848,7 +867,9 @@
   // Open Store Modal Detail
   function openStoreModal(store) {
     const appleNavUrl = getAppleMapsNavUrl(store);
+    const appleSearchUrl = getAppleMapsSearchUrl(store);
     const googleNavUrl = getGoogleMapsNavUrl(store);
+    const googleSearchUrl = getGoogleMapsSearchUrl(store);
     const isFav = state.favorites && state.favorites.has(store.id);
 
     let officeSection = '';
@@ -862,13 +883,13 @@
     }
 
     let benchSection = '';
-    if (store.has_crunch_bench) {
+    if (store.has_lower_back_bench || store.has_crunch_bench) {
       benchSection = `
         <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:12px; margin:14px 0; display:flex; gap:12px; align-items:center;">
-          <img src="assets/img_machine_20.jpg" style="width:70px; height:70px; border-radius:8px; object-fit:cover;" onerror="this.src='https://pspo.jp/wp2022/wp-content/uploads/2022/02/img_machine_20.jpg'">
+          <img src="assets/img_machine_11.jpg" style="width:70px; height:70px; border-radius:8px; object-fit:cover;" onerror="this.src='https://pspo.jp/wp2022/wp-content/uploads/2022/02/img_machine_11.jpg'">
           <div>
-            <strong style="color:#c2410c; font-size:0.9rem;">🏋️ クランクベンチ（腹筋台）完備！</strong>
-            <p style="font-size:0.78rem; color:#7c2d12; margin-top:2px;">角度調整可能な自重クランチベンチで効率よく腹筋運動が可能です。</p>
+            <strong style="color:#c2410c; font-size:0.9rem;">🏋️ ローワーバックベンチ（背筋台）完備！</strong>
+            <p style="font-size:0.78rem; color:#7c2d12; margin-top:2px;">腰・殿筋・ハムストリングス（背筋群・体幹）の自重トレーニングが可能な多機能ベンチです。</p>
           </div>
         </div>
       `;
@@ -923,7 +944,7 @@
       </div>
       <span class="card-area-badge">${store.area_name}</span>
       <h2 style="font-size:1.25rem; font-weight:800; margin:4px 0 8px 0; color:#1c1c1e;">${store.title}</h2>
-      <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">📍 ${store.address}</p>
+      <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">📍 <a href="${googleSearchUrl}" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" title="Googleマップで場所を検索">${store.address}</a></p>
 
       ${officeSection}
       ${benchSection}
@@ -947,7 +968,15 @@
         </a>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
           <a href="${googleNavUrl}" class="btn-sub google-map" target="_blank" rel="noopener">
-            🗺️ Googleマップ
+            🧭 Googleマップでナビ
+          </a>
+          <a href="${googleSearchUrl}" class="btn-sub google-map-search" target="_blank" rel="noopener">
+            🔍 Googleマップで検索
+          </a>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+          <a href="${appleSearchUrl}" class="btn-sub apple-map-search" target="_blank" rel="noopener">
+            🍏 Appleマップで検索
           </a>
           <a href="${store.detail_url || 'https://pspo.jp/'}" class="btn-sub" target="_blank" rel="noopener">
             🔗 公式サイト詳細
@@ -1653,7 +1682,7 @@
     { key: 'sports', name: '本格スポーツ・アクティビティ編', icon: '⚾', desc: 'MEGA東石井の野球/テニス、DAINO土居田ボルダリング、ゴルフなど' },
     { key: 'beauty', name: '女性専用・ビューティー編', icon: '💆', desc: '土橋/湊町2号店、マシンピラティス、よもぎ蒸し、染ときなど' },
     { key: 'office', name: 'オフィス・法人登記・自習室編', icon: '💼', desc: 'P・SPO WORKS湊町/御宝店、法人登記、専用ポスト、24時間利用など' },
-    { key: 'machines', name: 'トレーニングマシン・バイオ編', icon: '🏋️', desc: 'Technogymバイオサーキット、クランクベンチ、酸素カプセルなど' },
+    { key: 'machines', name: 'トレーニングマシン・バイオ編', icon: '🏋️', desc: 'Technogymバイオサーキット、ローワーバックベンチ、酸素カプセルなど' },
     { key: 'regions', name: '地域・エリア展開・県外店舗編', icon: '🗺️', desc: '松山・東温・砥部・今治・東予・南予、愛知県、北海道旭川など' },
     { key: 'collab', name: '複合・コラボ・mac併設編', icon: '🏪', desc: 'ドラッグストアmac併設、マリエール今治、ワールドプラザなど' },
     { key: 'systems', name: '施設利用・システム・特典編', icon: '📱', desc: '顔認証/QRコード、全店舗相互利用、土足OK、セキュリティなど' },
@@ -1945,7 +1974,7 @@
     el.quizBody.innerHTML = `
       <div class="quiz-archive-container">
         <div class="archive-search-box">
-          <input type="text" id="quiz-archive-search" class="archive-search-input" placeholder="🔍 キーワードで問題を検索（例: サウナ、登記、ブタ、クランク）..." value="${searchKeyword}">
+          <input type="text" id="quiz-archive-search" class="archive-search-input" placeholder="🔍 キーワードで問題を検索（例: サウナ、登記、ブタ、ローワーバック）..." value="${searchKeyword}">
         </div>
         <div style="font-size:0.78rem; color:#64748b; margin-bottom:4px;">全 ${filtered.length} 問 表示中</div>
         ${cardsHtml}
