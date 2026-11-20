@@ -15,6 +15,9 @@
     filteredStores: [],
     selectedStoreId: null,
     userLocation: null, // { lat, lng }
+    userMarker: null,
+    userAccuracyCircle: null,
+    locationWatchId: null,
     favorites: new Set(JSON.parse(localStorage.getItem('pspo_favs') || '[]')),
     syncKey: (localStorage.getItem('pspo_sync_key') || '').trim().toUpperCase(),
     syncApiUrl: localStorage.getItem('pspo_sync_api_url') || '/api/favs',
@@ -79,6 +82,7 @@
     initMap();
     setupEventListeners();
     applyFilters();
+    startWatchingUserLocation();
 
     // Responsive setup
     if (window.innerWidth <= 768) {
@@ -1102,6 +1106,73 @@
     }
   }
 
+  // Update or create the user's current location marker on the map
+  function updateUserLocationMarker(lat, lng, accuracy) {
+    if (!state.map) return;
+
+    if (state.userAccuracyCircle) {
+      state.map.removeLayer(state.userAccuracyCircle);
+      state.userAccuracyCircle = null;
+    }
+    if (typeof accuracy === 'number' && accuracy > 0 && accuracy < 5000) {
+      state.userAccuracyCircle = L.circle([lat, lng], {
+        radius: accuracy,
+        color: '#0071e3',
+        weight: 1,
+        opacity: 0.35,
+        fillColor: '#0071e3',
+        fillOpacity: 0.08,
+        interactive: false
+      }).addTo(state.map);
+    }
+
+    if (state.userMarker) {
+      state.userMarker.setLatLng([lat, lng]);
+    } else {
+      const icon = L.divIcon({
+        className: 'user-location-icon',
+        html: '<div class="user-location-pulse"></div><div class="user-location-dot"></div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+      state.userMarker = L.marker([lat, lng], {
+        icon,
+        zIndexOffset: 1000
+      }).addTo(state.map);
+      state.userMarker.bindPopup('📍 あなたの現在地');
+    }
+  }
+
+  // Silently watch current location so the user's pin stays visible on the map
+  function startWatchingUserLocation() {
+    if (!navigator.geolocation || state.locationWatchId !== null) return;
+
+    const handlePosition = (pos) => {
+      state.userLocation = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      };
+      updateUserLocationMarker(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+      applyFilters(false);
+    };
+
+    const handleSilentError = (err) => {
+      console.debug('Background geolocation unavailable:', err && err.message);
+    };
+
+    navigator.geolocation.getCurrentPosition(handlePosition, handleSilentError, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 60000
+    });
+
+    state.locationWatchId = navigator.geolocation.watchPosition(handlePosition, handleSilentError, {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 30000
+    });
+  }
+
   // Get Current Location (Geolocation API)
   function locateUser() {
     if (!navigator.geolocation) {
@@ -1134,30 +1205,19 @@
           lng: pos.coords.longitude
         };
 
-        // Draw User Pin on Map
+        // Draw User Pin on Map & center on user
         if (state.map) {
-          if (state.userMarker) {
-            state.map.removeLayer(state.userMarker);
-          }
-          state.userMarker = L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
-            radius: 9,
-            fillColor: '#0071e3',
-            color: '#ffffff',
-            weight: 3,
-            opacity: 1,
-            fillOpacity: 0.9
-          }).addTo(state.map);
-          state.userMarker.bindPopup('📍 あなたの現在地');
-
-          // Center on user
+          updateUserLocationMarker(state.userLocation.lat, state.userLocation.lng, pos.coords.accuracy);
           state.map.setView([state.userLocation.lat, state.userLocation.lng], 14);
         }
+
+        startWatchingUserLocation();
 
         // Switch sort to distance
         state.activeSort = 'distance';
         if (el.sortSelect) el.sortSelect.value = 'distance';
 
-        applyFilters();
+        applyFilters(false);
 
         // Switch to List if mobile
         if (window.innerWidth <= 768 && state.activeTab === 'map') {
@@ -1258,10 +1318,37 @@
     });
 
     // Keyword Search
-    el.keywordSearch.addEventListener('input', (e) => {
-      state.activeKeyword = e.target.value;
+    const runKeywordSearch = (fromEnter = false) => {
+      state.activeKeyword = el.keywordSearch.value;
       el.btnClearSearch.style.display = state.activeKeyword ? 'flex' : 'none';
       applyFilters(true);
+      if (fromEnter) {
+        el.keywordSearch.blur();
+        if (el.storesList) {
+          el.storesList.scrollTop = 0;
+        }
+        if (state.filteredStores.length === 1) {
+          selectStore(state.filteredStores[0].id, true);
+        }
+      }
+    };
+
+    el.keywordSearch.addEventListener('input', (e) => {
+      el.btnClearSearch.style.display = e.target.value ? 'flex' : 'none';
+      if (!e.isComposing) {
+        runKeywordSearch(false);
+      }
+    });
+
+    el.keywordSearch.addEventListener('compositionend', () => {
+      runKeywordSearch(false);
+    });
+
+    el.keywordSearch.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.isComposing) {
+        e.preventDefault();
+        runKeywordSearch(true);
+      }
     });
 
     el.btnClearSearch.addEventListener('click', () => {
