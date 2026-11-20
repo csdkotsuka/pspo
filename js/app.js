@@ -82,7 +82,7 @@
     initMap();
     setupEventListeners();
     applyFilters();
-    startWatchingUserLocation();
+    autoLocateIfGranted();
 
     // Responsive setup
     if (window.innerWidth <= 768) {
@@ -1141,6 +1141,27 @@
       }).addTo(state.map);
       state.userMarker.bindPopup('📍 あなたの現在地');
     }
+  }
+
+  // Auto-start location watching on launch ONLY when permission is already granted
+  // (avoids triggering repetitive iOS PWA permission prompts on startup)
+  function autoLocateIfGranted() {
+    if (!navigator.geolocation || !navigator.permissions || typeof navigator.permissions.query !== 'function') {
+      return;
+    }
+
+    navigator.permissions.query({ name: 'geolocation' }).then((status) => {
+      if (status.state === 'granted') {
+        startWatchingUserLocation();
+      }
+      status.onchange = () => {
+        if (status.state === 'granted') {
+          startWatchingUserLocation();
+        }
+      };
+    }).catch(() => {
+      // Permissions API unsupported for geolocation; wait for explicit button tap
+    });
   }
 
   // Silently watch current location so the user's pin stays visible on the map
