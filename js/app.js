@@ -337,12 +337,18 @@
         icon: createMarkerIcon(store)
       });
 
-      // Popup Content
+      // Hover Tooltip (facility name) & Popup Content
+      marker.bindTooltip(store.title, {
+        direction: 'top',
+        offset: [0, -34],
+        opacity: 0.95
+      });
+
       const popupHtml = createPopupContent(store);
       marker.bindPopup(popupHtml);
 
       marker.on('click', () => {
-        selectStore(store.id, false);
+        selectStore(store.id, false, false);
       });
 
       marker.addTo(state.map);
@@ -909,7 +915,7 @@
   }
 
   // Select Store & Center Map
-  function selectStore(storeId, openPopup = true) {
+  function selectStore(storeId, openPopup = true, shouldZoom = true) {
     state.selectedStoreId = storeId;
     const store = state.stores.find(s => s.id === storeId);
     if (!store) return;
@@ -924,9 +930,15 @@
     // Map Center & Popup
     if (state.map && state.markers[storeId]) {
       const marker = state.markers[storeId];
-      state.map.setView([store.lat, store.lng], Math.max(state.map.getZoom(), 15), {
-        animate: true
-      });
+      if (shouldZoom) {
+        state.map.setView([store.lat, store.lng], Math.max(state.map.getZoom(), 15), {
+          animate: true
+        });
+      } else {
+        state.map.panTo([store.lat, store.lng], {
+          animate: true
+        });
+      }
       if (openPopup) {
         marker.openPopup();
       }
