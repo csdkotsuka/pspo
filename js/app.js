@@ -18,6 +18,8 @@
     userMarker: null,
     userAccuracyCircle: null,
     locationWatchId: null,
+    routeLayer: null,
+    activeRouteStoreId: null,
     favorites: new Set(JSON.parse(localStorage.getItem('pspo_favs') || '[]')),
     syncKey: (localStorage.getItem('pspo_sync_key') || '').trim().toUpperCase(),
     syncApiUrl: localStorage.getItem('pspo_sync_api_url') || '/api/favs',
@@ -52,6 +54,9 @@
     btnModalClose: document.getElementById('btn-modal-close'),
     btnLocateMe: document.getElementById('btn-locate-me'),
     btnMapLocate: document.getElementById('btn-map-locate'),
+    routeInfoBanner: document.getElementById('route-info-banner'),
+    routeInfoContent: document.getElementById('route-info-content'),
+    btnClearRoute: document.getElementById('btn-clear-route'),
     btnScrollToList: document.getElementById('btn-scroll-to-list'),
     // Quiz Elements
     btnOpenQuiz: document.getElementById('btn-open-quiz'),
@@ -400,11 +405,14 @@
             <span class="nav-carplay-tag">CarPlay対応</span>
           </a>
           <div class="secondary-actions">
+            <button class="btn-sub btn-route" type="button" onclick="window.pspoShowRoute('${store.id}')">
+              🚗 ルート・時間
+            </button>
             <a href="${googleNavUrl}" class="btn-sub google-map" target="_blank" rel="noopener">
               🗺️ Googleマップ
             </a>
             <button class="btn-sub btn-popup-detail" type="button" onclick="window.pspoOpenModal('${store.id}')">
-              📋 詳細メニュー
+              📋 詳細
             </button>
           </div>
         </div>
@@ -731,11 +739,14 @@
             <span class="nav-carplay-tag">CarPlay対応</span>
           </a>
           <div class="secondary-actions">
+            <button class="btn-sub btn-route" type="button" onclick="event.stopPropagation(); window.pspoShowRoute('${store.id}');">
+              🚗 ルート・時間
+            </button>
             <a href="${googleNavUrl}" class="btn-sub google-map" target="_blank" rel="noopener" onclick="event.stopPropagation();">
               🗺️ Googleマップ
             </a>
             <button class="btn-sub btn-view-detail" type="button">
-              📋 詳細情報
+              📋 詳細
             </button>
           </div>
         </div>
@@ -944,11 +955,15 @@
           <p style="font-size:0.75rem; color:#64748b;">📍 ${store.address}</p>
         </div>
       </div>
-      <a href="${appleNavUrl}" class="btn-carplay-nav" target="_blank" rel="noopener">
-        <span class="apple-icon">🍎</span>
-        <span class="nav-label-main">Appleマップでナビ</span>
-        <span class="nav-carplay-tag">CarPlay対応</span>
-      </a>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn-sub btn-route" type="button" style="flex:1;" onclick="window.pspoShowRoute('${store.id}')">
+          🚗 車ルート・時間
+        </button>
+        <a href="${appleNavUrl}" class="btn-carplay-nav" style="flex:1.4; margin-top:0;" target="_blank" rel="noopener">
+          <span class="apple-icon">🍎</span>
+          <span class="nav-label-main">Appleマップ</span>
+        </a>
+      </div>
     `;
     el.mobilePreview.style.display = 'block';
   }
@@ -1061,6 +1076,9 @@
       </div>
 
       <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="btn-sub btn-route" type="button" style="padding:10px 12px; font-size:0.9rem;" onclick="window.pspoShowRoute('${store.id}')">
+          🚗 現在地からの車ルート・距離・時間を表示
+        </button>
         <a href="${appleNavUrl}" class="btn-carplay-nav" target="_blank" rel="noopener">
           <span class="apple-icon">🍎</span>
           <span class="nav-label-main">Appleマップでナビ開始</span>
@@ -1105,6 +1123,171 @@
       el.modal.style.display = 'none';
     }
   }
+
+  // Format meters into human-readable distance
+  function formatRouteDistance(meters) {
+    if (meters < 1000) {
+      return `約 ${Math.round(meters)} m`;
+    }
+    return `約 ${(meters / 1000).toFixed(1)} km`;
+  }
+
+  // Format seconds into human-readable driving duration
+  function formatRouteDuration(seconds) {
+    const mins = Math.max(1, Math.round(seconds / 60));
+    if (mins < 60) {
+      return `約 ${mins}分`;
+    }
+    const hours = Math.floor(mins / 60);
+    const remMins = mins % 60;
+    return remMins > 0 ? `約 ${hours}時間${remMins}分` : `約 ${hours}時間`;
+  }
+
+  // Clear drawn driving route & banner
+  function clearRoute() {
+    if (state.routeLayer && state.map) {
+      state.map.removeLayer(state.routeLayer);
+    }
+    state.routeLayer = null;
+    state.activeRouteStoreId = null;
+    if (el.routeInfoBanner) {
+      el.routeInfoBanner.style.display = 'none';
+    }
+  }
+
+  // Ensure user location is available, requesting geolocation if needed
+  function ensureUserLocation() {
+    if (state.userLocation) {
+      return Promise.resolve(state.userLocation);
+    }
+    if (!navigator.geolocation) {
+      return Promise.reject(new Error('お使いの端末・ブラウザでは位置情報サービスがサポートされていません。'));
+    }
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          state.userLocation = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+          };
+          updateUserLocationMarker(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+          startWatchingUserLocation();
+          applyFilters(false);
+          resolve(state.userLocation);
+        },
+        () => {
+          reject(new Error('現在地を取得できませんでした。位置情報の許可設定をご確認ください。'));
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    });
+  }
+
+  // Fetch and draw recommended driving route + distance/time on the map
+  async function showDrivingRoute(storeId) {
+    const store = state.stores.find(s => s.id === storeId);
+    if (!store || !state.map) return;
+
+    state.activeRouteStoreId = storeId;
+    closeStoreModal();
+
+    if (window.innerWidth <= 768) {
+      const mapPanel = document.getElementById('map-panel');
+      if (mapPanel) {
+        mapPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    if (el.routeInfoBanner && el.routeInfoContent) {
+      el.routeInfoContent.innerHTML = `
+        <div class="route-info-title">🚗 ${store.title}</div>
+        <div class="route-info-metrics">現在地とルートを取得中...</div>
+      `;
+      el.routeInfoBanner.style.display = 'flex';
+    }
+
+    let origin;
+    try {
+      origin = await ensureUserLocation();
+    } catch (err) {
+      if (el.routeInfoContent) {
+        el.routeInfoContent.innerHTML = `
+          <div class="route-info-title">🚗 ${store.title}</div>
+          <div class="route-info-metrics" style="color:#dc2626; font-size:0.78rem;">${err.message}</div>
+        `;
+      }
+      return;
+    }
+
+    const url = `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${store.lng},${store.lat}?overview=full&geometries=geojson`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!data.routes || !data.routes.length) {
+        throw new Error('ルートが見つかりませんでした');
+      }
+
+      const route = data.routes[0];
+      if (state.routeLayer) {
+        state.map.removeLayer(state.routeLayer);
+      }
+
+      state.routeLayer = L.geoJSON(route.geometry, {
+        style: {
+          color: '#0071e3',
+          weight: 5,
+          opacity: 0.85,
+          lineCap: 'round',
+          lineJoin: 'round'
+        }
+      }).addTo(state.map);
+
+      const bounds = state.routeLayer.getBounds();
+      bounds.extend([origin.lat, origin.lng]);
+      bounds.extend([store.lat, store.lng]);
+      state.map.fitBounds(bounds, {
+        padding: [50, 60],
+        maxZoom: 15,
+        animate: true
+      });
+
+      const distText = formatRouteDistance(route.distance);
+      const timeText = formatRouteDuration(route.duration);
+      const appleNavUrl = getAppleMapsNavUrl(store);
+
+      if (el.routeInfoContent) {
+        el.routeInfoContent.innerHTML = `
+          <div class="route-info-title">🚗 ${store.title}</div>
+          <div class="route-info-metrics">
+            <span>📏 ${distText}</span>
+            <span>⏱ 車で ${timeText}</span>
+          </div>
+          <a href="${appleNavUrl}" class="route-info-nav-link" target="_blank" rel="noopener">
+            🍎 Appleマップでナビ開始
+          </a>
+        `;
+      }
+    } catch (err) {
+      console.warn('OSRM route fetch failed:', err);
+      const straightKm = calculateDistance(origin.lat, origin.lng, store.lat, store.lng);
+      const appleNavUrl = getAppleMapsNavUrl(store);
+      if (el.routeInfoContent) {
+        el.routeInfoContent.innerHTML = `
+          <div class="route-info-title">🚗 ${store.title}</div>
+          <div class="route-info-metrics" style="color:#b45309; font-size:0.78rem;">
+            ルート取得に失敗（直線距離: 約 ${straightKm.toFixed(1)} km）
+          </div>
+          <a href="${appleNavUrl}" class="route-info-nav-link" target="_blank" rel="noopener">
+            🍎 Appleマップでナビ開始
+          </a>
+        `;
+      }
+    }
+  }
+
+  window.pspoShowRoute = showDrivingRoute;
 
   // Update or create the user's current location marker on the map
   function updateUserLocationMarker(lat, lng, accuracy) {
@@ -1425,6 +1608,9 @@
     }
     if (el.btnMapLocate) {
       el.btnMapLocate.addEventListener('click', locateUser);
+    }
+    if (el.btnClearRoute) {
+      el.btnClearRoute.addEventListener('click', clearRoute);
     }
 
     // Mobile Preview Close
